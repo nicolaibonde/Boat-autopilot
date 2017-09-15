@@ -17,7 +17,7 @@
                         <strong>Wifi delay:</strong> 5 ms<br />
                         <strong>Packet Loss:</strong> {{packetLoss}} %
                         <div class="progress">
-                            <div class="progress-bar progress-bar-danger progress-bar-striped " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{packetLoss}}%" ng-init="packetLoss = 12">
+                            <div class="progress-bar progress-bar-danger progress-bar-striped active " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{packetLoss}}%" ng-init="packetLoss = 12">
                             </div>
                         </div>
                     </div>
@@ -37,8 +37,16 @@
                         <h3 class="panel-title">Motors</h3>
                     </div>
                     <div class="panel-body">
-                        <strong>Left Thrust:</strong> 50%<br />
-                        <strong>Right Thrust:</strong> 50%<br />
+                        <strong>Left Thrust:</strong> {{leftThrust}}%<br />
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{leftThrust}}%" ng-init="leftThrust = 42">
+                            </div>
+                        </div>
+                        <strong>Right Thrust:</strong> {{rightThrust}}%<br />
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{rightThrust}}%" ng-init="rightThrust = 60">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
