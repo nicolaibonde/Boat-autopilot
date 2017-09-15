@@ -1,3 +1,58 @@
 <!DOCTYPE html>
-  <h2><i class="icon-equalizer"></i> Edit Parameters</h2>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<div>
+  <h2><i class="icon-equalizer"></i> Edit parameters</h2>
+
+  <div class="row">
+    <div class="col-md-5 panel panel-default">
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Profiles</h3>
+          </div>
+          <div class="panel-body">
+            <div class="btn-group-horizontal" style="margin-bottom: 10px">
+              <button type="button" class="btn btn-success">New Profile</button>
+              <button type="button" class="btn btn-default">Edit Profile</button>
+              <button type="button" class="btn btn-danger">Delete Profile</button>
+              <button type="button" class="btn btn-primary">Set Profile</button>
+            </div>
+              <ul class="list-group">
+              <li class="list-group-item active">Catamaran</li>
+              <li class="list-group-item">Outboard motor</li>
+              <li class="list-group-item">Profile 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-md-offset-025 panel panel-default">
+      <div class="panel-body">
+        <div class="panel-heading">
+          <h3 c1lass="panel-title">Edit 'Profile 3'</h3>
+        </div>
+        <div class="panel-body">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">P</span>
+            <input type="number" step="0.01" class="form-control" placeholder="5.01" aria-describedby="basic-addon1">
+          </div>
+          <div class="col-xs-12" style="height:10px;"></div>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon2">I</span>
+            <input type="number" step="0.01" class="form-control" placeholder="2.00" aria-describedby="basic-addon2">
+          </div>
+          <div class="col-xs-12" style="height:10px;"></div>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon2">D</span>
+            <input type="number" step="0.01" class="form-control" placeholder="0.01" aria-describedby="basic-addon2">
+          </div>
+          <div class="col-xs-12" style="height:10px;"></div>
+          <button class="btn btn-md btn-success" >Save</button>
+          <button class="btn btn-md btn-danger" >Revert</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
