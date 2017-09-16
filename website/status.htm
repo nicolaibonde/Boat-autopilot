@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <div>
     <h2><i class="icon-meter"></i> Status</h2>
 
     <div class="row">
-        <div class="col-md-5 panel panel-default">
+        <div class="col-md-5 panel panel-default"  style="min-width: 450px">
             <div class="panel-body">
                 <div class="panel panel-default" >
                     <div class="panel-heading">
@@ -17,11 +16,8 @@
                         <strong>Wifi delay:</strong> 5 ms<br />
                         <strong>Packet Loss:</strong> {{packetLoss}} %
                         <div class="progress">
-<<<<<<< HEAD
                             <div class="progress-bar progress-bar-danger progress-bar-striped active " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{packetLoss}}%" ng-init="packetLoss = 12">
-=======
-                            <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{packetLoss}}%" ng-init="packetLoss = 12">
->>>>>>> 49589cf7e624bc3def341ba5f259e4fc48032e47
+
                             </div>
                         </div>
                     </div>
@@ -48,11 +44,7 @@
                         </div>
                         <strong>Right Thrust:</strong> {{rightThrust}}%<br />
                         <div class="progress">
-<<<<<<< HEAD
-                            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{rightThrust}}%" ng-init="rightThrust = 60">
-=======
                             <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{rightThrust}}%" ng-init="rightThrust = 65">
->>>>>>> 49589cf7e624bc3def341ba5f259e4fc48032e47
                             </div>
                         </div>
                     </div>
@@ -63,7 +55,7 @@
                     </div>
                     <div class="panel-body">
                         <div>
-                            <button class="btn btn-warning btn-lg" type="button">
+                            <button class="btn btn-warning btn-lg" type="button" onClick="window.location.reload()">
                                 Force Update  <i class="glyphicon glyphicon-refresh"></i>
                             </button>
 
@@ -74,7 +66,7 @@
 
         </div>
 
-        <div class="col-md-6 col-md-offset-025 panel panel-default">
+        <div class="col-md-5 col-md-offset-025 panel panel-default">
             <div class="panel-body">
                 <div class="panel-heading">
                     <h3 c1lass="panel-title">Map</h3>

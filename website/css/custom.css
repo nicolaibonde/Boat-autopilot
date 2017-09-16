@@ -200,6 +200,10 @@ a.article, a.article:hover {
 }
 
 
+.spacer {
+    margin-top: 10px; /* define margin as you see fit */
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

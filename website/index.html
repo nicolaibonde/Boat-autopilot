@@ -1,138 +1,142 @@
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>CAPTAIN: Autopilot control center</title>
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="css/icons.css">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>CAPTAIN: Autopilot control center</title>
+	<!-- Bootstrap CSS CDN -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Our Custom CSS -->
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/icons.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
 
 </head>
+
 <body ng-app="myApp">
-    <div class="wrapper">
-        <!-- Sidebar Holder -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <!--h3>CAPTAIN: Autopilot Control Center</h3>
+	<div class="wrapper">
+		<!-- Sidebar Holder -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<!--h3>CAPTAIN: Autopilot Control Center</h3>
                 <strong>CPT</strong-->
 
-                <button type="button" id="sidebarCollapse" class="btn btn-default">
+				<button type="button" id="sidebarCollapse" class="btn btn-default">
                     ☰
                 </button>
-                <h3>CAPTAIN: Autopilot Control Center</h3>
-                <strong>
+				<h3>CAPTAIN: Autopilot Control Center</h3>
+				<strong>
                     CPT
                 </strong>
 
-            </div>
+			</div>
 
-            <ul class="list-unstyled components" id="sidebar-content" ng-controller="navCtrl">
-                <li ng-class="{'active':selectedTab === '/home'}" ng-click="selectedTab = '/home'">
-                    <a href="#/!">
+			<ul class="list-unstyled components" id="sidebar-content" ng-controller="navCtrl">
+				<li ng-class="{'active':selectedTab === '/home'}" ng-click="selectedTab = '/home'">
+					<a href="#/!">
                         <i class="icon-home"></i>
                         Home
                     </a>
-                </li>
-                <li ng-class="{'active':selectedTab === '/p2p'}" ng-click="selectedTab = '/p2p'">
-                    <a href="#!p2p">
+				</li>
+				<li ng-class="{'active':selectedTab === '/p2p'}" ng-click="selectedTab = '/p2p'">
+					<a href="#!p2p">
                         <i class="icon-p2p"></i>
                         Point to point
                     </a>
-                </li>
-                <li ng-class="{'active':selectedTab === '/coverage'}" ng-click="selectedTab = '/coverage'">
-                    <a href="#!coverage">
+				</li>
+				<li ng-class="{'active':selectedTab === '/coverage'}" ng-click="selectedTab = '/coverage'">
+					<a href="#!coverage">
                         <i class="icon-directions_boat"></i>
                         Coverage
                     </a>
-                </li>
-                <li ng-class="{'active':selectedTab === 'status'}" ng-click="selectedTab = 'status'">
-                    <a href="#!status">
+				</li>
+				<li ng-class="{'active':selectedTab === 'status'}" ng-click="selectedTab = 'status'">
+					<a href="#!status">
                         <i class="icon-meter"></i>
                         Status
                     </a>
-                </li>
-                <li ng-class="{'active':selectedTab === 'editparameters'}" ng-click="selectedTab = 'editparameters'">
-                    <a href="#!editparameters">
+				</li>
+				<li ng-class="{'active':selectedTab === 'editparameters'}" ng-click="selectedTab = 'editparameters'">
+					<a href="#!editparameters">
                         <i class="icon-equalizer"></i>
                         Edit parameters
                     </a>
-                </li>
-            </ul>
-        </nav>
+				</li>
+			</ul>
+		</nav>
 
-        <!-- Page Content Holder -->
-        <div ng-view id="content">
+		<!-- Page Content Holder -->
+		<div ng-view id="content">
 
-        </div>
+		</div>
 
-    </div>
-        <script>
-        var app = angular.module("myApp", ["ngRoute"]);
-        app.config(function($routeProvider) {
-            $routeProvider
-            .when("/", {
-                templateUrl : "home.htm",
-            })
-            .when("/p2p", {
-                //selectedTab = "p2p"
-                templateUrl : "p2p.htm",
-            })
-            .when("/coverage", {
-                templateUrl : "coverage.htm"
-            })
-            .when("/status", {
-                templateUrl : "status.htm"
-            })
-            .when("/editparameters", {
-                templateUrl : "editparameters.htm"
-            })
-            .otherwise({
-            template : "<h1><i class='glyphicon glyphicon-bullhorn'></i> Ups?</h1><p>I can't find that page, sorry</p><p>Maybe call support for me? <i class='glyphicon glyphicon-earphone'></i></p>"
-            });
-        });
-        app.controller('navCtrl', function($scope, $location) {
-            console.log($location.path())
-            $scope.selectedTab = $location.path();
-        });
-        </script>
+	</div>
+	<script>
+		var app = angular.module("myApp", ["ngRoute"]);
+		app.config(function($routeProvider) {
+			$routeProvider
+				.when("/", {
+					templateUrl: "home.htm",
+				})
+				.when("/p2p", {
+					//selectedTab = "p2p"
+					templateUrl: "p2p.htm",
+				})
+				.when("/coverage", {
+					templateUrl: "coverage.htm"
+				})
+				.when("/status", {
+					templateUrl: "status.htm"
+				})
+				.when("/editparameters", {
+					templateUrl: "editparameters.htm"
+				})
+				.otherwise({
+					template: "<h1><i class='glyphicon glyphicon-bullhorn'></i> Ups?</h1><p>I can't find that page, sorry</p><p>Maybe call support for me? <i class='glyphicon glyphicon-earphone'></i></p>"
+				});
+		});
+		app.controller('navCtrl', function($scope, $location) {
+			console.log($location.path())
+			$scope.selectedTab = $location.path();
+		});
+	</script>
 
 
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<!-- Bootstrap Js CDN -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
+		$(document).ready(function() {
+			navbarResize();
+			$('#sidebarCollapse').on('click', function() {
+				$('#sidebar').toggleClass('active');
+			});
+		});
 
-    $(document).ready(function () {
-        navbarResize();
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-    });
+		$(window).on('resize', function() {
+			navbarResize();
+		});
 
-    $(window).on('resize', function() {
-        navbarResize();
-    });
+		function navbarResize() {
+			if ($(window).width() < 768) {
+				$('#sidebar').addClass('active');
+			} else {
+				$('#sidebar').removeClass('active');
+			}
+		}
 
-    function navbarResize(){
-        if($(window).width() < 768) {
-            $('#sidebar').addClass('active');
-        }else{
-            $('#sidebar').removeClass('active');
-        }
-    }
-
-    </script>
+	</script>
 
 
 </body>
+
 </html>
