@@ -72,14 +72,23 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-md-offset-025 panel panel-default">
+		<div class="col-md-6 col-md-offset-025 panel panel-default">
             <div class="panel-body">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Map</h3>
-                </div>
-                <div class="panel-body">
-                    <img src="images/mapExample.png" class="img-responsive" >
-                    <span class="label label-info">Insert map here</span>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Map</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="mapid" style="width: 100%; height: 35em;"></div>
+                        <script>
+                            var mymap = L.map('mapid').setView([56.1719590, 10.1916530], 14);
+
+                            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                                maxZoom: 18,
+                                id: 'mapbox.streets'
+                            }).addTo(mymap);
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
