@@ -1,141 +1,146 @@
 <!DOCTYPE html>
-<html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<title>CAPTAIN: Autopilot control center</title>
-	<!-- Bootstrap CSS CDN -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- Our Custom CSS -->
-	<link rel="stylesheet" href="css/custom.css">
-	<link rel="stylesheet" href="css/icons.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-
+	<title>Captain</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Angular Material style sheet -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.css">
+	<link rel="stylesheet" href="css/icons.css"
 </head>
 
-<body ng-app="myApp">
-	<div class="wrapper">
-		<!-- Sidebar Holder -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<!--h3>CAPTAIN: Autopilot Control Center</h3>
-                <strong>CPT</strong-->
+<body ng-app="MyApp" ng-cloak>
+	<div ng-controller="AppCtrl" layout="column" style="height:100%;" ng-cloak="" ng-app="MyApp">
 
-				<button type="button" id="sidebarCollapse" class="btn btn-default">
-                    ☰
-                </button>
-				<h3>CAPTAIN: Autopilot Control Center</h3>
-				<strong>
-                    CPT
-                </strong>
+		<section layout="row" flex="">
 
-			</div>
+			<md-sidenav class="md-sidenav-left" md-component-id="left" md-whiteframe="4">
 
-			<ul class="list-unstyled components" id="sidebar-content" ng-controller="navCtrl">
-				<li ng-class="{'active':selectedTab === '/home'}" ng-click="selectedTab = '/home'">
-					<a href="#/!">
-                        <i class="icon-home"></i>
-                        Home
-                    </a>
-				</li>
-				<li ng-class="{'active':selectedTab === '/p2p'}" ng-click="selectedTab = '/p2p'">
-					<a href="#!p2p">
-                        <i class="icon-p2p"></i>
-                        Point to point
-                    </a>
-				</li>
-				<li ng-class="{'active':selectedTab === '/coverage'}" ng-click="selectedTab = '/coverage'">
-					<a href="#!coverage">
-                        <i class="icon-directions_boat"></i>
-                        Coverage
-                    </a>
-				</li>
-				<li ng-class="{'active':selectedTab === 'status'}" ng-click="selectedTab = 'status'">
-					<a href="#!status">
-                        <i class="icon-meter"></i>
-                        Status
-                    </a>
-				</li>
-				<li ng-class="{'active':selectedTab === 'editparameters'}" ng-click="selectedTab = 'editparameters'">
-					<a href="#!editparameters">
-                        <i class="icon-equalizer"></i>
-                        Edit parameters
-                    </a>
-				</li>
-			</ul>
-		</nav>
+				<md-toolbar class="md-theme-indigo">
+					<!--img src="images/logo.png" style="height:50px;width:50px" /-->
+					<h1 class="md-toolbar-tools">CAPTAIN</h1>
 
-		<!-- Page Content Holder -->
-		<div ng-view id="content">
+				</md-toolbar>
+				<md-content layout-padding="" ng-controller="LeftCtrl">
+					<md-button ng-click="close()" class="md-primary" hide-gt-md="">
+						Close Sidenav Left
+					</md-button>
+					<p hide="" show-gt-md="">
+						This sidenav is locked open on your device. To go back to the default behavior, narrow your display.
+					</p>
 
-		</div>
+					<md-list-item class="md-2-line">
+						<div class="md-list-item-text" layout="column">
+							<p>First Line</p>
+							<p>Second Line</p>
+						</div>
+					</md-list-item>
+
+
+
+				</md-content>
+
+			</md-sidenav>
+
+			<md-content style="width:100%">
+				<md-toolbar class="md-theme-indigo">
+					<div class="md-toolbar-tools">
+						<md-button class="md-icon-button" aria-label="Settings" ng-disabled="false" ng-click="toggleLeft()">
+							<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+						</md-button>
+
+						<h2 flex md-truncate>Captain</h2>
+
+						<!--md-button class="md-icon-button" aria-label="More">
+							<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+						</md-button-->
+					</div>
+				</md-toolbar>
+
+				<div ng-cloak>
+					<md-content>
+						<md-tabs md-scretch-tabs md-selected="selectedIndex" md-dynamic-height md-border-bottom md-swipe-content="true">
+							<md-tab label="Home">
+								<md-tab-label>
+							      <i class="icon-home"></i> Home
+							    </md-tab-label>
+								<md-tab-body>
+									<md-content class="md-padding">
+										<div ng-include src="'home.htm'"></div>
+									</md-content>
+								</md-tab-body>
+							</md-tab>
+							<md-tab>
+								<md-tab-label>
+							      <i class="icon-p2p"></i> Point to Point
+							    </md-tab-label>
+								<md-tab-body>
+									<md-content class="md-padding">
+										<div ng-include src="'p2p.htm'"></div>
+									</md-content>
+								</md-tab-body>
+							</md-tab>
+							<md-tab>
+								<md-tab-label>
+							      <i class="icon-directions_boat"></i> Coverage
+							    </md-tab-label>
+								<md-tab-body>
+									<md-content class="md-padding">
+										<div ng-include src="'coverage.htm'"></div>
+									</md-content>
+								</md-tab-body>
+							</md-tab>
+							<md-tab>
+								<md-tab-label>
+							      <i class="icon-meter"></i> Status
+							    </md-tab-label>
+								<md-tab-body>
+									<md-content class="md-padding">
+										<div ng-include src="'status.htm'"></div>
+									</md-content>
+								</md-tab-body>
+							</md-tab>
+							<md-tab>
+								<md-tab-label>
+							      <i class="icon-equalizer"></i> Edit Parameters
+							    </md-tab-label>
+								<md-tab-body>
+									<md-content class="md-padding">
+										<div ng-include src="'editparameters.htm'"></div>
+									</md-content>
+								</md-tab-body>
+							</md-tab>
+						</md-tabs>
+					</md-content>
+				</div>
+
+				<div flex=""></div>
+
+			</md-content>
+
+		</section>
 
 	</div>
-	<script>
-		var app = angular.module("myApp", ["ngRoute"]);
-		app.config(function($routeProvider) {
-			$routeProvider
-				.when("/", {
-					templateUrl: "home.htm",
-				})
-				.when("/p2p", {
-					//selectedTab = "p2p"
-					templateUrl: "p2p.htm",
-				})
-				.when("/coverage", {
-					templateUrl: "coverage.htm"
-				})
-				.when("/status", {
-					templateUrl: "status.htm"
-				})
-				.when("/editparameters", {
-					templateUrl: "editparameters.htm"
-				})
-				.otherwise({
-					template: "<h1><i class='glyphicon glyphicon-bullhorn'></i> Ups?</h1><p>I can't find that page, sorry</p><p>Maybe call support for me? <i class='glyphicon glyphicon-earphone'></i></p>"
-				});
-		});
-		app.controller('navCtrl', function($scope, $location) {
-			console.log($location.path())
-			$scope.selectedTab = $location.path();
-		});
-	</script>
+
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.js"></script>
+	<!-- Angular Material Library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.js"></script>
+	<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
 
 
-
-	<!-- jQuery CDN -->
-	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-	<!-- Bootstrap Js CDN -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+	<!-- Your application bootstrap  -->
 	<script type="text/javascript">
-		$(document).ready(function() {
-			navbarResize();
-			$('#sidebarCollapse').on('click', function() {
-				$('#sidebar').toggleClass('active');
-			});
-		});
-
-		$(window).on('resize', function() {
-			navbarResize();
-		});
-
-		function navbarResize() {
-			if ($(window).width() < 768) {
-				$('#sidebar').addClass('active');
-			} else {
-				$('#sidebar').removeClass('active');
-			}
-		}
-
+		/**
+		 * You must include the dependency on 'ngMaterial'
+		 */
+		angular.module('myApp', ['ngMaterial']);
 	</script>
 
+	<script src="material.js"></script>
 
 </body>
 
