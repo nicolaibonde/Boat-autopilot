@@ -1,82 +1,77 @@
 <!DOCTYPE html>
 <div>
-	<h2><i class="icon-equalizer"></i> Edit parameters</h2>
+    <h2><i class="icon-equalizer"></i> Edit parameters</h2>
 
-	<div class="row">
-		<div class="col-md-5 panel panel-default"  style="min-width: 450px">
-			<div class="panel-body">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Profiles</h3>
-					</div>
-					<div class="panel-body">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default">New <i class="fa fa-file-o"></i></button>
-							<button type="button" class="btn btn-default">Delete <i class="fa fa-trash-o"></i></button>
-							<button type="button" class="btn btn-default">Edit <i class="fa fa-pencil-square-o"></i></button>
-							<button type="button" class="btn btn-default">Activate <i class="fa fa-check-square-o"></i></button>
-						</div>
-						<div class="spacer">
+    <div class="row">
+        <div class="col-md-5 panel panel-default" style="min-width: 450px">
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Profiles</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default">New <i class="fa fa-file-o"></i></button>
+                            <button type="button" class="btn btn-default">Delete <i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default">Edit <i class="fa fa-pencil-square-o"></i></button>
+                            <button type="button" class="btn btn-default">Activate <i class="fa fa-check-square-o"></i></button>
+                        </div>
+                        <div class="spacer">
 
-						</div>
-						<div>
-							<div>
-								<ul class="list-group" style="max-height: 300px; overflow-y:scroll;">
-									<li class="list-group-item list-group-item-info">Catamaran</li>
-									<li class="list-group-item">Outboard motor</li>
-									<li class="list-group-item">Profile 3</li>
-									<li class="list-group-item">Profile 4</li>
-									<li class="list-group-item">Profile 5</li>
-									<li class="list-group-item">Profile 6</li>
-									<li class="list-group-item">Profile 7</li>
-									<li class="list-group-item">Profile 8</li>
-									<li class="list-group-item">Profile 9</li>
-									<li class="list-group-item">Profile 10</li>
-								</ul>
-							</div>
-						</div>
+                        </div>
+                        <div>
+                            <div ng-controller="profileCtrl">
+                                <div class="list-group" style="max-height: 300px; overflow-y:scroll;">
+                                    <a class="list-group-item" ng-repeat="profile in profiles">
+										{{profile.name}}
+									</a>
 
-						<strong>Active profile:</strong> Catamaran
-					</div>
-				</div>
-			</div>
-		</div>
+                                </div>
+                            </div>
+                        </div>
 
-		<div class="col-md-5 col-md-offset-025 panel panel-default"  style="max-width: 350px">
-			<div class="panel-body">
-				<div class="panel-heading">
-					<h3 c1lass="panel-title">Edit 'Profile 3' <i class="fa fa-pencil-square-o"></i></h3>
-				</div>
-				<div class="panel-body">
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1" style="min-width: 40px">P</span>
-						<input type="number" step="0.01" class="form-control" placeholder="5.01" aria-describedby="basic-addon1">
-					</div>
-					<div class="col-xs-12" style="height:10px;"></div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon2" style="min-width: 40px">I</span>
-						<input type="number" step="0.01" class="form-control" placeholder="2.00" aria-describedby="basic-addon2">
-					</div>
-					<div class="col-xs-12" style="height:10px;"></div>
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon3" style="min-width: 40px">D</span>
-						<input type="number" step="0.01" class="form-control" placeholder="1.00" aria-describedby="basic-addon3">
-					</div>
-					<div class="col-xs-12" style="height:10px;"></div>
-					<button class="btn btn-lg btn-success">Save <i class="glyphicon glyphicon-floppy-disk"></i></button>
-					<button class="btn btn-lg btn-danger">Revert <i class="fa fa-undo fa-ban" ></i></button>
+                        <strong>Active profile:</strong> Catamaran
+                    </div>
+                </div>
+            </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="col-md-5 col-md-offset-025 panel panel-default" style="max-width: 350px">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h3 class="panel-title" ng-hide="editing" ng-click="editing=true" ng-init="profile='test'">Edit '{{profile}}' <i class="fa fa-pencil-square-o"></i></h3>
+                    <form ng-show="editing">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" value="{{profile}}" name="profile" ng-model="profile">
+                            <div class="input-group-btn" >
+                                <button class="btn btn-success" type="submit" ng--click="editing=false">
+									<i class="glyphicon glyphicon-ok"></i>
+								</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1" style="min-width: 40px">P</span>
+                        <input type="number" step="0.01" class="form-control" placeholder="5.01" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-xs-12" style="height:10px;"></div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon2" style="min-width: 40px">I</span>
+                        <input type="number" step="0.01" class="form-control" placeholder="2.00" aria-describedby="basic-addon2">
+                    </div>
+                    <div class="col-xs-12" style="height:10px;"></div>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3" style="min-width: 40px">D</span>
+                        <input type="number" step="0.01" class="form-control" placeholder="1.00" aria-describedby="basic-addon3">
+                    </div>
+                    <div class="col-xs-12" style="height:10px;"></div>
+                    <button class="btn btn-lg btn-success">Save <i class="glyphicon glyphicon-floppy-disk"></i></button>
+                    <button class="btn btn-lg btn-danger">Revert <i class="fa fa-undo fa-ban" ></i></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<script>
-$(document).ready(function() {
-	$.getJSON("profiles.json", function(json) {
-		console.log(json); // this will show the info it in firebug console
-	});
-});
-</script>
