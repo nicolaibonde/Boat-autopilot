@@ -21,7 +21,7 @@ app.config(function($routeProvider) {
 		});
 });
 app.controller('navCtrl', function($scope, $location) {
-	console.log($location.path())
+
 	$scope.selectedTab = $location.path();
 });
 
@@ -34,15 +34,18 @@ app.controller('profileCtrl', function($scope, $http) {
     });
 
 	$scope.newProfile = function(){
+
 		$scope.profiles.push({
-			name:"New profile",
+			name:"New Profile",
 			parameterNames:[
 				"P","I","D","Tool Width"
 			],
 			parameters:[
 				0,0,0,0
-			]
+			],
+			creationTimestamp:Date.now()
 		});
+		$scope.selectedProfile = $scope.profiles[($scope.profiles).length-1];
 
 		saveProfiles();
 	}
@@ -52,16 +55,16 @@ app.controller('profileCtrl', function($scope, $http) {
 			$scope.profiles.splice($scope.profiles.indexOf($scope.selectedProfile), 1)
 			$scope.selectedProfile = $scope.profiles[0];
 		}else{
-			//console.log($scope.profiles.indexOf($scope.selectedProfile));
 			window.alert("Can't delete a profile while editing!");
 		}
 	}
 
 	$scope.editParameters = function(){
 		if($scope.editingParam != true){
-			$scope.saveIndex = $scope.profiles.indexOf($scope.selectedProfile);
-			$scope.profile = $.extend(true, {},$scope.selectedProfile);
-			//console.log(JSON.stringify($scope.profile.parameters['right']));
+
+			$scope.revertingProfile = $.extend(true, {},$scope.selectedProfile);
+			$scope.profile = $scope.selectedProfile;
+
 		}else{
 			window.alert("Please save before editing a new profile");
 		}
@@ -73,24 +76,15 @@ app.controller('profileCtrl', function($scope, $http) {
 	}
 
 	$scope.saveProfile = function(){
-		$scope.profiles[$scope.saveIndex] = $.extend(true, {},$scope.profile);
-		//delete $scope.profile;
-		//$scope.profile = $.extend({},$scope.selectedProfile);
 		$scope.editingParam = false;
 		$scope.editName = false;
 	}
 
 	$scope.revertProfile = function(){
-		console.log("revert")
-		console.log($scope.profile);
-		console.log($scope.profiles[$scope.saveIndex]);
-		$scope.profile = $.extend(true, {},$scope.profiles[$scope.saveIndex]);
-		console.log($scope.profile);
-		console.log($scope.profiles[$scope.saveIndex]);
+		$scope.profile = $.extend(true, {},$scope.revertingProfile);
 	}
 
 	function saveProfiles(){
-		var fs = require('fs');
 	}
 
 });
