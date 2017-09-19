@@ -12,8 +12,8 @@
                     <div class="panel-body">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" ng-click="newProfile()">New <i class="fa fa-file-o"></i></button>
-                            <button type="button" class="btn btn-default" ng-click="deleteProfile()">Delete <i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default" ng-click="editParameters()">Edit <i class="fa fa-pencil-square-o"></i></button>
+                            <button type="button" class="btn btn-default" ng-click="deleteProfile()" ng-class="editingParam == true ? 'disabled' : ''">Delete <i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default"  ng-click="editParameters()" ng-class="editingParam == true ? 'disabled' : ''">Edit <i class="fa fa-pencil-square-o"></i></button>
                             <button type="button" class="btn btn-default" ng-click="activateProfile()">Activate <i class="fa fa-check-square-o"></i></button>
                         </div>
                         <div class="spacer">

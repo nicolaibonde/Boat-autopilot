@@ -55,7 +55,7 @@ app.controller('profileCtrl', function($scope, $http) {
 			$scope.profiles.splice($scope.profiles.indexOf($scope.selectedProfile), 1)
 			$scope.selectedProfile = $scope.profiles[0];
 		}else{
-			window.alert("Can't delete a profile while editing!");
+			//window.alert("Can't delete a profile while editing!");
 		}
 	}
 
@@ -66,7 +66,7 @@ app.controller('profileCtrl', function($scope, $http) {
 			$scope.profile = $scope.selectedProfile;
 
 		}else{
-			window.alert("Please save before editing a new profile");
+			//window.alert("Please save before editing a new profile");
 		}
 		$scope.editingParam = true;
 	}
