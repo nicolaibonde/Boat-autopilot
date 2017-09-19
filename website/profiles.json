@@ -2,57 +2,21 @@
 	"profiles" : [
 		{
 			"name":"Catamaran",
-			"p":"5.01",
-			"i":"2.00",
-			"d":"0.01"
+			"parameterNames":[
+				"P","I","D","Tool Width"
+			],
+			"parameters":[
+				5.01,2.00,0.01,10
+			]
 		},
 		{
-			"name":"Outboard Motor",
-			"p":"6.01",
-			"i":"1.00",
-			"d":"0.01"
-		},
-		{
-			"name":"Profile 3",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 4",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 5",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 6",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 7",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 8",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
-		},
-		{
-			"name":"Profile 9",
-			"p":"7.01",
-			"i":"1.05",
-			"d":"0.2"
+			"name":"Outboard",
+			"parameterNames":[
+				"p","i","d","Tool Width"
+			],
+			"parameters":[
+				5.01,2.10,0.01, 10
+			]
 		}
 	]
 }
