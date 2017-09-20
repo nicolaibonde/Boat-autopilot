@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<div>
+<div ng-controller="coverageCtrl">
     <h2><i class="icon-directions_boat"></i> Coverage</h2>
 
     <div class="row">
@@ -17,13 +17,13 @@
                             </div>
                             <div class="panel-body">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1" style="min-width: 100px">Latitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="56.541" aria-describedby="basic-addon1">
+                                    <span class="input-group-addon" style="min-width: 100px" >Latitude</span>
+                                    <input type="number" step="0.001" class="form-control" placeholder="56.541" ng-model="cachedData.covLat1">
                                 </div>
                                 <div class="col-xs-12" style="height:10px;"></div>
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon2" style="min-width: 100px">Longitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="10.013" aria-describedby="basic-addon2">
+                                    <span class="input-group-addon" style="min-width: 100px">Longitude</span>
+                                    <input type="number" step="0.001" class="form-control" placeholder="10.013" ng-model="cachedData.covLong1">
                                 </div>
                             </div>
                         </div>
@@ -34,13 +34,13 @@
                             </div>
                             <div class="panel-body">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon3"  style="min-width: 100px">Latitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="56.521" aria-describedby="basic-addon3">
+                                    <span class="input-group-addon"  style="min-width: 100px">Latitude</span>
+                                    <input type="number" step="0.001" class="form-control" placeholder="56.521" ng-model="cachedData.covLat2">
                                 </div>
                                 <div class="col-xs-12" style="height:10px;"></div>
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon4" style="min-width: 100px">Longitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="10.091" aria-describedby="basic-addon4">
+                                    <span class="input-group-addon" tyle="min-width: 100px">Longitude</span>
+                                    <input type="number" step="0.001" class="form-control" placeholder="10.091" ng-model="cachedData.covLong2">
                                 </div>
                             </div>
                         </div>

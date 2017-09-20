@@ -7,9 +7,11 @@ var express = require('express'),
 	//require the path nodejs module
 	path = require("path");
 
+var fs = require('fs');
 //support parsing of application/json type post data
 app.use(bodyParser.json());
 
+//app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -18,14 +20,32 @@ app.use(express.static("../website"));
 
 //tell express what to do when the /form route is requested
 app.post('/profiles',function(req, res){
+	console.log(req.body);
+	res.set("Connection", "close");
 	res.setHeader('Content-Type', 'application/json');
 
-	var fs = require('fs');
 	fs.writeFile("../website/profiles.json", JSON.stringify(req.body), function(err) {
 	    if(err) {
+			res.sendStatus(500);
 	        return console.log(err);
 	    }
 	});
+	res.sendStatus(200);
+
+});
+
+app.post('/active',function(req, res){
+	console.log(req.body);
+	res.set("Connection", "close");
+	res.setHeader('Content-Type', 'application/json');
+
+	fs.writeFile("../website/activeParam.json", JSON.stringify(req.body), function(err) {
+	    if(err) {
+			res.sendStatus(500);
+	        return console.log(err);
+	    }
+	});
+	res.sendStatus(200);
 
 });
 

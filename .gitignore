@@ -286,3 +286,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+website/profiles.json
+website/activeParam.json
+website/profiles.json

@@ -21,21 +21,45 @@ app.config(function($routeProvider) {
         });
 });
 
+app.factory('dataHolder',function(){
+	return{};
+});
+
 //tell express that unhandled rejection shouldn't throw errors
-app.config(['$qProvider', function ($qProvider) {
+app.config(['$qProvider', function($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
 
 app.controller('navCtrl', function($scope, $location) {
-
     $scope.selectedTab = $location.path();
 });
 
-app.controller('profileCtrl', function($scope, $http) {
+app.controller('p2pCtrl', function($scope, $http, dataHolder){
+	$scope.cachedData = dataHolder;
+	$scope.test = 5;
+	$scope.cachedData.currentBoatPose = {latitude:56.1719590,longitude:10.1916530,orientation:0};
+
+});
+
+app.controller('coverageCtrl', function($scope, $http, dataHolder){
+	$scope.cachedData = dataHolder;
+
+});
+
+app.controller('profileCtrl', function($scope, $http, dataHolder) {
+	$scope.cachedData = dataHolder;
+
     $http.get("profiles.json").then(function(response) {
         $scope.profiles = response.data.profiles;
         $scope.profileData = response.data;
         $scope.selectedProfile = $scope.profiles[0];
+    }).catch(function(data){
+		$scope.profileData = {"profiles":[]};
+		$scope.profiles = $scope.profileData.profiles;
+	});
+
+	$http.get("activeParam.json").then(function(response) {
+        $scope.activeProfile = response.data;
     });
 
     $scope.newProfile = function() {
@@ -58,10 +82,11 @@ app.controller('profileCtrl', function($scope, $http) {
         if ($scope.editingParam != true) {
             $scope.profiles.splice($scope.profiles.indexOf($scope.selectedProfile), 1)
             $scope.selectedProfile = $scope.profiles[0];
+			$scope.saveProfilesToFile();
         } else {
             //window.alert("Can't delete a profile while editing!");
         }
-        $scope.saveProfilesToFile();
+
     }
 
     $scope.editParameters = function() {
@@ -69,16 +94,17 @@ app.controller('profileCtrl', function($scope, $http) {
 
             $scope.revertingProfile = $.extend(true, {}, $scope.selectedProfile);
             $scope.profile = $scope.selectedProfile;
-
+			$scope.saveProfilesToFile();
         } else {
             //window.alert("Please save before editing a new profile");
         }
-        $scope.saveProfilesToFile();
+
         $scope.editingParam = true;
     }
 
     $scope.activateProfile = function() {
-        $scope.activeProfile = $scope.selectedProfile.name;
+        $scope.activeProfile = $scope.selectedProfile;
+		$scope.saveActiveProfileToFile();
     }
 
     $scope.saveProfile = function() {
@@ -100,26 +126,32 @@ app.controller('profileCtrl', function($scope, $http) {
     };
 
     $scope.addParameter = function() {
-		if(this.newParamName != undefined){
-			$scope.profile.parameters.push(0);
-			$scope.profile.parameterNames.push(this.newParamName);
-			this.newParamName = undefined;
-		}
+        if (this.newParamName != undefined) {
+            $scope.profile.parameters.push(0);
+            $scope.profile.parameterNames.push(this.newParamName);
+            this.newParamName = undefined;
+        }
 
     }
 
-	$scope.removeParameter = function() {
-        $scope.profile.parameters.splice(this.$index,1);
-		$scope.profile.parameterNames.splice(this.$index,1);
+    $scope.removeParameter = function() {
+        $scope.profile.parameters.splice(this.$index, 1);
+        $scope.profile.parameterNames.splice(this.$index, 1);
     }
 
-	$scope.saveProfilesToFile = function(){
-    var url = "profiles";
-  	var parameter = angular.toJson($scope.profileData);
-      $http.post(url, parameter).
-      then(function(data, status, headers, config) {
-          // this callback will be called asynchronously
-          // when the response is available
-          console.log(data);
-	})}
+    $scope.saveProfilesToFile = function() {
+        var url = "profiles";
+        var parameter = angular.toJson($scope.profileData);
+        $http.post(url, parameter).
+        then(function(data, status, headers, config) {
+        })
+    }
+
+    $scope.saveActiveProfileToFile = function() {
+		var url = "active";
+        var parameter = angular.toJson($scope.activeProfile);
+        $http.post(url, parameter).
+        then(function(data, status, headers, config) {
+        })
+    }
 });
