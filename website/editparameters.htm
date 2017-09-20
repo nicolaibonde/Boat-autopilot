@@ -29,7 +29,7 @@
                                 </div-->
                                 <div class="list-group">
 
-                                    <select class="list-group-item" ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles" size="10">
+                                    <select class="form-control" ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles" size="7">
 									</select>
                                 </div>
                             </div>
@@ -57,13 +57,26 @@
                     </form>
                 </div>
                 <div class="panel-body">
-                    <div ng-repeat="(key,val) in profile.parameters track by $index">
+                    <div ng-repeat="(key,val) in profile.parameters track by $index" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
                         <div class="input-group">
                             <span class="input-group-addon">{{profile.parameterNames[key]}}</span>
                             <input type="number" step="0.01" class="form-control" ng-model="profile.parameters[key]">
+							<div class="input-group-btn">
+								<button class="btn btn-danger" type="submit" ng--click="removeParameter()" ng-show="hoverEdit">
+									<i class="fa fa-minus"></i>
+								</button>
+							</div>
                         </div>
                         <div class="col-xs-12" style="height:10px;"></div>
                     </div>
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Parameter Name" ng-model="newParamName">
+						<div class="input-group-btn">
+							<button class="btn btn-primary" type="submit" ng--click="addParameter()">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+					</div>
 
                     <div class="col-xs-12" style="height:10px;"></div>
                     <button class="btn btn-lg btn-success" ng-click="saveProfile()">Save <i class="glyphicon glyphicon-floppy-disk"></i></button>
