@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ["ngRoute"]);
+var app = angular.module("myApp", ["ngRoute", "leaflet-directive"]);
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
@@ -21,8 +21,9 @@ app.config(function($routeProvider) {
         });
 });
 
-app.factory('dataHolder',function(){
-	return{};
+
+app.factory('dataHolder', function() {
+    return {};
 });
 
 //tell express that unhandled rejection shouldn't throw errors
@@ -34,31 +35,63 @@ app.controller('navCtrl', function($scope, $location) {
     $scope.selectedTab = $location.path();
 });
 
-app.controller('p2pCtrl', function($scope, $http, dataHolder){
-	$scope.cachedData = dataHolder;
-	$scope.test = 5;
-	$scope.cachedData.currentBoatPose = {latitude:56.1719590,longitude:10.1916530,orientation:0};
+app.controller('p2pCtrl', function($scope, $http, dataHolder) {
+    $scope.cachedData = dataHolder;
+    $scope.test = 5;
+    $scope.cachedData.currentBoatPose = {
+        latitude: 56.1719590,
+        longitude: 10.1916530,
+        orientation: 0
+    };
+    angular.extend($scope, {
+		center : {
+			lat: $scope.cachedData.currentBoatPose.latitude,
+			lng: $scope.cachedData.currentBoatPose.longitude,
+			zoom: 18
+		},
+		events: {
+			map: {
+				enable: ['click'],
+				logic: 'emit'
+			}
+		}
+    });
+  	$scope.markers = new Array();
+
+	$scope.$on('leafletDirectiveMap.click', function(event, args){
+		var leafEvent = args.leafletEvent;
+		$scope.markers.push({
+			lat: leafEvent.latlng.lat,
+			lng: leafEvent.latlng.lng
+		})
+		console.log('clicked on map');
+        $scope.eventDetected = "Click";
+    });
+
+
 
 });
 
-app.controller('coverageCtrl', function($scope, $http, dataHolder){
-	$scope.cachedData = dataHolder;
+app.controller('coverageCtrl', function($scope, $http, dataHolder) {
+    $scope.cachedData = dataHolder;
 
 });
 
 app.controller('profileCtrl', function($scope, $http, dataHolder) {
-	$scope.cachedData = dataHolder;
+    $scope.cachedData = dataHolder;
 
     $http.get("profiles.json").then(function(response) {
         $scope.profiles = response.data.profiles;
         $scope.profileData = response.data;
         $scope.selectedProfile = $scope.profiles[0];
-    }).catch(function(data){
-		$scope.profileData = {"profiles":[]};
-		$scope.profiles = $scope.profileData.profiles;
-	});
+    }).catch(function(data) {
+        $scope.profileData = {
+            "profiles": []
+        };
+        $scope.profiles = $scope.profileData.profiles;
+    });
 
-	$http.get("activeParam.json").then(function(response) {
+    $http.get("activeParam.json").then(function(response) {
         $scope.activeProfile = response.data;
     });
 
@@ -82,7 +115,7 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
         if ($scope.editingParam != true) {
             $scope.profiles.splice($scope.profiles.indexOf($scope.selectedProfile), 1)
             $scope.selectedProfile = $scope.profiles[0];
-			$scope.saveProfilesToFile();
+            $scope.saveProfilesToFile();
         } else {
             //window.alert("Can't delete a profile while editing!");
         }
@@ -94,7 +127,7 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
 
             $scope.revertingProfile = $.extend(true, {}, $scope.selectedProfile);
             $scope.profile = $scope.selectedProfile;
-			$scope.saveProfilesToFile();
+            $scope.saveProfilesToFile();
         } else {
             //window.alert("Please save before editing a new profile");
         }
@@ -104,7 +137,7 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
 
     $scope.activateProfile = function() {
         $scope.activeProfile = $scope.selectedProfile;
-		$scope.saveActiveProfileToFile();
+        $scope.saveActiveProfileToFile();
     }
 
     $scope.saveProfile = function() {
@@ -143,15 +176,13 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
         var url = "profiles";
         var parameter = angular.toJson($scope.profileData);
         $http.post(url, parameter).
-        then(function(data, status, headers, config) {
-        })
+        then(function(data, status, headers, config) {})
     }
 
     $scope.saveActiveProfileToFile = function() {
-		var url = "active";
+        var url = "active";
         var parameter = angular.toJson($scope.activeProfile);
         $http.post(url, parameter).
-        then(function(data, status, headers, config) {
-        })
+        then(function(data, status, headers, config) {})
     }
 });
