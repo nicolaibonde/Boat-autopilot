@@ -21,7 +21,7 @@ app.post('/profiles',function(req, res){
 	res.setHeader('Content-Type', 'application/json');
 
 	var fs = require('fs');
-	fs.writeFile("../website/profilestest.json", JSON.stringify(req.body), function(err) {
+	fs.writeFile("../website/profiles.json", JSON.stringify(req.body), function(err) {
 	    if(err) {
 	        return console.log(err);
 	    }

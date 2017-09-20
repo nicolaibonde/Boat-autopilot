@@ -20,16 +20,21 @@ app.config(function($routeProvider) {
             template: "<h1><i class='glyphicon glyphicon-bullhorn'></i> Ups?</h1><p>I can't find that page, sorry</p><p>Maybe call support for me? <i class='glyphicon glyphicon-earphone'></i></p>"
         });
 });
+
+//tell express that unhandled rejection shouldn't throw errors
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+
 app.controller('navCtrl', function($scope, $location) {
 
     $scope.selectedTab = $location.path();
 });
 
-
-
 app.controller('profileCtrl', function($scope, $http) {
     $http.get("profiles.json").then(function(response) {
         $scope.profiles = response.data.profiles;
+        $scope.profileData = response.data;
         $scope.selectedProfile = $scope.profiles[0];
     });
 
@@ -45,6 +50,7 @@ app.controller('profileCtrl', function($scope, $http) {
             ],
             creationTimestamp: Date.now()
         });
+        $scope.saveProfilesToFile();
         $scope.selectedProfile = $scope.profiles[($scope.profiles).length - 1];
     }
 
@@ -55,6 +61,7 @@ app.controller('profileCtrl', function($scope, $http) {
         } else {
             //window.alert("Can't delete a profile while editing!");
         }
+        $scope.saveProfilesToFile();
     }
 
     $scope.editParameters = function() {
@@ -66,6 +73,7 @@ app.controller('profileCtrl', function($scope, $http) {
         } else {
             //window.alert("Please save before editing a new profile");
         }
+        $scope.saveProfilesToFile();
         $scope.editingParam = true;
     }
 
@@ -76,6 +84,7 @@ app.controller('profileCtrl', function($scope, $http) {
     $scope.saveProfile = function() {
         $scope.editingParam = false;
         $scope.editName = false;
+        $scope.saveProfilesToFile();
     }
 
     $scope.revertProfile = function() {
@@ -104,25 +113,13 @@ app.controller('profileCtrl', function($scope, $http) {
 		$scope.profile.parameterNames.splice(this.$index,1);
     }
 
-	$scope.test = function(){
-		saveProfiles();
-	}
-
-	function saveProfiles(){
-		/*var profilesToSave = JSON.stringify($scope.profiles)
-		$http.post("profiles.json", profilesToSave).success(function(data, status, headers, config){
-			console.log(data);
-		}).error(function(data, status, headers, config){
-
-		});*/
-
-	var url = "profiles.json";
-	var parameter = JSON.stringify($scope.profiles);
-    $http.post(url, parameter).
-    then(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        console.log(data);
-	});
-	}
+	$scope.saveProfilesToFile = function(){
+    var url = "profiles";
+  	var parameter = angular.toJson($scope.profileData);
+      $http.post(url, parameter).
+      then(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          console.log(data);
+	})}
 });
