@@ -46,8 +46,6 @@ app.controller('profileCtrl', function($scope, $http) {
             creationTimestamp: Date.now()
         });
         $scope.selectedProfile = $scope.profiles[($scope.profiles).length - 1];
-
-        saveProfiles();
     }
 
     $scope.deleteProfile = function() {
@@ -106,4 +104,25 @@ app.controller('profileCtrl', function($scope, $http) {
 		$scope.profile.parameterNames.splice(this.$index,1);
     }
 
+	$scope.test = function(){
+		saveProfiles();
+	}
+
+	function saveProfiles(){
+		/*var profilesToSave = JSON.stringify($scope.profiles)
+		$http.post("profiles.json", profilesToSave).success(function(data, status, headers, config){
+			console.log(data);
+		}).error(function(data, status, headers, config){
+
+		});*/
+
+	var url = "profiles.json";
+	var parameter = JSON.stringify($scope.profiles);
+    $http.post(url, parameter).
+    then(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log(data);
+	});
+	}
 });
