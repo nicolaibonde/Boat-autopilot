@@ -37,39 +37,103 @@ app.controller('navCtrl', function($scope, $location) {
 
 app.controller('p2pCtrl', function($scope, $http, dataHolder) {
     $scope.cachedData = dataHolder;
+
+    console.log($scope.cachedData);
+
     $scope.test = 5;
     $scope.cachedData.currentBoatPose = {
         latitude: 56.1719590,
         longitude: 10.1916530,
         orientation: 0
     };
-    angular.extend($scope, {
-		center : {
-			lat: $scope.cachedData.currentBoatPose.latitude,
-			lng: $scope.cachedData.currentBoatPose.longitude,
-			zoom: 18
-		},
-		events: {
-			map: {
-				enable: ['click'],
-				logic: 'emit'
-			}
-		}
-    });
-  	$scope.markers = new Array();
+    if ($scope.cachedData.boatPosition == undefined) {
+        $scope.cachedData.boatPosition = {
 
-	$scope.$on('leafletDirectiveMap.click', function(event, args){
-		var leafEvent = args.leafletEvent;
-		$scope.markers.push({
-			lat: leafEvent.latlng.lat,
-			lng: leafEvent.latlng.lng
-		})
-		console.log('clicked on map');
+            lat: $scope.cachedData.currentBoatPose.latitude,
+            lng: $scope.cachedData.currentBoatPose.longitude,
+            zoom: 18
+        };
+    }
+    $scope.cachedData.events = {
+        map: {
+            enable: ['click'],
+            logic: 'emit'
+        }
+    };
+    $scope.cachedData.targetIcon = {
+        iconUrl: 'images/target.png',
+        iconSize: [32, 32], // size of the icon
+        iconAnchor: [16, 16], // point of the icon which will correspond to marker's location
+        //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    }
+
+    $scope.cachedData.boatIcon = {
+        iconUrl: 'images/boat.png',
+        iconSize: [32, 32], // size of the icon
+        iconAnchor: [16, 16], // point of the icon which will correspond to marker's location
+        //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    }
+
+    if ($scope.cachedData.markers == undefined) {
+        $scope.cachedData.markers = new Array();
+        $scope.cachedData.markers[1] = {
+            lat: 0,
+            lng: 0,
+            icon: $scope.cachedData.targetIcon,
+            opacity: 0
+        }
+    }
+	$scope.cachedData.markers[0] = {
+		lat: $scope.cachedData.currentBoatPose.latitude,
+		lng: $scope.cachedData.currentBoatPose.longitude,
+		icon: $scope.cachedData.boatIcon,
+		iconAngle: $scope.cachedData.currentBoatPose.orientation,
+		opacity: 1
+	}
+
+    if ($scope.cachedData.p2pPaths == undefined) {
+        $scope.cachedData.p2pPaths = {
+            p1: {
+                color: 'lime',
+                weight: 2,
+                latlngs: [{
+                        lat: $scope.cachedData.currentBoatPose.latitude,
+                        lng: $scope.cachedData.currentBoatPose.longitude
+                    },
+                    {
+                        lat: $scope.cachedData.markers[1].lat,
+                        lng: $scope.cachedData.markers[1].lng
+                    }
+                ],
+                opacity: 0
+            }
+        }
+    }
+    console.log($scope.cachedData.p2pPaths.p1)
+
+    $scope.$on('leafletDirectiveMap.click', function(event, args) {
+        var leafEvent = args.leafletEvent;
+
+        $scope.cachedData.markers[1] = {
+            lat: leafEvent.latlng.lat,
+            lng: leafEvent.latlng.lng,
+            icon: $scope.cachedData.targetIcon,
+            opacity: 1
+        }
+        console.log($scope.cachedData.p2pPaths.p1)
+        $scope.updateLine();
+        console.log($scope.cachedData)
+        console.log('clicked on map');
         $scope.eventDetected = "Click";
     });
 
-
-
+    $scope.updateLine = function() {
+        $scope.cachedData.p2pPaths.p1.latlngs[0].lat = $scope.cachedData.currentBoatPose.latitude;
+        $scope.cachedData.p2pPaths.p1.latlngs[0].lng = $scope.cachedData.currentBoatPose.longitude;
+        $scope.cachedData.p2pPaths.p1.latlngs[1].lat = $scope.cachedData.markers[1].lat;
+        $scope.cachedData.p2pPaths.p1.latlngs[1].lng = $scope.cachedData.markers[1].lng;
+        $scope.cachedData.p2pPaths.p1.opacity = 1;
+    }
 });
 
 app.controller('coverageCtrl', function($scope, $http, dataHolder) {
