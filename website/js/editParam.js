@@ -106,4 +106,7 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
         $http.post(url, parameter).
         then(function(data, status, headers, config) {})
     }
+
+	//TODO Make fix that all functions are globally defined! make some of them private!
+
 });
