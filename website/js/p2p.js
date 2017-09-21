@@ -116,34 +116,96 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
         $scope.cachedData.markers[1].opacity = 1;
     };
 
-	updateBoat = function(){
-		$scope.cachedData.markers[0].lat = $scope.cachedData.currentBoatPose.latitude;
-		$scope.cachedData.markers[0].lng = $scope.cachedData.currentBoatPose.longitude;
-		$scope.cachedData.markers[0].iconAngle = $scope.cachedData.currentBoatPose.orientation;
+    updateBoat = function() {
+        $scope.cachedData.markers[0].lat = $scope.cachedData.currentBoatPose.latitude;
+        $scope.cachedData.markers[0].lng = $scope.cachedData.currentBoatPose.longitude;
+        $scope.cachedData.markers[0].iconAngle = $scope.cachedData.currentBoatPose.orientation;
 
-	}
+    }
 
     $scope.updateMapData = function(lat, lng) {
         updateTarget(lat, lng);
         updateLine();
-		updateBoat();
+        updateBoat();
     };
 
+    $scope.calculatePathP2P = function() {
+        switch (calcState) {
+            case 0:
+                if ($scope.cachedData.markers[1].opacity != 0) {
+                    var url = "toNav";
+                    var calculatePath = {
+                        func: "calcP2P",
+                        targetPosition: {
+                            latitude: $scope.cachedData.markers[1].lat,
+                            longitude: $scope.cachedData.markers[1].lng
+                        }
+                    }
+                    var data = angular.toJson(calculatePath);
+                    $http.post(url, data).then(function(data, status, headers, config) {
+                        //Output data to check if this is successfull
+                    })
+					$scope.p2pCalcButton = {
+	                    text: "Calculating ",
+	                    class: "btn-warning",
+	                    icon: "fa fa-spinner fa-spin"
+	                }
+	                calcState = 1
+                }
+                break;
+            case 1:
+                $scope.p2pCalcButton = {
+                    text: "Start ",
+                    class: "btn-success",
+                    icon: "glyphicon glyphicon-play"
+                }
+                calcState = 2
+                break;
+            case 2:
+                $scope.p2pCalcButton = {
+                    text: "Running",
+                    class: "btn-success disabled",
+                    icon: "fa fa-spinner fa-spin"
+                }
+                calcState = 3
+                break;
+
+			case 3:
+                $scope.p2pCalcButton = {
+                    text: "Calculate Path",
+                    class: "btn-warning",
+                    icon: "glyphicon glyphicon-flash"
+                }
+                calcState = 0
+                break;
+        }
+    }
+
+	$scope.stopPathP2P = function(){
+		$scope.p2pCalcButton = {
+			text: "Calculate Path",
+			class: "btn-warning",
+			icon: "glyphicon glyphicon-flash"
+		}
+		calcState = 0
+	}
+
+
     getDataFromNav = function() {
-		//console.log('getting nav data');
-		$scope.cachedData.currentBoatPose = {
-			//Just a default boat position, mostly for testing,
-			//because there should always be a fromNav.json file.
-			latitude: 56.1719590,
-			longitude: 10.1916530,
-			orientation: 0
-		};
+        //console.log('getting nav data');
+        $scope.cachedData.currentBoatPose = {
+            //Just a default boat position, mostly for testing,
+            //because there should always be a fromNav.json file.
+            latitude: 56.1719590,
+            longitude: 10.1916530,
+            orientation: 0
+        };
 
         return $http.get("../savedData/fromNav.json").then(function(response) {
             //Parse fromNav.json, add what is need to be know
             $scope.cachedData.currentBoatPose = response.data.telemetry //For now this works because telemtry is only the pose
             //console.log($scope.cachedData.currentBoatPose);
-			updateBoat();
+            updateBoat();
 
         }).catch(function(data) {
             //console.log('not found')
@@ -157,11 +219,18 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
         });
     }
 
-	$scope.cachedData = dataHolder;
+    $scope.cachedData = dataHolder;
+
+    calcState = 0;
+    $scope.p2pCalcButton = {
+        text: "Calculate Path",
+        class: "btn-warning",
+        icon: "glyphicon glyphicon-flash"
+    }
 
     getDataFromNav()
     initP2PMap();
 
-	$interval(getDataFromNav, 5000) //Update frequency for the boat data
+    $interval(getDataFromNav, 5000) //Update frequency for the boat data
 
 });

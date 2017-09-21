@@ -34,10 +34,10 @@
                         </div>
 
                         <div>
-                            <button class="btn btn-warning btn-lg" type="button" ng-click="test()">
-                                Calculate Path <i class="glyphicon glyphicon-flash"></i>
+                            <button class="btn btn-lg" ng-class="p2pCalcButton.class" type="button" ng-click="calculatePathP2P()">
+                                {{p2pCalcButton.text}} <i class="" ng-class="p2pCalcButton.icon"></i>
                             </button>
-                            <button class="btn btn-danger btn-lg" type="button">
+                            <button class="btn btn-danger btn-lg" type="button" ng-click="stopPathP2P()">
                                 Stop <i class="glyphicon glyphicon-stop"></i>
                             </button>
                         </div>

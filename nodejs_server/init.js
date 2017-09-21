@@ -49,6 +49,21 @@ app.post('/active',function(req, res){
 
 });
 
+app.post('/toNav',function(req, res){
+	console.log(req.body);
+	res.set("Connection", "close");
+	res.setHeader('Content-Type', 'application/json');
+
+	fs.writeFile("../website/savedData/toNav.json", JSON.stringify(req.body), function(err) {
+	    if(err) {
+			res.sendStatus(500);
+	        return console.log(err);
+	    }
+	});
+	res.sendStatus(200);
+
+});
+
 //wait for a connection
 app.listen(3000, function () {
   console.log('Server is running. Point your browser to: http://localhost:3000');
