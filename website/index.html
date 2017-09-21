@@ -7,6 +7,7 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-plugins/3.0.1/layer/Marker.Rotate.js"></script>
 <script src="https://rawgit.com/tombatossals/angular-leaflet-directive/master/dist/angular-leaflet-directive.min.js"></script>
+<!--script src="https://rawgit.com/bbecquet/Leaflet.PolylineDecorator/master/dist/leaflet.polylineDecorator.js"></script-->
 
 <head>
 	<meta charset="utf-8">
@@ -81,36 +82,16 @@
 		</div>
 
 	</div>
-	<script src="main.js"></script>
-
-
-
+	<script src="js/main.js"></script>
+	<script src="js/p2p.js"></script>
+	<script src="js/editParam.js"></script>
+	<script src="js/coverage.js"></script>
 	<!-- jQuery CDN -->
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 	<!-- Bootstrap Js CDN -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			navbarResize();
-			$('#sidebarCollapse').on('click', function() {
-				$('#sidebar').toggleClass('active');
-			});
-		});
-
-		$(window).on('resize', function() {
-			navbarResize();
-		});
-
-		function navbarResize() {
-			if ($(window).width() < 768) {
-				$('#sidebar').addClass('active');
-			} else {
-				$('#sidebar').removeClass('active');
-			}
-		}
-
-	</script>
+	<script src="js/nav.js"></script>
 
 
 </body>

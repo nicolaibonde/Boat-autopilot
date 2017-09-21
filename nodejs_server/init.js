@@ -24,7 +24,7 @@ app.post('/profiles',function(req, res){
 	res.set("Connection", "close");
 	res.setHeader('Content-Type', 'application/json');
 
-	fs.writeFile("../website/profiles.json", JSON.stringify(req.body), function(err) {
+	fs.writeFile("../website/savedData/profiles.json", JSON.stringify(req.body), function(err) {
 	    if(err) {
 			res.sendStatus(500);
 	        return console.log(err);
@@ -39,7 +39,7 @@ app.post('/active',function(req, res){
 	res.set("Connection", "close");
 	res.setHeader('Content-Type', 'application/json');
 
-	fs.writeFile("../website/activeParam.json", JSON.stringify(req.body), function(err) {
+	fs.writeFile("../website/savedData/activeParam.json", JSON.stringify(req.body), function(err) {
 	    if(err) {
 			res.sendStatus(500);
 	        return console.log(err);

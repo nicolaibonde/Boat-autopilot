@@ -289,3 +289,5 @@ __pycache__/
 website/profiles.json
 website/activeParam.json
 website/profiles.json
+website/savedData/*
+!website/savedData/.gitkeep
