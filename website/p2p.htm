@@ -26,16 +26,16 @@
                         <h3 class="panel-title">Controls</h3>
                     </div>
                     <div class="panel-body">
-                        <h5>ETA:</h5>
+                        <h5>ETA: {{cachedData.etaProgress.time}}</h5>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{etaProgress}}%" ng-init="etaProgress = 45">
-                                <span ng-bind="etaProgress"></span>%
+                            <div class="progress-bar progress-bar-striped" ng-class="cachedData.etaProgress.class" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{cachedData.etaProgress.progress}}%">
+                                <!--span ng-bind="etaProgress"></span-->
                             </div>
                         </div>
 
                         <div>
-                            <button class="btn btn-lg" ng-class="p2pCalcButton.class" type="button" ng-click="calculatePathP2P()">
-                                {{p2pCalcButton.text}} <i class="" ng-class="p2pCalcButton.icon"></i>
+                            <button class="btn btn-lg" ng-class="cachedData.p2pCalcButton.class" type="button" ng-click="calculatePathP2P()">
+                                {{cachedData.p2pCalcButton.text}} <i class="" ng-class="cachedData.p2pCalcButton.icon"></i>
                             </button>
                             <button class="btn btn-danger btn-lg" type="button" ng-click="stopPathP2P()">
                                 Stop <i class="glyphicon glyphicon-stop"></i>
