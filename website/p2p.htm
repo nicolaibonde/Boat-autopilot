@@ -37,9 +37,14 @@
                             <button class="btn btn-lg" ng-class="cachedData.p2pCalcButton.class" type="button" ng-click="calculatePathP2P()">
                                 {{cachedData.p2pCalcButton.text}} <i class="" ng-class="cachedData.p2pCalcButton.icon"></i>
                             </button>
+                            <div class="col-xs-12" style="height:10px;"></div>
                             <button class="btn btn-danger btn-lg" type="button" ng-click="stopPathP2P()">
                                 Stop <i class="glyphicon glyphicon-stop"></i>
                             </button>
+                            <div class="col-xs-12" style="height:10px;"></div>
+                            <div ng-show="cachedData.targetMissing" class="alert alert-danger" style=" display:inline-block; padding-top=1em">
+                                <strong>Notice:</strong> Please select a coordinate<br />
+                            </div>
                         </div>
                     </div>
                 </div>

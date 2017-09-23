@@ -86,6 +86,25 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
     }
 
 
+    initP2P = function(){
+      if($scope.cachedData.p2pCalcButton == undefined){
+    		$scope.cachedData.calcState = 0;
+    		$scope.cachedData.p2pCalcButton = {
+    	        text: "Calculate Path",
+    	        class: "btn-warning",
+    	        icon: "glyphicon glyphicon-flash"
+    	    }
+    		$scope.cachedData.etaProgress = {
+    			progress: 0,
+    			time: "",
+    			class:"active"
+    		};
+    	}
+
+        getDataFromNav()
+        initP2PMap();
+    }
+
     $scope.$on('leafletDirectiveMap.click', function(event, args) {
         var leafEvent = args.leafletEvent;
 
@@ -132,6 +151,7 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
     $scope.calculatePathP2P = function() {
         switch ($scope.cachedData.calcState) {
             case 0:
+                $scope.cachedData.targetMissing = false;
                 if ($scope.cachedData.markers[1].opacity != 0) {
                     var url = "toNav";
                     var calculatePath = {
@@ -145,16 +165,21 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
                     $http.post(url, data).then(function(data, status, headers, config) {
                         //Output data to check if this is successfull
                     })
+                    $scope.cachedData.etaProgress.progress = 0;
+                    $scope.cachedData.etaProgress.time = "";
+      							$scope.cachedData.etaProgress.class= ""
                     $scope.cachedData.p2pCalcButton = {
                         text: "Calculating ",
                         class: "btn-warning disabled",
                         icon: "fa fa-spinner fa-spin"
                     }
-					$timeout(function() {
+					$scope.p2ptimeout = $timeout(function() {
 						$scope.cachedData.calcState = 1;
 						$scope.calculatePathP2P()
 					}, 2000);
-                }
+        }else{
+          $scope.cachedData.targetMissing = true;
+        }
                 break;
             case 1:
                 $scope.cachedData.p2pCalcButton = {
@@ -207,14 +232,15 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
     }
 
     $scope.stopPathP2P = function() {
+        $timeout.cancel($scope.p2ptimeout);
         $scope.cachedData.p2pCalcButton = {
             text: "Calculate Path",
             class: "btn-warning",
             icon: "glyphicon glyphicon-flash"
         }
         $scope.cachedData.calcState = 0
-		$scope.cachedData.etaProgress.time = "Canceled";
-		$scope.cachedData.etaProgress.class= "progress-bar-danger"
+		      $scope.cachedData.etaProgress.time = "Canceled";
+		        $scope.cachedData.etaProgress.class= "progress-bar-danger"
     }
 
 
@@ -250,25 +276,9 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
 
 
 
+    initP2P();
 
-	if($scope.cachedData.p2pCalcButton == undefined){
-		$scope.cachedData.calcState = 0;
-		$scope.cachedData.p2pCalcButton = {
-	        text: "Calculate Path",
-	        class: "btn-warning",
-	        icon: "glyphicon glyphicon-flash"
-	    }
-		$scope.cachedData.etaProgress = {
-			progress: 0,
-			time: "",
-			class:"active"
-		};
-		console.log($scope.cachedData.etaProgress)
-	}
 
-    getDataFromNav()
-    initP2PMap();
-
-    $interval(getDataFromNav, 1000) //Update frequency for the boat data
+    $interval(getDataFromNav, 1000); //Update frequency for the boat data
 
 });
