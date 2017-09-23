@@ -1,8 +1,9 @@
 app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce) {
 
-  getDataFromNav = function() {
+  $scope.getDataFromNav = function() {
       $http.get("../savedData/fromNav.json").then(function(response) {
-          $scope.cachedData.status = response.data.status
+          $scope.cachedData.status = response.data.status;
+          $scope.cachedData.timeStamp = response.data.timestamp;
           updateStatusDisplay();
       });
   }
@@ -39,7 +40,24 @@ app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce
 
   $scope.cachedData = dataHolder;
 
-  getDataFromNav();
-  //$interval(getDataFromNav, 1000);
+  $scope.timeSinceLastData = {
+    warning : "alert-info",
+    time : 0,
+  }
+
+  $scope.getDataFromNav();
+
+
+  $interval(function(){
+    console.log($scope.cachedData.timeStamp)
+    $scope.timeSinceLastData.time = Date.now() - $scope.cachedData.timeStamp;
+    if($scope.timeSinceLastData.time > 20){
+      $scope.timeSinceLastData.warning = "alert-danger";
+    }else if($scope.timeSinceLastData.time > 10){
+      $scope.timeSinceLastData.warning = "alert-warning";
+    }
+
+    $scope.cachedData.status
+  }, 5000);
 
 });

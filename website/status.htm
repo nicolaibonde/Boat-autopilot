@@ -15,10 +15,14 @@
           </div>
           <div class="panel-body">
             <div>
-              <button class="btn btn-warning btn-lg" type="button" onClick="window.location.reload()">
+              <button class="btn btn-warning btn-lg" type="button" ng-click="getDataFromNav()">
                                 Force Update  <i class="glyphicon glyphicon-refresh"></i>
                             </button>
 
+            </div>
+            <div class="col-xs-12" style="height:10px;"></div>
+            <div class="alert" ng-class="timeSinceLastData.warning" style=" display:inline-block; padding-top=1em">
+                <strong>Info:</strong> Time since last status message: {{timeSinceLastData.time}} s<br />
             </div>
           </div>
         </div>
