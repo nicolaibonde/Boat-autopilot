@@ -49,6 +49,7 @@ app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce
 
 
   $interval(function(){
+    $scope.getDataFromNav();
     console.log($scope.cachedData.timeStamp)
     $scope.timeSinceLastData.time = Date.now() - $scope.cachedData.timeStamp;
     if($scope.timeSinceLastData.time > 20){
