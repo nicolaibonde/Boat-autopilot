@@ -19,7 +19,13 @@ app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce
       		<div class="panel-body">`;
 
           currentValue.items.forEach(function (item){
-            html +=  "<strong>"+item.title +"</strong> "+item.data+" " + item.unit+"<br />"
+            html +=  "<strong>"+item.title +":</strong> "+item.data+" " + item.unit+"<br />"
+            if(item.unit == '%'){
+              html += `<div class="progress">
+                  			<div class="progress-bar `+ item.accentColor + `  " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: `+item.data+`%">
+                  			</div>
+                  		</div>`;
+            }
           });
 
             html +=`
