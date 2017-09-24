@@ -167,7 +167,7 @@ app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvent
                     })
                     $scope.cachedData.etaProgress.progress = 0;
                     $scope.cachedData.etaProgress.time = "";
-      							$scope.cachedData.etaProgress.class= ""
+      							$scope.cachedData.etaProgress.class= "active"
                     $scope.cachedData.p2pCalcButton = {
                         text: "Calculating ",
                         class: "btn-warning disabled",
