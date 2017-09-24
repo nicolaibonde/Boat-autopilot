@@ -27,22 +27,18 @@
 <body ng-app="myApp">
 	<div class="wrapper">
 		<!-- Sidebar Holder -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
+		<nav id="sidebar" ng-controller="navCtrl" ng-class="sidebarClass">
+			<div class="sidebar-header" ng-click="CollapseSidebar()">
 				<!--h3>CAPTAIN: Autopilot Control Center</h3>
                 <strong>CPT</strong-->
 
-				<button type="button" id="sidebarCollapse" class="btn btn-default">
-                    ☰
-                </button>
+				<i class="fa fa-bars fa-3x" style="text-align: center; display: block;"></i>
 				<h3>CAPTAIN: Autopilot Control Center</h3>
-				<strong>
-                    CPT
-                </strong>
+				<strong>CPT</strong>
 
 			</div>
 
-			<ul class="list-unstyled components" id="sidebar-content" ng-controller="navCtrl">
+			<ul class="list-unstyled components" id="sidebar-content" >
 				<li ng-class="{'active':selectedTab === '/'}" ng-click="selectedTab = '/'">
 					<a href="#!/">
                         <i class="icon-home"></i>

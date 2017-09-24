@@ -20,29 +20,37 @@ app.config(function($routeProvider) {
         });
 });
 
-app.controller('navCtrl', function($scope, $location) {
+app.controller('navCtrl', function($scope, $location, $window) {
     $scope.selectedTab = $location.path();
 		if($location.path() == ""){
 			$scope.selectedTab = "/";
 		}
+
+    $scope.CollapseSidebar = function () {
+      if($scope.sidebarClass == ''){
+        $scope.sidebarClass = 'active';
+      }else{
+        $scope.sidebarClass = '';
+      }
+
+    }
+
+    $(document).ready(function() {
+    	navbarResize();
+    });
+
+    $(window).on('resize', function() {
+    	navbarResize();
+    });
+
+    function navbarResize() {
+    	if ($(window).width() < 768) {
+        $scope.sidebarClass = 'active';
+    		//$('#sidebar').addClass('active');
+    	} else {
+        $scope.sidebarClass = '';
+    		//$('#sidebar').removeClass('active');
+    	}
+    }
+
 });
-
-
-$(document).ready(function() {
-	navbarResize();
-	$('#sidebarCollapse').on('click', function() {
-		$('#sidebar').toggleClass('active');
-	});
-});
-
-$(window).on('resize', function() {
-	navbarResize();
-});
-
-function navbarResize() {
-	if ($(window).width() < 768) {
-		$('#sidebar').addClass('active');
-	} else {
-		$('#sidebar').removeClass('active');
-	}
-}
