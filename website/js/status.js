@@ -42,7 +42,7 @@ app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce
 
   $scope.timeSinceLastData = {
     warning : "alert-info",
-    time : 0,
+    time : NaN,
   }
 
   $scope.getDataFromNav();
@@ -50,15 +50,16 @@ app.controller('statusCtrl', function($scope, $http, dataHolder, $interval, $sce
 
   $interval(function(){
     $scope.getDataFromNav();
-    console.log($scope.cachedData.timeStamp)
-    $scope.timeSinceLastData.time = Date.now() - $scope.cachedData.timeStamp;
+    $scope.timeSinceLastData.time = Math.round((Date.now() - $scope.cachedData.timeStamp)/1000);
     if($scope.timeSinceLastData.time > 20){
       $scope.timeSinceLastData.warning = "alert-danger";
     }else if($scope.timeSinceLastData.time > 10){
       $scope.timeSinceLastData.warning = "alert-warning";
+    }else{
+      $scope.timeSinceLastData.warning = "alert-info";
     }
 
     $scope.cachedData.status
-  }, 5000);
+  }, 1000);
 
 });
