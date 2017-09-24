@@ -43,8 +43,8 @@
 			</div>
 
 			<ul class="list-unstyled components" id="sidebar-content" ng-controller="navCtrl">
-				<li ng-class="{'active':selectedTab === '/home'}" ng-click="selectedTab = '/home'">
-					<a href="#/!">
+				<li ng-class="{'active':selectedTab === '/'}" ng-click="selectedTab = '/'">
+					<a href="#!/">
                         <i class="icon-home"></i>
                         Home
                     </a>
@@ -61,13 +61,13 @@
                         Coverage
                     </a>
 				</li>
-				<li ng-class="{'active':selectedTab === 'status'}" ng-click="selectedTab = 'status'">
+				<li ng-class="{'active':selectedTab === '/status'}" ng-click="selectedTab = '/status'">
 					<a href="#!status">
                         <i class="icon-meter"></i>
                         Status
                     </a>
 				</li>
-				<li ng-class="{'active':selectedTab === 'editparameters'}" ng-click="selectedTab = 'editparameters'">
+				<li ng-class="{'active':selectedTab === '/editparameters'}" ng-click="selectedTab = '/editparameters'">
 					<a href="#!editparameters">
                         <i class="icon-equalizer"></i>
                         Edit parameters
