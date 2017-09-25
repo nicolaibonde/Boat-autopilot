@@ -45,9 +45,10 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
 
     $scope.editParameters = function() {
         if ($scope.editingParam != true) {
-
-            $scope.revertingProfile = $.extend(true, {}, $scope.selectedProfile);
+			$scope.revertingProfile = {};
+            //$scope.revertingProfile = $.extend(true, {}, $scope.selectedProfile);
             $scope.profile = $scope.selectedProfile;
+			angular.copy($scope.profile,$scope.revertingProfile);
             $scope.saveProfilesToFile();
         } else {
             //window.alert("Please save before editing a new profile");
@@ -68,7 +69,11 @@ app.controller('profileCtrl', function($scope, $http, dataHolder) {
     }
 
     $scope.revertProfile = function() {
-        $scope.profile = $.extend(true, {}, $scope.revertingProfile);
+		//Deep copy of only the things that we want to revert
+		$scope.revertingProfile.parameters.forEach(function (param,index){
+			$scope.profile.parameterNames[index] = $scope.revertingProfile.parameterNames[index];
+			$scope.profile.parameters[index] = $scope.revertingProfile.parameters[index];
+		})
     }
 
     $scope.hoverIn = function() {
