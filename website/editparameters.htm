@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<div ng-controller="profileCtrl">
+<div ng-controller="EditParameters">
   <h2><i class="icon-equalizer"></i> Edit parameters</h2>
 
   <div class="row">
@@ -11,10 +11,10 @@
           </div>
           <div class="panel-body">
             <div class="btn-group">
-              <button type="button" class="btn btn-default" ng-click="newProfile()">New <i class="fa fa-file-o"></i></button>
-              <button type="button" class="btn btn-default" ng-click="deleteProfile()" ng-class="editingParam == true ? 'disabled' : ''">Delete <i class="fa fa-trash-o"></i></button>
-              <button type="button" class="btn btn-default" ng-click="editParameters()" ng-class="editingParam == true ? 'disabled' : ''">Edit <i class="fa fa-pencil-square-o"></i></button>
-              <button type="button" class="btn btn-default" ng-click="activateProfile()">Activate <i class="fa fa-check-square-o"></i></button>
+              <button type="button" class="btn btn-default" ng-click="NewProfile()">New <i class="fa fa-file-o"></i></button>
+              <button type="button" class="btn btn-default" ng-click="DeleteProfile(Profiles_.indexOf(Selected_profile_))" ng-class="editingParam == true ? 'disabled' : ''">Delete <i class="fa fa-trash-o"></i></button>
+              <button type="button" class="btn btn-default" ng-click="EditProfile(Profiles_.indexOf(Selected_profile_))" ng-class="editingParam == true ? 'disabled' : ''">Edit <i class="fa fa-pencil-square-o"></i></button>
+              <button type="button" class="btn btn-default" ng-click="ActivateProfile(Profiles_.indexOf(Selected_profile_))">Activate <i class="fa fa-check-square-o"></i></button>
             </div>
             <div class="spacer">
 
@@ -28,14 +28,13 @@
 
                                 </div-->
                 <div class="list-group">
-
-                  <select class="form-control" ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles" size="7">
-									</select>
+					<select class="form-control" ng-model="Selected_profile_" ng-options="Profile_ as Profile_.name_ for Profile_ in Profiles_" size="7">
+					</select>
                 </div>
               </div>
             </div>
 
-            <strong>Active profile:</strong> {{activeProfile.name}}
+            <strong>Active profile:</strong> {{Active_profile_.name_}}
           </div>
         </div>
         <!--button class="btn btn-default" ng-click="test()">test</button-->
@@ -43,46 +42,46 @@
 
     </div>
 
-    <div ng-show="editingParam" class="col-md-5 col-md-offset-025 panel panel-default" style="max-width: 350px">
+    <div ng-show="Editing_profile_" class="col-md-5 col-md-offset-025 panel panel-default" style="max-width: 350px">
       <div class="panel-body">
         <div class="panel-heading">
-          <h3 class="panel-title" ng-hide="editName" ng-click="editName=true">Edit '{{profile.name}}' <i class="fa fa-pencil-square-o"></i></h3>
-          <form ng-show="editName">
+          <h3 class="panel-title" ng-hide="Editing_profile_name" ng-click="Editing_profile_name=true">Edit '{{Profile_.name_}}' <i class="fa fa-pencil-square-o"></i></h3>
+          <form ng-show="Editing_profile_name">
             <div class="input-group">
-              <input type="text" class="form-control" value="{{profile.name}}" ng-model="profile.name">
+              <input type="text" class="form-control" value="{{Profile_.name_}}" ng-model="Profile_.name_">
               <div class="input-group-btn">
-                <button class="btn btn-success" type="submit" ng--click="editName=false">
-									<i class="glyphicon glyphicon-ok"></i>
-								</button>
+                <button class="btn btn-success" type="submit" ng--click="Editing_profile_name=false">
+					<i class="glyphicon glyphicon-ok"></i>
+				</button>
               </div>
             </div>
           </form>
         </div>
         <div class="panel-body">
-          <div ng-repeat="(key,val) in profile.parameters track by $index" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+          <div ng-repeat="(key,val) in Profile_.parameters_ track by $index" ng-mouseover="HoverIn()" ng-mouseleave="HoverOut()">
             <div class="input-group">
-              <span class="input-group-addon">{{profile.parameterNames[key]}}</span>
-              <input type="number" step="0.01" class="form-control" ng-model="profile.parameters[key]">
+              <span class="input-group-addon">{{Profile_.parameter_names_[key]}}</span>
+              <input type="number" step="0.01" class="form-control" ng-model="Profile_.parameters_[key]">
               <div class="input-group-btn">
-                <button class="btn btn-danger" type="submit" ng--click="removeParameter()" ng-show="hoverEdit">
-									<i class="fa fa-minus"></i>
-								</button>
+                <button class="btn btn-danger" type="submit" ng--click="RemoveParameter($index)" ng-show="hover_edit">
+					<i class="fa fa-minus"></i>
+				</button>
               </div>
             </div>
             <div class="col-xs-12" style="height:10px;"></div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Parameter Name" ng-model="newParamName">
+            <input type="text" class="form-control" placeholder="Parameter Name" ng-model="new_param_name">
             <div class="input-group-btn">
-              <button class="btn btn-primary" type="submit" ng--click="addParameter()">
+              <button class="btn btn-primary" type="submit" ng--click="AddParameter(new_param_name)">
 								<i class="fa fa-plus"></i>
 							</button>
             </div>
           </div>
 
           <div class="col-xs-12" style="height:10px;"></div>
-          <button class="btn btn-lg btn-success" ng-click="saveProfile()">Save <i class="glyphicon glyphicon-floppy-disk"></i></button>
-          <button class="btn btn-lg btn-danger" ng-click="revertProfile()">Revert <i class="fa fa-undo fa-ban" ></i></button>
+          <button class="btn btn-lg btn-success" ng-click="SaveProfile()">Save <i class="glyphicon glyphicon-floppy-disk"></i></button>
+          <button class="btn btn-lg btn-danger" ng-click="RevertProfile()">Revert <i class="fa fa-undo fa-ban" ></i></button>
 
         </div>
         <div class="alert alert-info">

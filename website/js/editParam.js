@@ -1,117 +1,112 @@
-app.controller('profileCtrl', function($scope, $http, dataHolder) {
-    $scope.cachedData = dataHolder;
-
+app.controller('EditParameters', function($scope, $http, dataHolder) {
+	//TODO should this not be a function?? and a private one ?
     $http.get("../savedData/profiles.json").then(function(response) {
-        $scope.profiles = response.data.profiles;
-        $scope.profileData = response.data;
-        $scope.selectedProfile = $scope.profiles[0];
+        $scope.Profiles_ = response.data.Profiles_;
+        $scope.Profile_data_ = response.data;
+        $scope.Selected_profile_ = $scope.Profiles_[0];
     }).catch(function(data) {
-        $scope.profileData = {
-            "profiles": []
+        $scope.Profile_data_ = {
+            Profiles_: []
         };
-        $scope.profiles = $scope.profileData.profiles;
+        $scope.Profiles_ = $scope.Profile_data_.Profiles_;
     });
 
+	//TODO should this not be a function?? and a private one ?
     $http.get("../savedData/activeParam.json").then(function(response) {
-        $scope.activeProfile = response.data;
+        $scope.Active_profile_ = response.data;
     });
 
-    $scope.newProfile = function() {
 
-        $scope.profiles.push({
-            name: "New Profile",
-            parameterNames: [
+
+
+
+    $scope.NewProfile = function() {
+		//Creates a new default profile and appends it to the list of Profiles_
+        $scope.Profiles_.push({
+            name_: "New Profile",
+            parameter_names_: [
                 "P", "I", "D", "Tool Width"
             ],
-            parameters: [
+            parameters_: [
                 0, 0, 0, 0
             ],
-            creationTimestamp: Date.now()
+            creation_timestamp_: Date.now()
         });
-        $scope.saveProfilesToFile();
-        $scope.selectedProfile = $scope.profiles[($scope.profiles).length - 1];
+        saveToFile("profiles", $scope.Profile_data_); //Sending the content to the server to get saved.
+        $scope.Selected_profile_ = $scope.Profiles_[($scope.Profiles_).length - 1]; // selects the new profile in the ui
     }
 
-    $scope.deleteProfile = function() {
-        if ($scope.editingParam != true) {
-            $scope.profiles.splice($scope.profiles.indexOf($scope.selectedProfile), 1)
-            $scope.selectedProfile = $scope.profiles[0];
-            $scope.saveProfilesToFile();
-        } else {
-            //window.alert("Can't delete a profile while editing!");
+    $scope.DeleteProfile = function( index ) {
+        if ($scope.Editing_profile_ != true) { //Checks to make sure you are not deleting the profile thats currently being edited
+			$scope.Profiles_.splice(index, 1) //Removes 1 element from the list at index
+
+			if(index < 1) {
+				 $scope.Selected_profile_ = $scope.Profiles_[0];
+			}else{
+				$scope.Selected_profile_ = $scope.Profiles_[index-1]; //selects the profile under the one deleted.
+			}
+
+            saveToFile("profiles", $scope.Profile_data_); //Sending the content to the server to get saved.
+        }else{
+
+		}
+    }
+
+    $scope.EditProfile = function(index) {
+        if ($scope.Editing_profile_ != true && ($scope.Profiles_).length > 0) { //Makes sure that there is something to edit!
+			$scope.Revert_profile_ = {}; //Makes sure a Revet_profile_ exists
+            $scope.Profile_ = $scope.Profiles_[index];
+			angular.copy($scope.Profile_,$scope.Revert_profile_); //Creates a copy of Profile_ into Revert_profile_ instead of refrence
+			$scope.Editing_profile_= true; //tunrs on the panel in the ui.
         }
-
     }
 
-    $scope.editParameters = function() {
-        if ($scope.editingParam != true) {
-			$scope.revertingProfile = {};
-            //$scope.revertingProfile = $.extend(true, {}, $scope.selectedProfile);
-            $scope.profile = $scope.selectedProfile;
-			angular.copy($scope.profile,$scope.revertingProfile);
-            $scope.saveProfilesToFile();
-        } else {
-            //window.alert("Please save before editing a new profile");
-        }
-
-        $scope.editingParam = true;
+    $scope.ActivateProfile = function(index) {
+        $scope.Active_profile_ = $scope.Profiles_[index]; //Sets active profile to be the profile at index in the list Profiles_
+		saveToFile("active", $scope.Active_profile_); //Sending the content to the server to get saved.
     }
 
-    $scope.activateProfile = function() {
-        $scope.activeProfile = $scope.selectedProfile;
-        $scope.saveActiveProfileToFile();
+    $scope.SaveProfile = function() {
+        $scope.Editing_profile_ = false; //Turning of the panel in the ui for editing
+        $scope.Editing_profile_name = false; //makeing sure that the edit name ui change is reset.
+        saveToFile("profiles", $scope.Profile_data_); //Sending the content to the server to get saved.
     }
 
-    $scope.saveProfile = function() {
-        $scope.editingParam = false;
-        $scope.editName = false;
-        $scope.saveProfilesToFile();
-    }
-
-    $scope.revertProfile = function() {
+    $scope.RevertProfile = function() {
 		//Deep copy of only the things that we want to revert
-		$scope.revertingProfile.parameters.forEach(function (param,index){
-			$scope.profile.parameterNames[index] = $scope.revertingProfile.parameterNames[index];
-			$scope.profile.parameters[index] = $scope.revertingProfile.parameters[index];
+		$scope.Revert_profile_.parameters_.forEach(function (param,index){
+			$scope.Profile_.parameter_names_[index] = $scope.Revert_profile_.parameter_names_[index];
+			$scope.Profile_.parameters_[index] = $scope.Revert_profile_.parameters_[index];
 		})
     }
 
-    $scope.hoverIn = function() {
-        this.hoverEdit = true;
+	//On hover in it turns on the ui element button to remove a param
+    $scope.HoverIn = function() {
+        this.hover_edit = true;
     };
 
-    $scope.hoverOut = function() {
-        this.hoverEdit = false;
+	//When hover out it turn off the ui element button to remove a param
+    $scope.HoverOut = function() {
+        this.hover_edit = false;
     };
 
-    $scope.addParameter = function() {
-        if (this.newParamName != undefined) {
-            $scope.profile.parameters.push(0);
-            $scope.profile.parameterNames.push(this.newParamName);
-            this.newParamName = undefined;
+
+    $scope.AddParameter = function( name ) {
+        if (this.new_param_name != undefined) { //If user has entered a name
+            $scope.Profile_.parameters_.push(0); // add a parameter with the value 0
+            $scope.profile.parameter_names_.push(name); // and the corresponding name name
+            this.new_param_name = undefined; //Resetting the name in the ui
         }
-
     }
 
-    $scope.removeParameter = function() {
-        $scope.profile.parameters.splice(this.$index, 1);
-        $scope.profile.parameterNames.splice(this.$index, 1);
+
+    $scope.RemoveParameter = function(index) {
+        $scope.Profile_.parameters_.splice(index, 1); //removing 1 parameter at index
+        $scope.profile.parameter_names_.splice(index, 1); //removing 1 parameter_name at index
     }
 
-    $scope.saveProfilesToFile = function() {
-        var url = "profiles";
-        var parameter = angular.toJson($scope.profileData);
-        $http.post(url, parameter).
-        then(function(data, status, headers, config) {})
-    }
-
-    $scope.saveActiveProfileToFile = function() {
-        var url = "active";
-        var parameter = angular.toJson($scope.activeProfile);
-        $http.post(url, parameter).
-        then(function(data, status, headers, config) {})
-    }
-
-	//TODO Make fix that all functions are globally defined! make some of them private!
-
+	saveToFile = function(url, content) {
+		$http.post(url, angular.toJson(content)). //Build a http POST call with the url and content
+        then(function(data, status, headers, config) {}) //We do not handle errors atm.
+	}
 });
