@@ -1,45 +1,36 @@
 <!DOCTYPE html>
-<div ng-controller="statusCtrl">
-  <h2><i class="icon-meter"></i> Status</h2>
+<div ng-controller="Status">
+    <h2><i class="icon-meter"></i> Status</h2>
 
-  <div class="row">
-    <div class="col-md-5 panel panel-default" style="min-width: 450px" >
-      <div class="panel-body" >
-        <div ng-bind-html="statusPanels">
-        </div>
-
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Update</h3>
-          </div>
-          <div class="panel-body">
-            <div>
-              <button class="btn btn-warning btn-lg" type="button" ng-click="getDataFromNav()">
-                                Force Update  <i class="glyphicon glyphicon-refresh"></i>
-                            </button>
-
+    <div class="row">
+        <div class="col-lg-5 col-md-offset-025 panel panel-default">
+            <div class="panel-body">
+                <div ng-bind-html="Status_panels_">
+                </div>
+				<div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Update</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert" ng-class="Time_since_last_data_.warning_" style=" display:inline-block; padding-top=1em">
+                            <strong>Info:</strong> Time since last status message: {{Time_since_last_data_.time_}} s<br />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-12" style="height:10px;"></div>
-            <div class="alert" ng-class="timeSinceLastData.warning" style=" display:inline-block; padding-top=1em">
-                <strong>Info:</strong> Time since last status message: {{timeSinceLastData.time}} s<br />
+        </div>
+
+        <div class="col-lg-6 col-md-offset-025 panel panel-default">
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Map</h3>
+                    </div>
+                    <div class="panel-body">
+                        <leaflet lf-center="mapCenter" controls="mapControls" event-broadcast="events" decorations="decorations" markers="markers" height="480px" width="100%"></leaflet>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-
     </div>
-
-    <div class="col-md-5 col-md-offset-025 panel panel-default">
-      <div class="panel-body">
-        <div class="panel-heading">
-          <h3 c1lass="panel-title">Map</h3>
-        </div>
-        <div class="panel-body">
-          <img src="images/mapExample.png" class="img-responsive">
-          <span class="label label-info">Insert map here</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
