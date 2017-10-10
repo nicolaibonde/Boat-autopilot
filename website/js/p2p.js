@@ -2,7 +2,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
 
   setup = function() {
     $scope.Cached_data_.action_state_p2p_ = 0;
-    $scope.Cached_data_.p2p_Action = {
+    $scope.Cached_data_.p2p_action = {
       text: "Calculate Path",
       class: "btn-warning",
       icon: "glyphicon glyphicon-flash"
@@ -96,7 +96,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
           $scope.Cached_data_.ETE_.progress = 0;
           $scope.Cached_data_.ETE_.time = "";
           $scope.Cached_data_.ETE_.class = "active";
-          $scope.Cached_data_.p2p_Action = {
+          $scope.Cached_data_.p2p_action = {
             text: "Calculating ",
             class: "btn-warning disabled",
             icon: "fa fa-spinner fa-spin"
@@ -110,7 +110,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         }
         break;
       case 1: //Change icon to indicate that a path has been received
-        $scope.Cached_data_.p2p_Action = {
+        $scope.Cached_data_.p2p_action = {
           text: "Start ",
           class: "btn-success",
           icon: "glyphicon glyphicon-play"
@@ -118,7 +118,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         $scope.Cached_data_.action_state_p2p_ = 2
         break;
       case 2: //User presses Start, to begin traversing the path
-        $scope.Cached_data_.p2p_Action = {
+        $scope.Cached_data_.p2p_action = {
           text: "Running",
           class: "btn-success disabled",
           icon: "fa fa-spinner fa-spin"
@@ -128,7 +128,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
 
         break;
       case 3: //The path has been traversed successfully
-        $scope.Cached_data_.p2p_Action = {
+        $scope.Cached_data_.p2p_action = {
           text: "Calculate Path",
           class: "btn-warning",
           icon: "glyphicon glyphicon-flash"
@@ -199,7 +199,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         $interval.cancel($scope.waitForPathPromise);
       }
     $timeout.cancel($scope.p2ptimeout);
-    $scope.Cached_data_.p2p_Action = {
+    $scope.Cached_data_.p2p_action = {
       text: "Calculate Path",
       class: "btn-warning",
       icon: "glyphicon glyphicon-flash"
