@@ -2,7 +2,7 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
 
     getDataFromNav = function(path) {
         return $http.get(path).then(function(response) { //Does a http GET call and returns a promise.
-            $scope.Boat_pose_ = response.data.Telemetry_; //Reads the boat_pose_
+            $scope.Boat_pose_ = response.data.Telemetry_; //Reads the Boat_pose_
             updateStatusDisplay(response.data.Status_, response.data.Timestamp_); //Updates the html panels.
         });
     }
@@ -34,7 +34,7 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
       	</div>
       </div>`
         })
-        $scope.Status_panels_ = $sce.trustAsHtml(html); //Sets the panels to the html created. and trusts it, maybe not good for security
+        $scope.Status_panels_ = $sce.trustAsHtml(html); //Sets the panels to the html created and trusts it, maybe not good for security
 
 		//Updates the time size last data panel.
         $scope.Time_since_last_data_.time_ = Math.round((Date.now() - timestamp) / 1000);
@@ -49,7 +49,7 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
 
     };
 
-	//Setting up leaflet map with appropriate settings
+	 //Setting up leaflet map with appropriate settings
     setupMap = function() {
 
 		//Centers the map on the boat
@@ -59,7 +59,7 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
             zoom: 14,
         };
 
-		//adds scale markers to the map
+		//Adds scale markers to the map
         $scope.mapControls = {
             scale: true
         }
