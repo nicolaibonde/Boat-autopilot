@@ -1,284 +1,273 @@
-app.controller('p2pCtrl', function($scope, $http, dataHolder, leafletMarkerEvents, $interval, $timeout) {
+app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarkerEvents, $interval, $timeout, $q) {
 
-    initP2PMap = function() {
-
-        //Set up map center
-        if ($scope.cachedData.mapCenter == undefined) {
-            $scope.cachedData.mapCenter = {
-
-                lat: $scope.cachedData.currentBoatPose.latitude,
-                lng: $scope.cachedData.currentBoatPose.longitude,
-                zoom: 14,
-
-            };
-        }
-
-        $scope.mapControls = {
-            scale: true
-        }
-
-        //Setup what events are allowed on the map
-        $scope.cachedData.events = {
-            map: {
-                enable: ['click'],
-                logic: 'emit'
-            }
-        };
-
-        //Loading the target icon
-        $scope.cachedData.targetIcon = {
-            iconUrl: 'images/target.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-        }
-
-        //Loading the boat icon
-        $scope.cachedData.boatIcon = {
-            iconUrl: 'images/boat.png',
-            iconSize: [32, 32],
-            iconAnchor: [16, 16],
-        }
-
-        //Setting up the markers
-        if ($scope.cachedData.markers == undefined) {
-            $scope.cachedData.markers = new Array();
-            //Marker 1 is the target marker, set up to be invisible at 0 0
-            $scope.cachedData.markers[1] = {
-                lat: 0,
-                lng: 0,
-                icon: $scope.cachedData.targetIcon,
-                opacity: 0,
-                message: "target",
-                draggable: true
-            }
-        }
-        //Boat marker, set to the boats current position
-        $scope.cachedData.markers[0] = {
-            lat: $scope.cachedData.currentBoatPose.latitude,
-            lng: $scope.cachedData.currentBoatPose.longitude,
-            icon: $scope.cachedData.boatIcon,
-            iconAngle: $scope.cachedData.currentBoatPose.orientation,
-            opacity: 1,
-            message: "boat"
-        }
-
-
-        //Setup the path from the boat to the boat, it is transparent at the start
-        if ($scope.cachedData.p2pPaths == undefined) {
-            $scope.cachedData.p2pPaths = {
-                p1: {
-                    color: 'lime',
-                    weight: 2,
-                    latlngs: [{
-                            lat: $scope.cachedData.currentBoatPose.latitude,
-                            lng: $scope.cachedData.currentBoatPose.longitude
-                        },
-                        {
-                            lat: $scope.cachedData.markers[1].lat,
-                            lng: $scope.cachedData.markers[1].lng
-                        }
-                    ],
-                    opacity: 0,
-                }
-            }
-        }
-
+  setup = function() {
+    $scope.Cached_data_.action_state_ = 0;
+    $scope.Cached_data_.p2p_Action = {
+      text: "Calculate Path",
+      class: "btn-warning",
+      icon: "glyphicon glyphicon-flash"
     }
+    $scope.Cached_data_.ETE_ = {
+      progress: 0,
+      time: "",
+      class: "active"
+    };
+    setupMap();
+  }
 
-
-    initP2P = function(){
-      if($scope.cachedData.p2pCalcButton == undefined){
-    		$scope.cachedData.calcState = 0;
-    		$scope.cachedData.p2pCalcButton = {
-    	        text: "Calculate Path",
-    	        class: "btn-warning",
-    	        icon: "glyphicon glyphicon-flash"
-    	    }
-    		$scope.cachedData.etaProgress = {
-    			progress: 0,
-    			time: "",
-    			class:"active"
-    		};
-    	}
-
-        getDataFromNav()
-        initP2PMap();
-    }
-
-    $scope.$on('leafletDirectiveMap.click', function(event, args) {
-        var leafEvent = args.leafletEvent;
-
-        $scope.updateMapData(leafEvent.latlng.lat, leafEvent.latlng.lng);
-    });
-
-    $scope.$on("leafletDirectiveMarker.drag", function(event, args) {
-        var point = args.leafletEvent.target._leaflet_events.drag[0].context._latlng;
-        $scope.updateMapData(point.lat, point.lng);
-        //console.log(" lat, lng = " + point.lat + ", " + point.lng);
-    });
-
-    updateLine = function() {
-        $scope.cachedData.p2pPaths.p1.latlngs[0].lat = $scope.cachedData.currentBoatPose.latitude;
-        $scope.cachedData.p2pPaths.p1.latlngs[0].lng = $scope.cachedData.currentBoatPose.longitude;
-        $scope.cachedData.p2pPaths.p1.latlngs[1].lat = $scope.cachedData.markers[1].lat;
-        $scope.cachedData.p2pPaths.p1.latlngs[1].lng = $scope.cachedData.markers[1].lng;
-        $scope.cachedData.p2pPaths.p1.opacity = 1;
-    }
-
-    updateTarget = function(lat, lng) {
-        if (lat != undefined) {
-            $scope.cachedData.markers[1].lat = lat;
-        }
-        if (lng != undefined) {
-            $scope.cachedData.markers[1].lng = lng;
-        }
-        $scope.cachedData.markers[1].opacity = 1;
+  setupMap = function() {
+    //Set up map center
+    $scope.Cached_data_.map_center_ = {
+      lat: $scope.Cached_data_.Boat_pose_.latitude_,
+      lng: $scope.Cached_data_.Boat_pose_.longitude_,
+      zoom: 14
     };
 
-    updateBoat = function() {
-        $scope.cachedData.markers[0].lat = $scope.cachedData.currentBoatPose.latitude;
-        $scope.cachedData.markers[0].lng = $scope.cachedData.currentBoatPose.longitude;
-        $scope.cachedData.markers[0].iconAngle = $scope.cachedData.currentBoatPose.orientation;
-
+    //Setup map controls, scale
+    $scope.map_controls_ = {
+      scale: true
     }
 
-    $scope.updateMapData = function(lat, lng) {
-        updateTarget(lat, lng);
-        updateLine();
-        updateBoat();
-    };
+    //Loading the target icon
+    $scope.Cached_data_.target_icon_ = {
+      iconUrl: "images/target.png",
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
+    }
 
-    $scope.calculatePathP2P = function() {
-        switch ($scope.cachedData.calcState) {
-            case 0:
-                $scope.cachedData.targetMissing = false;
-                if ($scope.cachedData.markers[1].opacity != 0) {
-                    var url = "toNav";
-                    var calculatePath = {
-                        func: "calcP2P",
-                        targetPosition: {
-                            latitude: $scope.cachedData.markers[1].lat,
-                            longitude: $scope.cachedData.markers[1].lng
-                        }
-                    }
-                    var data = angular.toJson(calculatePath);
-                    $http.post(url, data).then(function(data, status, headers, config) {
-                        //Output data to check if this is successfull
-                    })
-                    $scope.cachedData.etaProgress.progress = 0;
-                    $scope.cachedData.etaProgress.time = "";
-      							$scope.cachedData.etaProgress.class= "active"
-                    $scope.cachedData.p2pCalcButton = {
-                        text: "Calculating ",
-                        class: "btn-warning disabled",
-                        icon: "fa fa-spinner fa-spin"
-                    }
-					$scope.p2ptimeout = $timeout(function() {
-						$scope.cachedData.calcState = 1;
-						$scope.calculatePathP2P()
-					}, 2000);
-        }else{
-          $scope.cachedData.targetMissing = true;
+    //Loading the boat icon
+    $scope.Cached_data_.boat_icon_ = {
+      iconUrl: "images/boat.png",
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
+    }
+
+    //Setting up the markers_p2p_
+    if ($scope.Cached_data_.markers_p2p_ == undefined) {
+      $scope.Cached_data_.markers_p2p_ = new Array();
+      //Marker 1 is the target marker, set up to be invisible at 0 0
+      $scope.Cached_data_.markers_p2p_[1] = {
+        lat: 0,
+        lng: 0,
+        icon: $scope.Cached_data_.target_icon_,
+        opacity: 0,
+        draggable: true
+      }
+    }
+    //Boat marker, set to the boats current position
+    $scope.Cached_data_.markers_p2p_[0] = {
+      lat: $scope.Cached_data_.Boat_pose_.latitude_,
+      lng: $scope.Cached_data_.Boat_pose_.longitude_,
+      icon: $scope.Cached_data_.boat_icon_,
+      iconAngle: $scope.Cached_data_.Boat_pose_.orientation_,
+      opacity: 1,
+    }
+  }
+
+  $scope.$on("leafletDirectiveMap.click", function(event, args) {
+    updateEndCoord(args.leafletEvent.latlng);
+  });
+
+  $scope.$on("leafletDirectiveMarker.drag", function(event, args) {
+    let point = args.leafletEvent.target._leaflet_events.drag[0].context._latlng;
+    updateEndCoord(point);
+  });
+
+  updateEndCoord = function(end_coord) {
+    if (end_coord.lat != undefined) {
+      $scope.Cached_data_.markers_p2p_[1].lat = end_coord.lat;
+    }
+    if (end_coord.lng != undefined) {
+      $scope.Cached_data_.markers_p2p_[1].lng = end_coord.lng;
+    }
+    $scope.Cached_data_.markers_p2p_[1].opacity = 1;
+  };
+
+  updateBoatPose = function(pose) {
+    $scope.Cached_data_.Boat_pose_ = pose;
+  }
+
+  $scope.Action = function() {
+    switch ($scope.Cached_data_.action_state_) {
+      case 0: //User presses Calculate path
+        //Check if a marker has been placed
+        if ($scope.Cached_data_.markers_p2p_[1].opacity != 0) {
+          $scope.Cached_data_.target_missing = false;
+          $scope.Cached_data_.ETE_.progress = 0;
+          $scope.Cached_data_.ETE_.time = "";
+          $scope.Cached_data_.ETE_.class = "active";
+          $scope.Cached_data_.p2p_Action = {
+            text: "Calculating ",
+            class: "btn-warning disabled",
+            icon: "fa fa-spinner fa-spin"
+          };
+
+          calculatePath($scope.Cached_data_.markers_p2p_[1]);
+
+        } else {
+          //No marker has been placed
+          $scope.Cached_data_.target_missing = true;
         }
-                break;
-            case 1:
-                $scope.cachedData.p2pCalcButton = {
-                    text: "Start ",
-                    class: "btn-success",
-                    icon: "glyphicon glyphicon-play"
-                }
-                $scope.cachedData.calcState = 2
-                break;
-            case 2:
-                $scope.cachedData.p2pCalcButton = {
-                    text: "Running",
-                    class: "btn-success disabled",
-                    icon: "fa fa-spinner fa-spin"
-                }
-
-				$scope.cachedData.etaProgress.time ="Calculating ...";
-				//$scope.cachedData.etaProgress.class="active";
-				var promise = $interval(function(){
-
-					if($scope.cachedData.calcState !=2){
-						$interval.cancel(promise);
-					}else{
-						if($scope.cachedData.etaProgress.progress >= 100){
-							$scope.cachedData.calcState = 100
-							$scope.cachedData.etaProgress.time = "Arrived at target";
-							$scope.cachedData.etaProgress.class= "progress-bar-success"
-							$scope.cachedData.calcState = 3;
-							$scope.calculatePathP2P()
-							$interval.cancel(promise);
-
-						}else{
-							$scope.cachedData.etaProgress.progress +=1;
-						}
-
-					}
-				}, 100)
-                break;
-
-            case 3:
-                $scope.cachedData.p2pCalcButton = {
-                    text: "Calculate Path",
-                    class: "btn-warning",
-                    icon: "glyphicon glyphicon-flash"
-                }
-				$scope.cachedData.etaProgress.class= "progress-bar-success"
-                $scope.cachedData.calcState = 0
-                break;
+        break;
+      case 1: //Change icon to indicate that a path has been received
+        $scope.Cached_data_.p2p_Action = {
+          text: "Start ",
+          class: "btn-success",
+          icon: "glyphicon glyphicon-play"
         }
-    }
-
-    $scope.stopPathP2P = function() {
-        $timeout.cancel($scope.p2ptimeout);
-        $scope.cachedData.p2pCalcButton = {
-            text: "Calculate Path",
-            class: "btn-warning",
-            icon: "glyphicon glyphicon-flash"
+        $scope.Cached_data_.action_state_ = 2
+        break;
+      case 2: //User presses Start, to begin traversing the path
+        $scope.Cached_data_.p2p_Action = {
+          text: "Running",
+          class: "btn-success disabled",
+          icon: "fa fa-spinner fa-spin"
         }
-        $scope.cachedData.calcState = 0
-		      $scope.cachedData.etaProgress.time = "Canceled";
-		        $scope.cachedData.etaProgress.class= "progress-bar-danger"
+
+        start();
+
+        break;
+      case 3: //The path has been traversed successfully
+        $scope.Cached_data_.p2p_Action = {
+          text: "Calculate Path",
+          class: "btn-warning",
+          icon: "glyphicon glyphicon-flash"
+        }
+        $scope.Cached_data_.ETE_.class = "progress-bar-success"
+        $scope.Cached_data_.action_state_ = 0
+        break;
+    }
+  }
+
+  calculatePath = function(end_coord) {
+
+    saveToFile("toNav", {
+      "func": "calcP2P",
+      "targetPosition": {
+        latitude_: end_coord.lat,
+        longitude_: end_coord.lng
+      }
+    });
+
+    waitForPath();
+    //Return when the Path object has been updated by the controller
+  }
+
+  waitForPath = function() {
+    let currentTimestamp = $scope.Cached_data_.Path_.timestamp_;
+    $scope.waitForPathPromise = $interval(function() {
+      getDataFromNav("../savedData/fromNav.json");
+      $http.get("../savedData/fromNav.json").then(function(response) {
+        $scope.Cached_data_.Path_ = response.data.Path_;
+        if (currentTimestamp < $scope.Cached_data_.Path_.timestamp_) {
+          $interval.cancel($scope.waitForPathPromise);
+          $scope.Cached_data_.action_state_ = 1;
+
+          $scope.Action();
+        }
+      });
+    }, 1000); //Update frequency for the boat data
+  }
+
+  start = function() {
+    waitForCompletion()
+  }
+
+  waitForCompletion = function() {
+    $scope.Cached_data_.ETE_.time = "Calculating ...";
+    //$scope.Cached_data_.ETE_.class="active";
+    let promise = $interval(function() {
+      if ($scope.Cached_data_.action_state_ != 2) {
+        $interval.cancel(promise);
+      } else {
+        if ($scope.Cached_data_.ETE_.progress >= 100) {
+          $scope.Cached_data_.ETE_.time = "Arrived at target";
+          $scope.Cached_data_.ETE_.class = "progress-bar-success"
+          $scope.Cached_data_.action_state_ = 3;
+          $scope.Action()
+          $interval.cancel(promise);
+        } else {
+          $scope.Cached_data_.ETE_.progress += 1;
+        }
+
+      }
+    }, 100)
+  }
+
+  $scope.Stop = function() {
+    if($scope.waitForPathPromise){
+        $interval.cancel($scope.waitForPathPromise);
+      }
+    $timeout.cancel($scope.p2ptimeout);
+    $scope.Cached_data_.p2p_Action = {
+      text: "Calculate Path",
+      class: "btn-warning",
+      icon: "glyphicon glyphicon-flash"
     }
 
+    //Update command file
+    saveToFile("toNav", {
+      "func": "stop"
+    });
 
-    getDataFromNav = function() {
-        //console.log('getting nav data');
-        $scope.cachedData.currentBoatPose = {
-            //Just a default boat position, mostly for testing,
-            //because there should always be a fromNav.json file.
-            latitude: 56.1719590,
-            longitude: 10.1916530,
-            orientation: 0
-        };
+    $scope.Cached_data_.action_state_ = 0
+    $scope.Cached_data_.ETE_.time = "Canceled";
+    $scope.Cached_data_.ETE_.class = "progress-bar-danger"
+  }
 
-        return $http.get("../savedData/fromNav.json").then(function(response) {
-            //Parse fromNav.json, add what is need to be know
-            $scope.cachedData.currentBoatPose = response.data.telemetry //For now this works because telemtry is only the pose
-            //console.log($scope.cachedData.currentBoatPose);
-            updateBoat();
+  getDataFromNav = function(path) {
+    return $http.get(path).then(function(response) {
+      //Parse fromNav.json, add telemetry data
+      updateBoatPose(response.data.Telemetry_);
+      $scope.Cached_data_.Path_ = response.data.Path_;
+    }).catch(function(data) {
+      $scope.Cached_data_.Boat_pose_ = {
+        //Default boat position, for testing purposes
+        latitude_: 0,
+        longitude_: 0,
+        orientation_: 0
+      };
+    });
+  }
 
-        }).catch(function(data) {
-            //console.log('not found')
-            $scope.cachedDatacachedData.currentBoatPose = {
-                //Just a default boat position, mostly for testing,
-                //because there should always be a fromNav.json file.
-                latitude: 56.1719590,
-                longitude: 10.1916530,
-                orientation: 0
-            };
-        });
+  saveToFile = function(url, content) {
+    $http.post(url, angular.toJson(content)). //Build a http POST call with the url and content
+    then(function(data, status, headers, config) {}) //No error handling
+  }
+
+  //Program start, set dataHolder
+  $scope.Cached_data_ = dataHolder;
+
+  //Center map to null island
+  $scope.Cached_data_.map_center_ = {
+    lat: 0,
+    lng: 0,
+    zoom: 0,
+  };
+
+  //Must be declared before running setup
+  //Setup what events are allowed on the map
+  $scope.Cached_data_.events_ = {
+    map: {
+      enable: ["click"],
+      logic: "emit"
     }
+  };
 
-    $scope.cachedData = dataHolder;
+  //Get data from nav and run setup when it"s loaded
+  getDataFromNav("../savedData/fromNav.json").then(function() {
+    setup();
+  });
 
+  //Main loop polls fromNav.json
+  let mainPromise = $interval(function() {
+    getDataFromNav("../savedData/fromNav.json");
+  }, 1000); //Update frequency for the boat data
 
-
-    initP2P();
-
-
-    $interval(getDataFromNav, 1000); //Update frequency for the boat data
-
+  $scope.$on('$destroy',function(){
+    if(mainPromise)
+        $interval.cancel(mainPromise);
+    if($scope.waitForPathPromise)
+        $interval.cancel($scope.waitForPathPromise);
+  });
 });
