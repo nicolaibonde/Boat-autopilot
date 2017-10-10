@@ -142,8 +142,8 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
   calculatePath = function(end_coord) {
 
     saveToFile("toNav", {
-      "func": "calcP2P",
-      "targetPosition": {
+      "func_": "calcP2P",
+      "target_position_": {
         latitude_: end_coord.lat,
         longitude_: end_coord.lng
       }
@@ -170,34 +170,41 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
   }
 
   start = function() {
+    saveToFile("toNav", {
+      "func_": "start"
+    });
+
     waitForCompletion()
+    //Return when the path has been traversed
   }
 
   waitForCompletion = function() {
     $scope.Cached_data_.ETE_.time = "Calculating ...";
     //$scope.Cached_data_.ETE_.class="active";
-    let promise = $interval(function() {
-      if ($scope.Cached_data_.action_state_p2p_ != 2) {
-        $interval.cancel(promise);
+    $scope.waitForCompletionPromise = $interval(function() {
+      if ($scope.Cached_data_.ETE_.progress >= 100) {
+        $scope.Cached_data_.ETE_.time = "Arrived at target";
+        $scope.Cached_data_.ETE_.class = "progress-bar-success"
+        $scope.Cached_data_.action_state_p2p_ = 3;
+        $scope.Action()
+        $interval.cancel($scope.waitForCompletionPromise);
       } else {
-        if ($scope.Cached_data_.ETE_.progress >= 100) {
-          $scope.Cached_data_.ETE_.time = "Arrived at target";
-          $scope.Cached_data_.ETE_.class = "progress-bar-success"
-          $scope.Cached_data_.action_state_p2p_ = 3;
-          $scope.Action()
-          $interval.cancel(promise);
-        } else {
-          $scope.Cached_data_.ETE_.progress += 1;
-        }
+        getDataFromNav("../savedData/fromNav.json");
+        $http.get("../savedData/fromNav.json").then(function(response) {
+          $scope.Cached_data_.ETE_.progress = response.data.Progress_
+          //$scope.Cached_data_.ETE_.progress += 1;
+        })
+
 
       }
     }, 100)
+
   }
 
   $scope.Stop = function() {
-    if($scope.waitForPathPromise){
-        $interval.cancel($scope.waitForPathPromise);
-      }
+    if ($scope.waitForPathPromise) {
+      $interval.cancel($scope.waitForPathPromise);
+    }
     $timeout.cancel($scope.p2ptimeout);
     $scope.Cached_data_.p2p_action = {
       text: "Calculate Path",
@@ -207,7 +214,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
 
     //Update command file
     saveToFile("toNav", {
-      "func": "stop"
+      "func_": "stop"
     });
 
     $scope.Cached_data_.action_state_p2p_ = 0
@@ -264,10 +271,12 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
     getDataFromNav("../savedData/fromNav.json");
   }, 1000); //Update frequency for the boat data
 
-  $scope.$on('$destroy',function(){
-    if(mainPromise)
-        $interval.cancel(mainPromise);
-    if($scope.waitForPathPromise)
-        $interval.cancel($scope.waitForPathPromise);
+  $scope.$on('$destroy', function() {
+    if (mainPromise)
+      $interval.cancel(mainPromise);
+    if ($scope.waitForPathPromise)
+      $interval.cancel($scope.waitForPathPromise);
+    if ($scope.waitForCompletionPromise)
+      $interval.cancel($scope.waitForCompletionPromise);
   });
 });
