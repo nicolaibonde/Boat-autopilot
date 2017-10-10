@@ -132,7 +132,6 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
 
 	//Gets data every interval and updates the map and panels
     let intervalPromise = $interval(function() {
-		console.log("status Interval!");
         getDataFromNav("../savedData/fromNav.json");
         updateBoatPose($scope.Boat_pose_);
 
