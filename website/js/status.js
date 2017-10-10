@@ -131,10 +131,16 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
 
 
 	//Gets data every interval and updates the map and panels
-    $interval(function() {
+    let intervalPromise = $interval(function() {
+		console.log("status Interval!");
         getDataFromNav("../savedData/fromNav.json");
         updateBoatPose($scope.Boat_pose_);
 
     }, update_status_interval_);
+
+	$scope.$on('$destroy',function(){
+    if(intervalPromise)
+        $interval.cancel(intervalPromise);
+	});
 
 });
