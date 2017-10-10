@@ -92,7 +92,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
       case 0: //User presses Calculate path
         //Check if a marker has been placed
         if ($scope.Cached_data_.markers_p2p_[1].opacity != 0) {
-          $scope.Cached_data_.target_missing = false;
+          $scope.target_missing = false;
           $scope.Cached_data_.ETE_.progress = 0;
           $scope.Cached_data_.ETE_.time = "";
           $scope.Cached_data_.ETE_.class = "active";
@@ -106,7 +106,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
 
         } else {
           //No marker has been placed
-          $scope.Cached_data_.target_missing = true;
+          $scope.target_missing = true;
         }
         break;
       case 1: //Change icon to indicate that a path has been received
