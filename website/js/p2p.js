@@ -1,7 +1,7 @@
 app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarkerEvents, $interval, $timeout, $q) {
 
   setup = function() {
-    $scope.Cached_data_.action_state_ = 0;
+    $scope.Cached_data_.action_state_p2p_ = 0;
     $scope.Cached_data_.p2p_Action = {
       text: "Calculate Path",
       class: "btn-warning",
@@ -88,7 +88,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
   }
 
   $scope.Action = function() {
-    switch ($scope.Cached_data_.action_state_) {
+    switch ($scope.Cached_data_.action_state_p2p_) {
       case 0: //User presses Calculate path
         //Check if a marker has been placed
         if ($scope.Cached_data_.markers_p2p_[1].opacity != 0) {
@@ -115,7 +115,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
           class: "btn-success",
           icon: "glyphicon glyphicon-play"
         }
-        $scope.Cached_data_.action_state_ = 2
+        $scope.Cached_data_.action_state_p2p_ = 2
         break;
       case 2: //User presses Start, to begin traversing the path
         $scope.Cached_data_.p2p_Action = {
@@ -134,7 +134,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
           icon: "glyphicon glyphicon-flash"
         }
         $scope.Cached_data_.ETE_.class = "progress-bar-success"
-        $scope.Cached_data_.action_state_ = 0
+        $scope.Cached_data_.action_state_p2p_ = 0
         break;
     }
   }
@@ -161,7 +161,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         $scope.Cached_data_.Path_ = response.data.Path_;
         if (currentTimestamp < $scope.Cached_data_.Path_.timestamp_) {
           $interval.cancel($scope.waitForPathPromise);
-          $scope.Cached_data_.action_state_ = 1;
+          $scope.Cached_data_.action_state_p2p_ = 1;
 
           $scope.Action();
         }
@@ -177,13 +177,13 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
     $scope.Cached_data_.ETE_.time = "Calculating ...";
     //$scope.Cached_data_.ETE_.class="active";
     let promise = $interval(function() {
-      if ($scope.Cached_data_.action_state_ != 2) {
+      if ($scope.Cached_data_.action_state_p2p_ != 2) {
         $interval.cancel(promise);
       } else {
         if ($scope.Cached_data_.ETE_.progress >= 100) {
           $scope.Cached_data_.ETE_.time = "Arrived at target";
           $scope.Cached_data_.ETE_.class = "progress-bar-success"
-          $scope.Cached_data_.action_state_ = 3;
+          $scope.Cached_data_.action_state_p2p_ = 3;
           $scope.Action()
           $interval.cancel(promise);
         } else {
@@ -210,7 +210,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
       "func": "stop"
     });
 
-    $scope.Cached_data_.action_state_ = 0
+    $scope.Cached_data_.action_state_p2p_ = 0
     $scope.Cached_data_.ETE_.time = "Canceled";
     $scope.Cached_data_.ETE_.class = "progress-bar-danger"
   }
