@@ -18,12 +18,12 @@
                             <div class="panel-body">
                                 <div class="input-group">
                                     <span class="input-group-addon" style="min-width: 100px" >Latitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="56.541" ng-model="cachedData.covLat1">
+                                    <input type="number" step="0.001" class="form-control" placeholder="56.541" ng-model="Cached_data_.markers_[1].lat" ng-change="UpdateMapData()">
                                 </div>
                                 <div class="col-xs-12" style="height:10px;"></div>
                                 <div class="input-group">
                                     <span class="input-group-addon" style="min-width: 100px">Longitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="10.013" ng-model="cachedData.covLong1">
+                                    <input type="number" step="0.001" class="form-control" placeholder="10.013" ng-model="Cached_data_.markers_[1].lng" ng-change="UpdateMapData()">
                                 </div>
                             </div>
                         </div>
@@ -35,41 +35,56 @@
                             <div class="panel-body">
                                 <div class="input-group">
                                     <span class="input-group-addon"  style="min-width: 100px">Latitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="56.521" ng-model="cachedData.covLat2">
+                                    <input type="number" step="0.001" class="form-control" placeholder="56.521" ng-model="Cached_data_.markers_[2].lat" ng-change="UpdateMapData()">
                                 </div>
                                 <div class="col-xs-12" style="height:10px;"></div>
                                 <div class="input-group">
-                                    <span class="input-group-addon" tyle="min-width: 100px">Longitude</span>
-                                    <input type="number" step="0.001" class="form-control" placeholder="10.091" ng-model="cachedData.covLong2">
+                                    <span class="input-group-addon" style="min-width: 100px">Longitude</span>
+                                    <input type="number" step="0.001" class="form-control" placeholder="10.091" ng-model="Cached_data_.markers_[2].lng" ng-change="UpdateMapData()">
+                                </div>
+                            </div>
+                        </div>
+						<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Rotation</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Angle</span>
+                                    <input type="number" step="1" min="0" max="90" class="form-control" placeholder="0">
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Controls</h3>
-                    </div>
-                    <div class="panel-body">
-                        <h5>ETA:</h5>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{etaProgress}}%" ng-init="etaProgress = 45">
-                                <span ng-bind="etaProgress"></span>%
-                            </div>
-                        </div>
+				<div class="panel panel-default">
+		          <div class="panel-heading">
+		            <h3 class="panel-title">Controls</h3>
+		          </div>
+		          <div class="panel-body">
+		            <h5>ETE: {{Cached_data_.ETE_.time_}}</h5>
+		            <div class="progress">
+		              <div class="progress-bar progress-bar-striped" ng-class="Cached_data_.ETE_.class_" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{Cached_data_.ETE_.progress_}}%">
+		                <!--span ng-bind="ETE_"></span-->
+		              </div>
+		            </div>
 
-                        <div>
-                            <button class="btn btn-warning btn-lg" type="button">
-                                Calculate Path <i class="glyphicon glyphicon-flash"></i>
-                            </button>
-                            <div class="col-xs-12" style="height:10px;"></div>
-                            <button class="btn btn-danger btn-lg" type="button">
-                                Stop <i class="glyphicon glyphicon-stop"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+		            <div>
+		              <button class="btn btn-lg" ng-class="Cached_data_.coverage_action_.class_" type="button" ng-click="Action()">
+		                                {{Cached_data_.coverage_action_.text_}} <i class="" ng-class="Cached_data_.coverage_action_.icon_"></i>
+		                            </button>
+		              <div class="col-xs-12" style="height:10px;"></div>
+		              <button class="btn btn-danger btn-lg" type="button" ng-click="Stop()">
+		                                Stop <i class="glyphicon glyphicon-stop"></i>
+		                            </button>
+		              <div class="col-xs-12" style="height:10px;"></div>
+		              <div ng-show="target_missing" class="alert alert-danger" style=" display:inline-block; padding-top=1em">
+		                <strong>Notice:</strong> Please select two coordinate, to form a square<br />
+		              </div>
+		            </div>
+		          </div>
+		        </div>
             </div>
         </div>
 
@@ -80,6 +95,9 @@
                         <h3 class="panel-title">Map</h3>
                     </div>
                     <div class="panel-body">
+						<leaflet lf-center="Cached_data_.map_center_" controls="map_controls_" event-broadcast="Cached_data_.events_" markers="Cached_data_.markers_" paths="Cached_data_.paths_" height="480px" width="100%"></leaflet>
+
+                    </div>
                 </div>
             </div>
         </div>
