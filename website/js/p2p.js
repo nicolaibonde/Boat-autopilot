@@ -73,7 +73,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
       lat: 0,
       lng: 0,
       icon: $scope.Cached_data_.boat_icon_,
-      iconAngle: $scope.Cached_data_.Boat_pose_.orientation_,
+      iconAngle: 0,
       opacity: 1,
     }
   }
@@ -207,7 +207,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
           $scope.Action();
         }
       });
-    }, 1000); //Update frequency for the boat data
+    }, wait_for_path_interval_); //Update frequency for the boat data
   }
 
   //Send command to navigation unit
@@ -235,7 +235,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
           $scope.Cached_data_.ETE_.progress_p2p_ = response.data.Progress_
         })
       }
-    }, 1000)
+    }, wait_for_completion_interval_)
   }
 
   $scope.Stop = function() {
@@ -288,6 +288,10 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
   //Program start, set dataHolder
   $scope.Cached_data_ = dataHolder;
 
+  let main_interval_ = 1000; //The interval for getting new navData
+  let wait_for_path_interval_ = 1000; //The interval for waitForPath
+  let wait_for_completion_interval_ = 1000; //The interval for waitForCompletion
+
   //Setup p2p
   setup();
   //Get data from nav and run setup when it"s loaded
@@ -298,7 +302,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
   //Main loop polls fromNav.json
   let main_promise = $interval(function() {
     getDataFromNav("../savedData/fromNav.json");
-  }, 1000); //Update frequency for the boat data
+  }, main_interval_); //Update frequency for the boat data
 
   $scope.$on('$destroy', function() {
     //Destroy fromNav.json poll from p2p site when site is changed
