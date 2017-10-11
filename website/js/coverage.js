@@ -174,7 +174,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
 
     //Sets up variables thate does not need the boat pose
     setup = function() {
-        $scope.markers = new Array();
+        $scope.Cached_data_markers_ = new Array();
 
         if ($scope.Cached_data_.action_state_ == undefined) {
             $scope.Cached_data_.action_state_ = 0;
@@ -203,6 +203,52 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
             };
         }
 
+		//Loading the target icon
+        $scope.Cached_data_.target_icon_ = {
+            iconUrl: 'images/target.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+        }
+
+        //Loading the boat icon
+        $scope.Cached_data_.boat_icon_ = {
+            iconUrl: 'images/boat.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+        }
+
+		//Setting up the markers
+        if ($scope.Cached_data_.markers_ == undefined) {
+            $scope.Cached_data_.markers_ = new Array();
+            //Marker 1 is the target marker, set up to be invisible at 0 0
+            $scope.Cached_data_.markers_[1] = {
+                lat: 0,
+                lng: 0,
+                icon: $scope.Cached_data_.target_icon_,
+                opacity: 0,
+                message: "target",
+                draggable: true
+            }
+
+            $scope.Cached_data_.markers_[2] = {
+                lat: 0,
+                lng: 0,
+                icon: $scope.Cached_data_.target_icon_,
+                opacity: 0,
+                message: "target",
+                draggable: true
+            }
+        }
+        //Boat marker, set to the boats current position
+        $scope.Cached_data_.markers_[0] = {
+            lat: 0,
+            lng: 0,
+			icon: $scope.Cached_data_.boat_icon_,
+			iconAngle: 0,
+			opacity: 1,
+			message: "boat"
+        }
+
         if ($scope.Cached_data_.events_ == undefined) {
             $scope.Cached_data_.events_ = {
                 map: {
@@ -211,6 +257,8 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                 }
             }
         }
+
+
 
         if ($scope.Cached_data_.paths_ == undefined) {
             $scope.Cached_data_.paths_ = {
@@ -235,73 +283,29 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         }
     }
 
-	//Setup for the map with the appropriate settings.
-	setupMap = function() {
-		//Set up map center
-		$scope.Cached_data_.map_center_ = {
+    //Setup for the map with the appropriate settings.
+    setupMap = function() {
+        //Set up map center
+        $scope.Cached_data_.map_center_ = {
 
-			lat: $scope.Cached_data_.Boat_pose_.latitude_,
-			lng: $scope.Cached_data_.Boat_pose_.longitude_,
-			zoom: 14,
+            lat: $scope.Cached_data_.Boat_pose_.latitude_,
+            lng: $scope.Cached_data_.Boat_pose_.longitude_,
+            zoom: 14,
 
-		};
-		$scope.map_controls_ = {
-			scale: true
-		}
-		//Setup what events are allowed on the map
-		$scope.Cached_data_.events_ = {
-			map: {
-				enable: ['click'],
-				logic: 'emit'
-			}
-		}
+        };
+        $scope.map_controls_ = {
+            scale: true
+        }
+        //Setup what events are allowed on the map
+        $scope.Cached_data_.events_ = {
+            map: {
+                enable: ['click'],
+                logic: 'emit'
+            }
+        }
 
-		//Loading the target icon
-		$scope.Cached_data_.target_icon_ = {
-			iconUrl: 'images/target.png',
-			iconSize: [32, 32],
-			iconAnchor: [16, 16],
-		}
 
-		//Loading the boat icon
-		$scope.Cached_data_.boat_icon_ = {
-			iconUrl: 'images/boat.png',
-			iconSize: [32, 32],
-			iconAnchor: [16, 16],
-		}
-
-		//Setting up the markers
-		if ($scope.Cached_data_.markers_ == undefined) {
-			$scope.Cached_data_.markers_ = new Array();
-			//Marker 1 is the target marker, set up to be invisible at 0 0
-			$scope.Cached_data_.markers_[1] = {
-				lat: 0,
-				lng: 0,
-				icon: $scope.Cached_data_.target_icon_,
-				opacity: 0,
-				message: "target",
-				draggable: true
-			}
-
-			$scope.Cached_data_.markers_[2] = {
-				lat: 0,
-				lng: 0,
-				icon: $scope.Cached_data_.target_icon_,
-				opacity: 0,
-				message: "target",
-				draggable: true
-			}
-		}
-		//Boat marker, set to the boats current position
-		$scope.Cached_data_.markers_[0] = {
-			lat: $scope.Cached_data_.Boat_pose_.latitude_,
-			lng: $scope.Cached_data_.Boat_pose_.longitude_,
-			icon: $scope.Cached_data_.boat_icon_,
-			iconAngle: $scope.Cached_data_.Boat_pose_.orientation_,
-			opacity: 1,
-			message: "boat"
-		}
-	}
+    }
 
 
 
@@ -332,9 +336,13 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
 
     updateBoatPose = function(pose) {
         $scope.Cached_data_.Boat_pose_ = pose;
+        //Boat marker, set to the boats current position
+        $scope.Cached_data_.markers_[0].lat = pose.latitude_
+        $scope.Cached_data_.markers_[0].lng = pose.longitude_
+        $scope.Cached_data_.markers_[0].iconAngle = pose.orientation_
     }
 
-	//Updates the start coord and the square to match
+    //Updates the start coord and the square to match
     updateStartCoord = function(start_coord) {
         $scope.Cached_data_.paths_.p1.latlngs[0] = $scope.Cached_data_.markers_[1]
         if (start_coord.lat != undefined) {
@@ -346,7 +354,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         $scope.Cached_data_.markers_[1].opacity = 1;
     }
 
-	//Updates the end coord and the square to match
+    //Updates the end coord and the square to match
     updateEndCoord = function(end_coord) {
         $scope.Cached_data_.paths_.p1.latlngs[1] = $scope.Cached_data_.markers_[2]
         $scope.Cached_data_.paths_.p1.fillOpacity = 0.2;
@@ -360,13 +368,13 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         $scope.Cached_data_.markers_[2].opacity = 1;
     }
 
-	//Make sure that the interval stops on page change.
-	$scope.$on('$destroy', function() {
+    //Make sure that the interval stops on page change.
+    $scope.$on('$destroy', function() {
         if (intervalPromise)
             $interval.cancel(intervalPromise);
     });
 
-	//Save to file sends a Post call to the server to save some content
+    //Save to file sends a Post call to the server to save some content
     saveToFile = function(url, content) {
         $http.post(url, angular.toJson(content)). //Build a http POST call with the url and content
         then(function(data, status, headers, config) {}) //No error handling
@@ -374,7 +382,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
 
     let update_status_interval_ = 1000; //The interval for getting new navData
 
-	//--- Execution --//
+    //--- Execution --//
 
     setup();
 
