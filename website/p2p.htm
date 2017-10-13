@@ -26,16 +26,15 @@
             <h3 class="panel-title">Controls</h3>
           </div>
           <div class="panel-body">
-            <h5>ETE: {{Cached_data_.ETE_.time}}</h5>
+            <h5>ETE: {{Cached_data_.ETE_.time_p2p_}}</h5>
             <div class="progress">
-              <div class="progress-bar progress-bar-striped" ng-class="Cached_data_.ETE_.class" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{Cached_data_.ETE_.progress}}%">
-                <!--span ng-bind="ETE_"></span-->
+              <div class="progress-bar progress-bar-striped" ng-class="Cached_data_.ETE_.class_p2p_" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{Cached_data_.ETE_.progress_p2p_}}%">
               </div>
             </div>
 
             <div>
-              <button class="btn btn-lg" ng-class="Cached_data_.p2p_action.class" type="button" ng-click="Action()">
-                                {{Cached_data_.p2p_action.text}} <i class="" ng-class="Cached_data_.p2p_action.icon"></i>
+              <button class="btn btn-lg" ng-class="Cached_data_.action_p2p_.class_" type="button" ng-click="Action()">
+                                {{Cached_data_.action_p2p_.text_}} <i class="" ng-class="Cached_data_.action_p2p_.icon_"></i>
                             </button>
               <div class="col-xs-12" style="height:10px;"></div>
               <button class="btn btn-danger btn-lg" type="button" ng-click="Stop()">
