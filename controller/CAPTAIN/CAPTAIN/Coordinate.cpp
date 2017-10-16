@@ -1,6 +1,6 @@
 #include "Coordinate.h"
 
-Coordinate::Coordinate(double latitude, double longitude)
+Coordinate::Coordinate(const double latitude,const double longitude)
 {
 	Latitude_ = latitude;
 	Longitude_ = longitude;

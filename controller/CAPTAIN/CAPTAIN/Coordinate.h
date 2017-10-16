@@ -2,7 +2,7 @@
 class Coordinate
 {
 public:
-	Coordinate(double latitude, double longitude);
+	Coordinate(const double latitude, const double longitude);
 	~Coordinate();
 
 public:
