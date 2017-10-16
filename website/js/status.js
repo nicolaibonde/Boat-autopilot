@@ -51,7 +51,6 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
 
 	 //Setting up leaflet map with appropriate settings
     setupMap = function() {
-
 		//Centers the map on the boat
         $scope.mapCenter = {
             lat: $scope.Boat_pose_.latitude_,
@@ -123,6 +122,25 @@ app.controller('Status', function($scope, $http, dataHolder, $interval, $sce) {
         lng: 0,
         zoom: 0,
     };
+	$scope.layers_ = {
+		baselayers: {
+			offline: {
+				name: 'offline_map',
+				options: {
+					attribution: "",
+					maxZoom: 14
+				},
+				url: 'offline_map/{z}/{x}/{y}.png',
+				type: 'xyz',
+				refresh: true
+			},
+			osm: {
+				name: 'OpenStreetMap',
+				url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				type: 'xyz'
+			}
+		}
+	}
 
 	//Get data from nav and setup the map when its here
     getDataFromNav("../savedData/fromNav.json").then(function() {
