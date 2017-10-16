@@ -1,9 +1,8 @@
 #include "Pose.h"
 
 
-Pose::Pose(const Coordinate coordinate, const double orientation)
+Pose::Pose(const Coordinate coordinate, const double orientation) : Coordinate_(coordinate)
 {
-	Coordinate_ = coordinate;
 	Orientation_ = orientation;
 }
 
