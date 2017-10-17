@@ -65,8 +65,8 @@ app.post('/toNav',function(req, res){
 });
 
 //wait for a connection
-app.listen(3000, function () {
-  console.log('Server is running. Point your browser to: http://localhost:3000');
+app.listen(80, function () {
+  console.log('Server is running. Point your browser to: http://localhost:80');
 });
 
 
