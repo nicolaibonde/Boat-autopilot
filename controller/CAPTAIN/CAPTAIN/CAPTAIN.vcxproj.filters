@@ -33,6 +33,12 @@
     <ClInclude Include="Pose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="INavigation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">
@@ -42,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Pose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
