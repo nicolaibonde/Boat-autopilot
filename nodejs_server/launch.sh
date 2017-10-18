@@ -1,8 +1,10 @@
 #!/bin/bash
-echo ---------------------------- >> server.log
-date -u >> server.log
-echo $$ >> server.log
-echo "Checking for connection to wifi" >> server.log
+mkdir /var/log/CAPTAIN
+echo ---------------------------- >> /var/log/CAPTAIN/server.log
+date -u >> /var/log/CAPTAIN/server.log
+pid=$$
+echo "Launch script pid: $pid" >> /var/log/CAPTAIN/server.log
+echo "Checking for connection to WiFi" >> /var/log/CAPTAIN/server.log
 running=0
 nodepid=0
 while :
@@ -11,10 +13,10 @@ do
 	then
 		if ! iwconfig 2>&1 | grep -qi "off/any" 
 		then
-			echo "starting server" >> server.log
-			nodejs /home/pi/Boat-autopilot/nodejs_server/init.js >> server.log &
+			echo "Starting server" >> /var/log/CAPTAIN/server.log
+			nodejs /home/pi/Boat-autopilot/nodejs_server/init.js >> /var/log/CAPTAIN/server.log &
 			nodepid=$!
-			echo "nodejspid: $nodepid" >> server.log
+			echo "nodejs pid: $nodepid" >> /var/log/CAPTAIN/server.log
 			running=1
 		fi
 	fi
@@ -23,15 +25,15 @@ do
 	then
 		if ! [[ $nodepid == 0 ]];
 		then
-			echo "killing pid: $nodepid" >> server.log
-			sudo kill "$nodepid" >> server.log
+			echo "killing pid: $nodepid" >> /var/log/CAPTAIN/server.log
+			sudo kill "$nodepid" >> /var/log/CAPTAIN/server.log
 			nodepid=0
 		fi
 
-		echo "server is not up" >> server.log
+		echo "Server is not up" >> /var/log/CAPTAIN/server.log
 		running=0
-		sudo ifdown --force wlan0 >> server.log
-		sudo ifup wlan0 >> server.log
+		sudo ifdown --force wlan0 >> /var/log/CAPTAIN/server.log
+		sudo ifup wlan0 >> /var/log/CAPTAIN/server.log
 	fi
 sleep 1
 done
