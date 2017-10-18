@@ -140,7 +140,13 @@
   <ItemGroup>
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="CoverageRectangle.h" />
+    <ClInclude Include="GPSStatus.h" />
+    <ClInclude Include="IAutopilot.h" />
+    <ClInclude Include="IGPS.h" />
     <ClInclude Include="INavigation.h" />
+    <ClInclude Include="IReceiver.h" />
+    <ClInclude Include="IStatus.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="NavigationData.h" />
     <ClInclude Include="Pose.h" />
@@ -151,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="CoverageRectangle.cpp" />
+    <ClCompile Include="GPSStatus.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="TargetPosition.cpp" />

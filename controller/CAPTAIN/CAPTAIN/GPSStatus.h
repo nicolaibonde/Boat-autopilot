@@ -5,7 +5,7 @@ class GPSStatus :
 	public IStatus
 {
 public:
-	GPSStatus(const double frequency, const double delay, const double, Pose pose);
+	GPSStatus(const double frequency, const double delay, const Pose pose);
 	~GPSStatus();
 	std::string GetString() override;
 
