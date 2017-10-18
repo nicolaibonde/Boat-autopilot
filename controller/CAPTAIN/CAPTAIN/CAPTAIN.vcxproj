@@ -139,17 +139,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinate.h" />
+    <ClInclude Include="CoverageRectangle.h" />
     <ClInclude Include="INavigation.h" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="NavigationData.h" />
     <ClInclude Include="Pose.h" />
+    <ClInclude Include="TargetPosition.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Coordinate.cpp" />
+    <ClCompile Include="CoverageRectangle.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
+    <ClCompile Include="TargetPosition.cpp" />
     <ClCompile Include="TaskData.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

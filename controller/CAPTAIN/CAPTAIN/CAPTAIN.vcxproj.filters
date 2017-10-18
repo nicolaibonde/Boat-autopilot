@@ -39,6 +39,12 @@
     <ClInclude Include="TaskData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoverageRectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">
@@ -51,6 +57,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TaskData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoverageRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetPosition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
