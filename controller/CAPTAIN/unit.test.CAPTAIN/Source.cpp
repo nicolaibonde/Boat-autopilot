@@ -1,11 +1,28 @@
 #define BOOST_TEST_MODULE CaptainTests
-#include <boost/test/included/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp> //It is slow because this is a huge header
 #include "Coordinate.h"
 #include "Pose.h"
 #include "NavigationData.h"
+#include "boost/fakeit.hpp"
+//#include <turtle/mock.hpp>
 
+struct SomeInterface
+{
+	virtual int foo(int) = 0;
+};
 
 BOOST_AUTO_TEST_SUITE(All_tests)
+
+
+
+	BOOST_AUTO_TEST_CASE(fakeit_test)
+{
+	fakeit::Mock<SomeInterface> mock;
+	fakeit::When(Method(mock, foo)).Return(1);
+
+	SomeInterface &i = mock.get();
+	BOOST_REQUIRE(i.foo(10) == 1);
+}
 
 	BOOST_AUTO_TEST_SUITE(Coordinate_tests)
 		BOOST_AUTO_TEST_CASE(Coordinate_constructor_latitude_test)
