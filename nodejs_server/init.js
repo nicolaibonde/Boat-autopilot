@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //tell express that www is the root of our public web folder
-app.use(express.static("website_path"))
+app.use(express.static(website_path))
 //tell express what to do when the /form route is requested
 app.post('/profiles',function(req, res){
 	console.log(req.body);
