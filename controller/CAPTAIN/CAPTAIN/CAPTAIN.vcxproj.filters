@@ -84,9 +84,12 @@
     <ClInclude Include="ITransmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="JSONTransmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> 53131d2b160b156b218b3310532558475e534735
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">
