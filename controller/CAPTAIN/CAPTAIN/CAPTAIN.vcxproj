@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -75,6 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -140,16 +141,22 @@
   <ItemGroup>
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="CoverageRectangle.h" />
+    <ClInclude Include="DCMotor.h" />
     <ClInclude Include="GPSStatus.h" />
     <ClInclude Include="IAutopilot.h" />
     <ClInclude Include="IGPS.h" />
+    <ClInclude Include="IMotorStatusGetter.h" />
     <ClInclude Include="INavigation.h" />
+    <ClInclude Include="IPositionMotor.h" />
     <ClInclude Include="IReceiver.h" />
+    <ClInclude Include="ISpeedMotor.h" />
     <ClInclude Include="IStatus.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="NavigationData.h" />
     <ClInclude Include="Pose.h" />
+    <ClInclude Include="Servo.h" />
     <ClInclude Include="TargetPosition.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskData.h" />
@@ -157,9 +164,12 @@
   <ItemGroup>
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="CoverageRectangle.cpp" />
+    <ClCompile Include="DCMotor.cpp" />
     <ClCompile Include="GPSStatus.cpp" />
+    <ClCompile Include="MotorStatus.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
+    <ClCompile Include="Servo.cpp" />
     <ClCompile Include="TargetPosition.cpp" />
     <ClCompile Include="TaskData.cpp" />
   </ItemGroup>

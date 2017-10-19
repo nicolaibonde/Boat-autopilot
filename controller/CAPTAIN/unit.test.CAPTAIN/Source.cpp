@@ -1,12 +1,16 @@
 #define BOOST_TEST_MODULE CaptainTests
 #include <boost/test/included/unit_test.hpp> //It is slow because this is a huge header
+#include <string>
+#include "boost/fakeit.hpp"
 #include "Coordinate.h"
 #include "Pose.h"
 #include "NavigationData.h"
-#include "boost/fakeit.hpp"
 #include "TargetPosition.h"
 #include "CoverageRectangle.h"
 #include "TaskData.h"
+#include "DCMotor.h"
+#include "Servo.h"
+#include "MotorStatus.h"
 
 //#include <turtle/mock.hpp>
 
@@ -16,8 +20,6 @@ struct SomeInterface
 };
 
 BOOST_AUTO_TEST_SUITE(All_tests)
-
-
 
 	BOOST_AUTO_TEST_CASE(fakeit_test)
 {
@@ -117,6 +119,88 @@ BOOST_AUTO_TEST_SUITE(All_tests)
 
 			BOOST_REQUIRE(uut.Ete_ == 0);
 		}
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_AUTO_TEST_SUITE(DCMotor_tests)
+		BOOST_AUTO_TEST_CASE(DCMotor_constructor_test)
+	{
+		DCMotor DCM1;
+		BOOST_REQUIRE(DCM1.speed_ == 0.0);
+	}
+
+	BOOST_AUTO_TEST_CASE(DCMotor_SetSpeed_test)
+	{
+		DCMotor DCM2;
+		DCM2.SetSpeed(5.6);
+		BOOST_REQUIRE(DCM2.speed_ == 5.6);
+	}
+
+	BOOST_AUTO_TEST_CASE(DCMotor_GetStatus_percentage_test)
+	{
+		DCMotor DCM3;
+		DCM3.SetSpeed(6.9);
+		MotorStatus motorstatus1 = DCM3.GetStatus();
+		BOOST_REQUIRE(motorstatus1.percentage_ == 6.9);
+	}
+
+	BOOST_AUTO_TEST_CASE(DCMotor_GetStatus_motor_type__test)
+	{
+		DCMotor DCM4;
+		MotorStatus motorstatus2 = DCM4.GetStatus();
+		BOOST_REQUIRE(motorstatus2.motor_type_ == SPEED);
+	}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_AUTO_TEST_SUITE(Servo_tests)
+		BOOST_AUTO_TEST_CASE(Servo_constructor_test)
+	{
+		Servo Ser1;
+		BOOST_REQUIRE(Ser1.position_ == 0.0);
+	}
+
+	BOOST_AUTO_TEST_CASE(Servo_SetPosition_test)
+	{
+		Servo Ser2;
+		Ser2.SetPosition(7.9);
+		BOOST_REQUIRE(Ser2.position_ == 7.9);
+	}
+
+	BOOST_AUTO_TEST_CASE(Servo_GetStatus_percentage_test)
+	{
+		Servo Ser3;
+		Ser3.SetPosition(8.3);
+		MotorStatus motorstatus3 = Ser3.GetStatus();
+		BOOST_REQUIRE(motorstatus3.percentage_ == 8.3);
+	}
+
+	BOOST_AUTO_TEST_CASE(Servo_GetStatus_motor_type__test)
+	{
+		Servo Ser4;
+		MotorStatus motorstatus4 = Ser4.GetStatus();
+		BOOST_REQUIRE(motorstatus4.motor_type_ == POSITION);
+	}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+		BOOST_AUTO_TEST_SUITE(MotorStatus_tests)
+		BOOST_AUTO_TEST_CASE(MotorStatus_constructor_test)
+	{
+		DCMotor DCM5; //Test of this module only makes sense in the presence of a motor objekt!
+		MotorStatus MS1 = DCM5.GetStatus();
+		BOOST_REQUIRE(MS1.percentage_ == 0.0 && MS1.motor_type_ == 0);
+	}
+
+		BOOST_AUTO_TEST_CASE(MotorStatus_GetString_test)
+	{
+		DCMotor DCM6; //Test of this module only makes sense in the presence of a motor objekt!
+		MotorStatus MS2 = DCM6.GetStatus();
+		std::string MS_string = MS2.GetString();
+
+		std::string test_string(R"({"items_":[{"color_","progress-bar-warning","data_":0.0,"title_":DC Motor,"unit_":"%"}],"title_":"Motor")");
+		BOOST_REQUIRE(MS_string.compare(test_string) == 1);
+	}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE_END()
