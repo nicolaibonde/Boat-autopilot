@@ -81,6 +81,12 @@
     <ClInclude Include="Servo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ITransmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONTransmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">
@@ -111,6 +117,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MotorStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONTransmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

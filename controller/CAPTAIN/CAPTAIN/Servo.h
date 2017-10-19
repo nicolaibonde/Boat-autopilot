@@ -12,6 +12,6 @@ public:
 	void SetPosition(const double position);
 	MotorStatus GetStatus() override;
 
-//private: //comment out this line to give boost access adn run tests!!
+private:
 	double position_;
 };
