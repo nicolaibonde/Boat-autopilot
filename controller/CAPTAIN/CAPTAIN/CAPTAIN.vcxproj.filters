@@ -81,6 +81,9 @@
     <ClInclude Include="Servo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ITransmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">

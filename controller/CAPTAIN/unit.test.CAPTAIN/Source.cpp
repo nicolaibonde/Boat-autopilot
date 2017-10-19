@@ -11,6 +11,7 @@
 #include "DCMotor.h"
 #include "Servo.h"
 #include "MotorStatus.h"
+#include "GPSStatus.h"
 
 //#include <turtle/mock.hpp>
 
@@ -30,6 +31,19 @@ BOOST_AUTO_TEST_SUITE(All_tests)
 	BOOST_REQUIRE(i.foo(10) == 1);
 }
 
+
+	BOOST_AUTO_TEST_SUITE(GPSStatus_tests)
+		BOOST_AUTO_TEST_CASE(GPSStatus_GetString_returnsJSON)
+		{
+			GPSStatus uut = GPSStatus(50, 20, Pose(Coordinate(56.2, 10.8), 310)); //unit under test
+			std::cout << uut.GetString() << std::endl;
+			std::string compare = "{\"items_\":[{\"data_\":50.0,\"title_\":\"GPS frequency\",\"unit_\":\"Hz\"},{\"data_\":20.0,\"title_\":\"GPS delay\",\"unit_\":\"ms\"}],\"title_\":\"GPS Connection\"},{\"items_\":[{\"data_\":56.2,\"title_\":\"Latitude\",\"unit_\":\"deg\"},{\"data_\":10.8,\"title_\":\"Latitude\",\"unit_\":\"deg\"},{\"data_\":310.0,\"title_\":\"Orientation\",\"unit_\":\"deg\"}],\"title_\":\"Pose\"}";
+			std::cout << compare << std::endl;
+
+			BOOST_REQUIRE(uut.GetString() == compare);
+		}
+	BOOST_AUTO_TEST_SUITE_END()
+	
 	BOOST_AUTO_TEST_SUITE(TaskData_tests)
 		BOOST_AUTO_TEST_CASE(TargetPosition_get_target_position_test)
 		{
