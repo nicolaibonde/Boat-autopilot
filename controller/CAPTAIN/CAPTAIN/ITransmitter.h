@@ -4,5 +4,5 @@ class ITransmitter
 {
 public:
 	virtual ~ITransmitter() {};
-	virtual void TransmitFromNav(std::string) = 0;
+	virtual void TransmitFromNav() = 0;
 };
