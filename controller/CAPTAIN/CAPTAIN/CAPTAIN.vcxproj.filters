@@ -1,129 +1,114 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Task.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MotorType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NavigationData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coordinate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pose.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="INavigation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoverageRectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetPosition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IAutopilot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IReceiver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IGPS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GPSStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ISpeedMotor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IPositionMotor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IMotorStatusGetter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MotorStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DCMotor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Servo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ITransmitter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="JSONTransmitter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-=======
->>>>>>> 53131d2b160b156b218b3310532558475e534735
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="NavigationData.cpp">
+    <ClCompile Include="TargetPosition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Coordinate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pose.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TaskData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CoverageRectangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetPosition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GPSStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DCMotor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Servo.cpp">
+    <ClCompile Include="GPSStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONReceiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MotorStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JSONTransmitter.cpp">
+    <ClCompile Include="NavigationData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Servo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Coordinate.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoverageRectangle.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DCMotor.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GPSStatus.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IAutopilot.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGPS.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMotorStatusGetter.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INavigation.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IPositionMotor.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IReceiver.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISpeedMotor.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IStatus.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ITransmitter.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONReceiver.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorStatus.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorType.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NavigationData.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pose.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Servo.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Task.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetPosition.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers Files">
+      <UniqueIdentifier>{85bfc3c8-997a-4f21-9d6d-4de71c88da64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{969f24f2-ea12-4593-860c-3f960ee64e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c3f89186-e804-44b6-976c-cc16168b77b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

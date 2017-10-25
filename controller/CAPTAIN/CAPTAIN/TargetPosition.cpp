@@ -1,6 +1,10 @@
 #include "TargetPosition.h"
 
 
+TargetPosition::TargetPosition() : target_position_(Coordinate(-1, -1))
+{
+}
+
 TargetPosition::TargetPosition(const Coordinate coordinate) : target_position_(coordinate)
 {
 }
