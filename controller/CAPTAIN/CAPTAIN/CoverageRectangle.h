@@ -1,11 +1,10 @@
 #pragma once
-#include "TaskData.h"
 #include "Coordinate.h"
 
-class CoverageRectangle :
-	public TaskData
+class CoverageRectangle 
 {
 public:
+	CoverageRectangle();
 	CoverageRectangle(const Coordinate start_position, const Coordinate end_position );
 	~CoverageRectangle();
 

@@ -1,6 +1,9 @@
 #include "CoverageRectangle.h"
 
 
+CoverageRectangle::CoverageRectangle() : start_position_(Coordinate(-1, -1)), end_position_(Coordinate(-1, -1))
+{
+}
 
 CoverageRectangle::CoverageRectangle(const Coordinate start_position, const Coordinate end_position) : 
 start_position_(start_position), end_position_(end_position)
