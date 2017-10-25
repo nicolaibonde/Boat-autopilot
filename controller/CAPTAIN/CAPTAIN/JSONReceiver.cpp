@@ -41,7 +41,6 @@ void JSONReceiver::ReceiveToNav()
 		j = { { "func_","none"} };
 	}
 
-	//std::cout << j << std::endl;
 
 	std::tuple<Task, TargetPosition, CoverageRectangle> task = func_ToTask(j);
 
@@ -96,7 +95,6 @@ void JSONReceiver::ReceiveActiveParam()
 				{
 				}
 		}
-		std::cout << "test" << std::endl;
 		if (P != -1 && I != -1 && D != -1 && tool_width != -1)
 		{
 			autopilot_.SetParameters(P, I, D);

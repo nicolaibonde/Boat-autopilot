@@ -915,7 +915,7 @@ BOOST_AUTO_TEST_SUITE(GPSStatus_tests)
 BOOST_AUTO_TEST_CASE(GPSStatus_GetString_returnsJSON)
 {
 	GPSStatus uut = GPSStatus(50, 20, Pose(Coordinate(56.2, 10.8), 310)); //unit under test
-	std::cout << uut.GetString() << std::endl;
+	//std::cout << uut.GetString() << std::endl;
 	std::string compareString = (R"(
 	{"items_":[
 		{"data_":50.0,"title_":"GPS frequency","unit_":"Hz"},
@@ -927,7 +927,7 @@ BOOST_AUTO_TEST_CASE(GPSStatus_GetString_returnsJSON)
 		{"data_":310.0,"title_":"Orientation","unit_":"deg"}],
 		"title_":"Pose"}";
 	)");
-std::cout << compareString << std::endl;
+	//std::cout << compareString << std::endl;
 
 	BOOST_REQUIRE(uut.GetString().compare(compareString) == 1);
 }
