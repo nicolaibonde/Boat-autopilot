@@ -1,8 +1,8 @@
 #include "NavigationData.h"
 
 
-NavigationData::NavigationData(std::vector<Coordinate> completed_path, std::vector<Coordinate> polyline,
-	int ete, double progress) : Completed_path_(completed_path), Polyline_(polyline)
+NavigationData::NavigationData(std::vector<Coordinate> completed_path, std::vector<Coordinate> path,
+	int ete, double progress) : Completed_path_(completed_path), Path_(path)
 {
 	Ete_ = ete;
 	//Bound checking on progress
