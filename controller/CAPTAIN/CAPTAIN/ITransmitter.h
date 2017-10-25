@@ -4,6 +4,5 @@ class ITransmitter
 {
 public:
 	virtual ~ITransmitter() {};
-	virtual void TransmitFromNav() {};
+	virtual void TransmitFromNav() = 0;
 };
-

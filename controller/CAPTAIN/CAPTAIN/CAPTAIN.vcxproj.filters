@@ -81,6 +81,9 @@
     <ClInclude Include="JSONReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JSONTransmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NavigationData.cpp">
@@ -110,7 +113,11 @@
     <ClCompile Include="MotorStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="JSONReceiver.cpp">
+=======
+    <ClCompile Include="JSONTransmitter.cpp">
+>>>>>>> b7edfd239830673663e68201fcb61fe573c94777
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

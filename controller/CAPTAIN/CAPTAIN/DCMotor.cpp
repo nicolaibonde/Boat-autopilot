@@ -1,3 +1,4 @@
+//#include <Python.h>
 #include "DCMotor.h"
 
 DCMotor::DCMotor()
@@ -13,6 +14,11 @@ DCMotor::~DCMotor()
 void DCMotor::SetSpeed(const double speed)
 {
 	speed_ = speed;
+
+	//Py_Initialize();
+	//PyRun_SimpleString("import sys");
+	//PyRun_SimpleString('sys.path.append("path/to/my/module/")');
+	//Py_Finalize();
 }
 
 MotorStatus DCMotor::GetStatus()
