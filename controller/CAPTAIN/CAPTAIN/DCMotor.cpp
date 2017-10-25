@@ -11,7 +11,7 @@ DCMotor::~DCMotor()
 	
 };
 
-void DCMotor::SetSpeed(const double speed)
+void DCMotor::SetSpeed(double speed)
 {
 	speed_ = speed;
 

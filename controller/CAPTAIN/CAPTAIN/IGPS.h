@@ -10,4 +10,3 @@ public:
 	virtual Pose GetPose() = 0;
 	virtual GPSStatus GetStatus() = 0;
 };
-

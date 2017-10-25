@@ -24,7 +24,7 @@ std::string GPSStatus::GetString()
 			},
 			{ 
 				{ "data_",delay_ },
-				{ "title_","GPS delay" },
+				{ "tile_","GPS delay" },
 				{ "unit_","ms" } 
 			} 
 		}
@@ -41,7 +41,7 @@ std::string GPSStatus::GetString()
 			},
 			{
 				{ "data_",pose_.Coordinate_.Longitude_ },
-				{ "title_","Latitude" },
+				{ "title_","Longitude" },
 				{ "unit_","deg" }
 			},
 			{
