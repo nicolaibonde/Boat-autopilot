@@ -4,19 +4,19 @@
 #include <string>
 #include <chrono>
 #include "boost/fakeit.hpp"
-#include "Coordinate.h"
-#include "Pose.h"
-#include "NavigationData.h"
-#include "TargetPosition.h"
-#include "CoverageRectangle.h"
-//#include "DCMotor.h"
-//#include "Servo.h"
-#include "MotorStatus.h"
-#include "GPSStatus.h"
-#include "INavigation.h"
-#include "IAutopilot.h"
-#include "JSONReceiver.h"
-#include "JSONTransmitter.h"
+#include <CAPTAIN/Coordinate.h>
+#include <CAPTAIN/Pose.h>
+#include <CAPTAIN/NavigationData.h>
+#include <CAPTAIN/TargetPosition.h>
+#include <CAPTAIN/CoverageRectangle.h>
+//#include <CAPTAIN/DCMotor.h>
+//#include <CAPTAIN/Servo.h>
+#include <CAPTAIN/MotorStatus.h>
+#include <CAPTAIN/GPSStatus.h>
+#include <CAPTAIN/INavigation.h>
+#include <CAPTAIN/IAutopilot.h>
+#include <CAPTAIN/JSONReceiver.h>
+#include <CAPTAIN/JSONTransmitter.h>
 
 struct SomeInterface
 {
