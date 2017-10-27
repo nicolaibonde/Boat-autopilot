@@ -74,7 +74,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\au512366\Documents\GitHub\Boat-auto-pilot\controller\CAPTAIN\CAPTAIN;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Aage\Documents\GitHub\Boat-autopilot\controller\CAPTAIN\CAPTAIN;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\au512366\Documents\GitHub\Boat-auto-pilot\controller\CAPTAIN\CAPTAIN;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Aage\Documents\GitHub\Boat-autopilot\controller\CAPTAIN\CAPTAIN;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
