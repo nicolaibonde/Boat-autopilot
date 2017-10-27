@@ -291,3 +291,6 @@ website/activeParam.json
 website/profiles.json
 website/savedData/*
 !website/savedData/.gitkeep
+
+# JSON fromNav file
+controller/CAPTAIN/unit.test.CAPTAIN/JSON/fromNav/fromNav.json

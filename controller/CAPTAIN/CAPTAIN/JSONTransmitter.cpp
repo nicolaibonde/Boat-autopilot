@@ -26,14 +26,12 @@ void JSONTransmitter::TransmitFromNav(std::string const path, std::string const 
 	const std::vector<Coordinate> path_coordinates_vector = nav_data.Path_;
 
 	//Construction of MotorStatus object by invoking GetStatus on &IMotorStatusGetter reference object
-	MotorStatus dcm_status = dc_motor_.GetStatus();
-	//Extraction of status string by invoking GetString on MotorStatus object
-	const std::string ms_string = dcm_status.GetString();
+	//and subsequent extraction of status string by invoking GetString on the MotorStatus object
+	const std::string ms_string  = dc_motor_.GetStatus().GetString();
 
 	//Construction of MotorStatus object by invoking GetStatus on &IMotorStatusGetter reference object
-	MotorStatus ser_status = servo_.GetStatus();
-	//Extraction of status string by invoking GetString on MotorStatus object
-	const std::string ss_string = ser_status.GetString();
+	//and subsequent extraction of status string by invoking GetString on the MotorStatus object
+	const std::string ss_string = servo_.GetStatus().GetString();
 
 	//Construction of GPSStatus object by invoking GetStatus on &IGPS reference object
 	GPSStatus gps_status = gps_.GetStatus();
