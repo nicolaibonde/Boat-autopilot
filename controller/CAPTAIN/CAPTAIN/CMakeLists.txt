@@ -7,5 +7,5 @@ file(GLOB HEADERS *.h)
 
 add_library(lib.CAPTAIN STATIC ${SOURCES})
 
-install(TARGET lib.CAPTAIN DESTINATION lib)
+install(TARGETS lib.CAPTAIN DESTINATION lib)
 install(FILES ${HEADERS} DESTINATION include)

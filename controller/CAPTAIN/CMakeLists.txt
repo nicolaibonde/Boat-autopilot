@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 project(exe.CAPTAIN)
 
 FIND_PACKAGE( Boost 1.65 COMPONENTS system REQUIRED )
-INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIR} )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -16,7 +16,7 @@ file(GLOB CAPTAIN_HEADERS
 
 add_subdirectory(CAPTAIN)
 
-set(SOURCE_FILES 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_executable(exe.CAPTAIN main.CAPTAIN/Source.cpp ${CAPTAIN_HEADERS})
 
 target_link_libraries(exe.CAPTAIN lib.CAPTAIN)
