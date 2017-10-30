@@ -15,13 +15,13 @@ public:
 	
 	~JSONTransmitter();
 	
-	void TransmitFromNav(std::string const path, std::string timestamp) override;
+	void TransmitFromNav(std::string const filepath, std::string const timestamp) override;
 
 private:
 	INavigation& navigation_;
 	IMotorStatusGetter& dc_motor_;
 	IMotorStatusGetter& servo_;
 	IGPS& gps_;
-	std::string formatEte(int) const;
-	std::string formatPathString(std::vector<Coordinate>) const;
+	std::string formatEte(int ete) const;
+	std::string formatPathString(std::vector<Coordinate> path) const;
 };

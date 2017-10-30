@@ -5,7 +5,7 @@ class TargetPosition
 {
 public:
 	TargetPosition(); //Only used to signify an empty object, used for errors
-	TargetPosition(const Coordinate);
+	TargetPosition(const Coordinate coordinate);
 	~TargetPosition();
 	Coordinate get_target_postion() const;
 

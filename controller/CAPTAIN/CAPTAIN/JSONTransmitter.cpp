@@ -16,7 +16,7 @@ JSONTransmitter::~JSONTransmitter()
 	//Object is persistent - only destroyed at program termination
 }
 
-void JSONTransmitter::TransmitFromNav(std::string const path, std::string const timestamp_in)
+void JSONTransmitter::TransmitFromNav(std::string const filepath, std::string const timestamp_in)
 {	
 	//Construction of nav_data object by invoking GetNavaData on &INavigation reference object
 	NavigationData nav_data = navigation_.GetNavData();
@@ -90,7 +90,7 @@ void JSONTransmitter::TransmitFromNav(std::string const path, std::string const 
 	fromNav["Timestamp_"] = nlohmann::json::parse(timestamp);
 
 	//Dump of fromNav JS object to local file at the specified path
-	std::ofstream file(path + "fromNav.json");
+	std::ofstream file(filepath + "fromNav.json");
 	file << fromNav.dump();
 }
 

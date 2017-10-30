@@ -10,7 +10,7 @@ public:
 	~MotorStatus();
 	std::string GetString() override;
 
-private: //comment out this line to give boost access and run tests!!
+private:
 	MotorType motor_type_;
 	double percentage_;
 };
