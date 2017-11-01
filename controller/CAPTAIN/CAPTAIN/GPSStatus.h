@@ -1,6 +1,7 @@
 #pragma once
 #include "IStatus.h"
 #include "Pose.h"
+
 class GPSStatus :
 	public IStatus
 {

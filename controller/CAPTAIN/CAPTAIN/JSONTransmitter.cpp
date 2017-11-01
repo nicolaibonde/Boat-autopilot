@@ -16,7 +16,7 @@ JSONTransmitter::~JSONTransmitter()
 	//Object is persistent - only destroyed at program termination
 }
 
-void JSONTransmitter::TransmitFromNav(std::string const path, std::string const timestamp_in)
+void JSONTransmitter::TransmitFromNav(std::string const filepath, std::string const timestamp_in)
 {	
 	//Construction of nav_data object by invoking GetNavaData on &INavigation reference object
 	NavigationData nav_data = navigation_.GetNavData();
@@ -26,14 +26,12 @@ void JSONTransmitter::TransmitFromNav(std::string const path, std::string const 
 	const std::vector<Coordinate> path_coordinates_vector = nav_data.Path_;
 
 	//Construction of MotorStatus object by invoking GetStatus on &IMotorStatusGetter reference object
-	MotorStatus dcm_status = dc_motor_.GetStatus();
-	//Extraction of status string by invoking GetString on MotorStatus object
-	const std::string ms_string = dcm_status.GetString();
+	//and subsequent extraction of status string by invoking GetString on the MotorStatus object
+	const std::string ms_string  = dc_motor_.GetStatus().GetString();
 
 	//Construction of MotorStatus object by invoking GetStatus on &IMotorStatusGetter reference object
-	MotorStatus ser_status = servo_.GetStatus();
-	//Extraction of status string by invoking GetString on MotorStatus object
-	const std::string ss_string = ser_status.GetString();
+	//and subsequent extraction of status string by invoking GetString on the MotorStatus object
+	const std::string ss_string = servo_.GetStatus().GetString();
 
 	//Construction of GPSStatus object by invoking GetStatus on &IGPS reference object
 	GPSStatus gps_status = gps_.GetStatus();
@@ -92,7 +90,7 @@ void JSONTransmitter::TransmitFromNav(std::string const path, std::string const 
 	fromNav["Timestamp_"] = nlohmann::json::parse(timestamp);
 
 	//Dump of fromNav JS object to local file at the specified path
-	std::ofstream file(path + "fromNav.json");
+	std::ofstream file(filepath + "fromNav.json");
 	file << fromNav.dump();
 }
 
