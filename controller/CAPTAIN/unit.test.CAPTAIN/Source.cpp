@@ -3,6 +3,8 @@
 //#include <boost/test/included/unit_test.hpp> //It is slow because this is a huge header
 #include <string>
 #include <chrono>
+#include <GeographicLib/Constants.hpp>
+#include <GeographicLib/Rhumb.hpp>
 #include "boost/fakeit.hpp"
 #include <CAPTAIN/Coordinate.h>
 #include <CAPTAIN/Pose.h>
@@ -19,6 +21,7 @@
 #include <CAPTAIN/JSONTransmitter.h>
 #include <CAPTAIN/ISerial.h>
 #include "CAPTAIN/Ublox_neo7m.h"
+#include "CAPTAIN/Navigation.h"
 
 class Ublox_neo7m;
 
@@ -76,21 +79,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_latitude_tes
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "56.08";
+	//Create expected and result strings
+	const std::string expected = "56.08";
+	const std::string from_nav_result = from_nav_json.at("Completed_path_").at("line_").at(0).at("latitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(42, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the first completed_path longitude input produces the expected output
@@ -128,21 +132,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_longitude_te
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "10.12";
+	//Create expected and result strings
+	const std::string expected = "10.12";
+	const std::string from_nav_result = from_nav_json.at("Completed_path_").at("line_").at(0).at("longitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(61, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the second completed_path latitude input produces the expected output
@@ -181,21 +186,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_latitud
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "56.18";
+	//Create expected and result strings
+	const std::string expected = "56.18";
+	const std::string from_nav_result = from_nav_json.at("Completed_path_").at("line_").at(1).at("latitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(81, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the second completed_path longitude input produces the expected output
@@ -234,21 +240,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_longitu
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "10.22";
+	//Create expected and result strings
+	const std::string expected = "10.22";
+	const std::string from_nav_result = from_nav_json.at("Completed_path_").at("line_").at(1).at("longitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(100, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the first path latitude input produces the expected output
@@ -286,21 +293,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_latitude_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "56.1";
+	//Create expected and result strings
+	const std::string expected = "56.1";
+	const std::string from_nav_result = from_nav_json.at("Path_").at("line_").at(0).at("latitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(140, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the first path longitude input produces the expected output
@@ -338,21 +346,23 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_longitude_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "10.1";
+	//Create expected and result strings
+	const std::string expected = "10.1";
+	const std::string from_nav_result = from_nav_json.at("Path_").at("line_").at(0).at("longitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(158, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the second path latitude input produces the expected output
@@ -391,21 +401,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_latitude_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "56.2";
+	//Create expected and result strings
+	const std::string expected = "56.2";
+	const std::string from_nav_result = from_nav_json.at("Path_").at("line_").at(1).at("latitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(177, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the second path longitude input produces the expected output
@@ -444,21 +455,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_longitude_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
-	//Create expected string
-	std::string expected = "10.2";
+	//Create expected and result strings
+	const std::string expected = "10.2";
+	const std::string from_nav_result = from_nav_json.at("Path_").at("line_").at(1).at("longitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(195, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the Progress ete input produces the expected output
@@ -496,21 +508,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_ete_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = R"("2 min 31 sec")";
+	const std::string expected = R"("2 min 31 sec")";
+	const std::string from_nav_result = from_nav_json.at("Progress_").at("ete_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(324, 14) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the Progress percentage input produces the expected output
@@ -548,21 +561,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_percentage_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "60.9";
+	const std::string expected = "60.9";
+	const std::string from_nav_result = from_nav_json.at("Progress_").at("percentage_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(353, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the DCMotor percentage input produces the expected output
@@ -600,21 +614,37 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_DCMotorPercentage_tes
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "15.44";
+	const std::string expected = "15.44";
+	std::string from_nav_result;
+
+	//Extract string from nested object
+	for (nlohmann::json::iterator it = from_nav_json.at("Status_").begin(); it != from_nav_json.at("Status_").end(); ++it) {
+		if (it.value().at("title_") == "Propulsion")
+		{
+			for (nlohmann::json::iterator it2 = from_nav_json.at("Status_").at(it - from_nav_json.at("Status_").begin()).at("items_").begin();
+				it2 != from_nav_json.at("Status_").at(it - from_nav_json.at("Status_").begin()).at("items_").end(); ++it2)
+			{
+				const double from_nav_result_double = it2.value().at("data_");
+				std::ostringstream from_nav_result_stringstream;
+				from_nav_result_stringstream << from_nav_result_double;
+				from_nav_result = from_nav_result_stringstream.str();
+			}
+		}
+	}
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(740, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the Servo percentage input produces the expected output
@@ -652,21 +682,37 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_ServoPercentage_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "45.44";
+	const std::string expected = "45.44";
+	std::string from_nav_result;
+
+	//Extract string from nested object
+	for (nlohmann::json::iterator it = from_nav_json.at("Status_").begin(); it != from_nav_json.at("Status_").end(); ++it) {
+		if (it.value().at("title_") == "Position")
+		{
+			for (nlohmann::json::iterator it2 = from_nav_json.at("Status_").at(it - from_nav_json.at("Status_").begin()).at("items_").begin();
+				it2 != from_nav_json.at("Status_").at(it - from_nav_json.at("Status_").begin()).at("items_").end(); ++it2)
+			{
+				const double from_nav_result_double = it2.value().at("data_");
+				std::ostringstream from_nav_result_stringstream;
+				from_nav_result_stringstream << from_nav_result_double;
+				from_nav_result = from_nav_result_stringstream.str();
+			}
+		}
+	}
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(850, 5) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the telemetry (and pose) latitude input(s) produce(s) the expected output
@@ -704,21 +750,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_latitude
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "56.0";
+	const std::string expected = "56.0";
+	const std::string from_nav_result = from_nav_json.at("Telemetry_").at("latitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(932, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the telemetry (and pose) longitude input(s) produce(s) the expected output
@@ -756,21 +803,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_longitud
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "10.0";
+	const std::string expected = "10.0";
+	const std::string from_nav_result = from_nav_json.at("Telemetry_").at("longitude_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(950, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the telemetry (and pose) orientation input(s) produce(s) the expected output
@@ -808,21 +856,22 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_orientat
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = "7.45";
+	const std::string expected = "7.45";
+	const std::string from_nav_result = from_nav_json.at("Telemetry_").at("orientation_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(970, 4) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
 //This test will verify that the timestamp input produces the expected output
@@ -860,80 +909,24 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_timestamp_test)
 	JSONTransmitter uut(navigation, dcMotor, servo, gps);
 
 	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
 
 	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
+	uut.TransmitFromNav(filepath.string(), timestamp);
 
 	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
+	std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+	nlohmann::json from_nav_json;
+	fromNav >> from_nav_json;
 
 	//Create expected string
-	std::string expected = timestamp;
+	const std::string expected = timestamp;
+	const std::string from_nav_result = from_nav_json.at("Timestamp_").dump();
 
 	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str().substr(989, 13) == expected);
+	BOOST_REQUIRE(from_nav_result == expected);
 }
 
-//OPTIONAL
-//This test will verify the full functionality of the TransmitFromNav method; that the complete 
-//1000+ character output file contents are exactly equal to a predefined, preverified raw string
-BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_complete_test)
-{
-	//Arrange
-	//Link mocks to interfaces
-	fakeit::Mock<INavigation> navMock;
-	fakeit::Mock<IMotorStatusGetter> dcMock;
-	fakeit::Mock<IMotorStatusGetter> servoMock;
-	fakeit::Mock<IGPS> gpsMock;
-
-	//Instantiate mocks
-	INavigation& navigation = navMock.get();
-	IMotorStatusGetter& dcMotor = dcMock.get();
-	IMotorStatusGetter& servo = servoMock.get();
-	IGPS& gps = gpsMock.get();
-
-	//Set function return values
-	const std::vector<Coordinate> completed_path_vector = { Coordinate(56.08, 10.12), Coordinate(56.18, 10.22) };
-	const std::vector<Coordinate> path_vector = {
-		Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
-	};
-	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
-	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
-	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
-	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
-
-	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-		std::chrono::system_clock::now().time_since_epoch());
-	const std::string timestamp = std::to_string(ms.count());
-
-	//Unit under test
-	JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-	//Path to save file
-	boost::filesystem::path path = boost::filesystem::current_path().append("JSON\\fromNav\\");
-
-	//Act - Save the file to the specified folder
-	uut.TransmitFromNav(path.string(), timestamp);
-
-	//Read from file to build string for Assert step
-	std::ifstream fromNav(path.string() + "\\fromNav.json");
-	std::stringstream from_nav_buffer;
-	from_nav_buffer << fromNav.rdbuf();
-
-	//Create text string with the full JSON test string
-	std::string expected =
-		R"({"Completed_path_":{"line_":[{"latitude_":56.08,"longitude_":10.12},{"latitude_":56.18,"longitude_":10.22}]},"Path_":{"line_":[{"latitude_":56.1,"longitude_":10.1},{"latitude_":56.2,"longitude_":10.2},{"latitude_":56.3,"longitude_":10.3},{"latitude_":56.4,"longitude_":10.4}],"timestamp_":)"
-		+ timestamp +
-		R"(},"Progress_":{"ete_":"2 min 31 sec","percentage_":60.9},"Status_":[{"items_":[{"data_":5.2,"title_":"GPS frequency","unit_":"Hz"},{"data_":1.2,"title_":"GPS delay","unit_":"ms"}],"title_":"GPS Connection"},{"items_":[{"data_":56.0,"title_":"Latitude","unit_":"deg"},{"data_":10.0,"title_":"Latitude","unit_":"deg"},{"data_":7.45,"title_":"Orientation","unit_":"deg"}],"title_":"Pose"},{"items_":[{"color_":"progress-bar-warning","data_":15.44,"title_":"DC Motor","unit_":"%"}],"title_":"Motor"},{"items_":[{"color_":"progress-bar-warning","data_":45.44,"title_":"Servo","unit_":"%"}],"title_":"Motor"}],"Telemetry_":{"latitude_":56.0,"longitude_":10.0,"orientation_":7.45},"Timestamp_":)"
-		+ timestamp + "}";
-
-	//Assert
-	BOOST_REQUIRE(from_nav_buffer.str() == expected);
-}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(JSONReceiver_tests)
@@ -2026,19 +2019,6 @@ BOOST_AUTO_TEST_CASE(Servo_output_test)
 BOOST_AUTO_TEST_CASE(Servo_output2_test)
 {
 
-}
-
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE(MotorStatus_tests)
-BOOST_AUTO_TEST_CASE(MotorStatus_GetString_test)
-{
-	/*MotorStatus motorstatus(45.4, POSITION);
-std::string uut = motorstatus.GetString();
-std::string expected(R"({"items_":[{"color_":"progress-bar-warning","data_":45.4,"title_":"Servo","unit_":"%"}],"title_":"Motor"})");
-
-BOOST_REQUIRE(uut == expected);*/
-	BOOST_REQUIRE(1 == 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
