@@ -34,9 +34,6 @@
     <ClCompile Include="JSONTransmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ublox_neo7m.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinate.h">
@@ -106,15 +103,6 @@
       <Filter>Headers Files</Filter>
     </ClInclude>
     <ClInclude Include="JSONTransmitter.h">
-      <Filter>Headers Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ublox_neo7m.h">
-      <Filter>Headers Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleSerial.h">
-      <Filter>Headers Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ISerial.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>

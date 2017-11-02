@@ -17,10 +17,6 @@
 #include <CAPTAIN/IAutopilot.h>
 #include <CAPTAIN/JSONReceiver.h>
 #include <CAPTAIN/JSONTransmitter.h>
-#include <CAPTAIN/ISerial.h>
-#include "CAPTAIN/Ublox_neo7m.h"
-
-class Ublox_neo7m;
 
 struct SomeInterface
 {
@@ -37,7 +33,6 @@ BOOST_AUTO_TEST_CASE(fakeit_test)
 	SomeInterface &i = mock.get();
 	BOOST_REQUIRE(i.foo(10) == 1);
 }
-
 
 BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 
@@ -65,7 +60,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_latitude_tes
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -117,7 +112,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_longitude_te
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -170,7 +165,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_latitud
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -223,7 +218,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_longitu
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -275,7 +270,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_latitude_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -327,7 +322,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_longitude_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -380,7 +375,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_latitude_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -433,7 +428,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_longitude_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -485,7 +480,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_ete_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -537,7 +532,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_percentage_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -589,7 +584,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_DCMotorPercentage_tes
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -641,7 +636,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_ServoPercentage_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -693,7 +688,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_latitude
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -745,7 +740,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_longitud
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -797,7 +792,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_orientat
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -849,7 +844,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_timestamp_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -903,7 +898,7 @@ BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_complete_test)
 	fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(5.2, 1.2, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -1850,15 +1845,13 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(GPSStatus_tests)
 BOOST_AUTO_TEST_CASE(GPSStatus_GetString_returnsJSON)
 {
-	GPSStatus uut = GPSStatus(1.1, 2, 3.3 , 4,  Pose(Coordinate(56.2, 10.8), 310)); //unit under test
+	GPSStatus uut = GPSStatus(50, 20, Pose(Coordinate(56.2, 10.8), 310)); //unit under test
 	//std::cout << uut.GetString() << std::endl;
 	std::string compareString = (
 		R"(
 	{"items_":[
-		{"data_":1.1,"title_":"GPS fix","unit_":""},
-		{"data_":2.2,"title_":"Satelites","unit_":""},
-		{"data_":3.3,"title_":"Horizontal dilution of precision","unit_":""},
-		{"data_":4.4,"title_":"Fix timestamp","unit_":"UTC"}],
+		{"data_":50.0,"title_":"GPS frequency","unit_":"Hz"},
+		{"data_":20.0,"title_":"GPS delay","unit_":"ms"}],
 		"title_":"GPS Connection"},
 	{"items_":[
 		{"data_":56.2,"title_":"Latitude","unit_":"deg"},

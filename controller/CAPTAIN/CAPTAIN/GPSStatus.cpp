@@ -1,15 +1,11 @@
 #include "GPSStatus.h"
 #include "json.hpp"
-#include <chrono>
 
 
-GPSStatus::GPSStatus(const double fix, const int satellites, const double hdop, const int fix_timestamp,
-	const Pose pose) : pose_(pose)
+GPSStatus::GPSStatus(const double frequency, const double delay, const Pose pose) : pose_(pose)
 {
-	fix_ = fix;
-	satellites_ = satellites;
-	hdop_ = hdop;
-	fix_timestamp_ = fix_timestamp;
+	frequency_ = frequency;
+	delay_ = delay;
 }
 
 GPSStatus::~GPSStatus()
@@ -19,29 +15,18 @@ GPSStatus::~GPSStatus()
 std::string GPSStatus::GetString()
 {
 	nlohmann::json connection = {
-		{"title_", "GPS Information"},
+		{"title_", "GPS Connection"},
 		{"items_", {
 			{
-				{"data_",fix_},
-				{"title_","GPS fix"},
-				{"unit_",""}
+				{"data_",frequency_},
+				{"title_","GPS frequency"},
+				{"unit_","Hz"}
 			},
 			{ 
-				{ "data_",satellites_ },
-				{ "title_","Satelites" },
-				{ "unit_","" } 
-			} ,
-			{
-				{ "data_",hdop_ },
-				{ "title_","Horizontal dilution of precision" },
-				{ "unit_","" }
-			},
-			{
-				{ "data_",fix_timestamp_ },
-				{ "title_","Fix timestamp" },
-				{ "unit_","UTC" }
-			}
-
+				{ "data_",delay_ },
+				{ "title_","GPS delay" },
+				{ "unit_","ms" } 
+			} 
 		}
 		}
 	};
