@@ -87,19 +87,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;GEOGRAPHICLIB_SHARED_LIB=0;_DEBUG;CAPTAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;C:\pkg-vc17\GeographicLib-1.49\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CAPTAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Lib>
-      <AdditionalDependencies>Geographic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>C:\pkg-vc17\GeographicLib-1.49\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -119,8 +113,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;GEOGRAPHICLIB_SHARED_LIB=0;NDEBUG;CAPTAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;C:\pkg-vc17\GeographicLib-1.49\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;CAPTAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -128,12 +122,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Lib>
-      <AdditionalDependencies>Geographic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>C:\pkg-vc17\GeographicLib-1.49\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,7 +158,6 @@
     <ClInclude Include="JSONTransmitter.h" />
     <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
-    <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationData.h" />
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Servo.h" />
@@ -185,7 +172,6 @@
     <ClCompile Include="JSONReceiver.cpp" />
     <ClCompile Include="JSONTransmitter.cpp" />
     <ClCompile Include="MotorStatus.cpp" />
-    <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Servo.cpp" />

@@ -15,7 +15,7 @@ MotorStatus::~MotorStatus()
 std::string MotorStatus::GetString()
 {
 		nlohmann::json motor = {
-			{ "title_", motor_type_ ? ("Position") : ("Propulsion")},
+			{ "title_", "Motor" },
 			{ "items_",{
 				{
 					{ "data_",percentage_ },
