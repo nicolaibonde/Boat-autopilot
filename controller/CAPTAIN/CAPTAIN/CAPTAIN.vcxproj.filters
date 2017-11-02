@@ -34,6 +34,9 @@
     <ClCompile Include="JSONTransmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinate.h">
@@ -103,6 +106,9 @@
       <Filter>Headers Files</Filter>
     </ClInclude>
     <ClInclude Include="JSONTransmitter.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
