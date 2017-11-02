@@ -162,6 +162,7 @@
     <ClInclude Include="INavigation.h" />
     <ClInclude Include="IPositionMotor.h" />
     <ClInclude Include="IReceiver.h" />
+    <ClInclude Include="ISerial.h" />
     <ClInclude Include="ISpeedMotor.h" />
     <ClInclude Include="IStatus.h" />
     <ClInclude Include="ITransmitter.h" />

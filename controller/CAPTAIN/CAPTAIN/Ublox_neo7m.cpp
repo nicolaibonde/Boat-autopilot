@@ -9,8 +9,8 @@
 #include "SimpleSerial.h"
 #include <thread>
 
-Ublox_neo7m::Ublox_neo7m() :
-	serial_(BOOST_OS_LINUX ? "dev/ttyS0" : "COM5", 9600), //Setup the serial bus to COM5 on windows and ttyS0 on linux
+Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
+	serial_(serial),
 	pose_(Coordinate(-1, -1), -1), 
 	status_(-1, -1, -1, -1, pose_)
 {
@@ -31,7 +31,7 @@ void Ublox_neo7m::getGPSData()
 	while(1)
 	{
 		//Getting the telegram
-		std::string telegram = serial_.readLine();
+		std::string telegram = serial_.ReadLine();
 
 		//Hold a list of strings split by "," delimiter
 		std::vector<std::string> splitTelegram;

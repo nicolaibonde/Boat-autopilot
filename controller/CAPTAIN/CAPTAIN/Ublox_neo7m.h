@@ -1,13 +1,13 @@
 #pragma once
 #include "IGPS.h"
-#include "SimpleSerial.h"
 #include <thread>
+#include "ISerial.h"
 
 class Ublox_neo7m:
 	public IGPS
 {
 public:
-	Ublox_neo7m();
+	Ublox_neo7m(ISerial &serial);
 	~Ublox_neo7m();
 	Pose GetPose() override;
 	GPSStatus GetStatus() override;
@@ -20,7 +20,7 @@ private:
 	double convertDegreeMinutes2Degrees(std::string degree_minutes) const;
 
 private:
-	SimpleSerial serial_;	
+	ISerial &serial_;	
 	Pose pose_;
 	GPSStatus status_;
 };

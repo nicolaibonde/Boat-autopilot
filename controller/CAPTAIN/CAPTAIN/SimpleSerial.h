@@ -10,8 +10,9 @@
 #define	_SIMPLESERIAL_H
 
 #include <boost/asio.hpp>
+#include "ISerial.h"
 
-class SimpleSerial
+class SimpleSerial : public ISerial
 {
 public:
     /**
@@ -32,7 +33,7 @@ public:
      * \param s string to write
      * \throws boost::system::system_error on failure
      */
-    void writeString(std::string s)
+    void WriteString(std::string s) override
     {
         boost::asio::write(serial,boost::asio::buffer(s.c_str(),s.size()));
     }
@@ -43,7 +44,7 @@ public:
      * \return a string containing the received line
      * \throws boost::system::system_error on failure
      */
-    std::string readLine()
+    std::string ReadLine() override
     {
         //Reading data char by char, code is optimized for simplicity, not speed
         using namespace boost;
