@@ -18,9 +18,11 @@ private:
 
 	bool checksum(std::string telegram);
 	double convertDegreeMinutes2Degrees(std::string degree_minutes) const;
+	Pose calculatePose(Coordinate old_coordinate, Coordinate new_coordinate);
 
 private:
 	ISerial &serial_;	
 	Pose pose_;
+	Pose old_pose_;
 	GPSStatus status_;
 };

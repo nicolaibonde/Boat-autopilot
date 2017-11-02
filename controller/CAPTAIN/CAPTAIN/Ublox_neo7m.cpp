@@ -5,13 +5,14 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/serial_port.hpp>
 #include <boost/algorithm/string.hpp>
-#include <GeographicLib/UTMUPS.hpp>
+#include <GeographicLib/Rhumb.hpp>
 #include "SimpleSerial.h"
 #include <thread>
 
 Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
 	serial_(serial),
-	pose_(Coordinate(-1, -1), -1), 
+	pose_(Coordinate(0, 0), 0),
+	old_pose_(Coordinate(0, 0), 0),
 	status_(-1, -1, -1, -1, pose_)
 {
 }
@@ -45,14 +46,21 @@ void Ublox_neo7m::getGPSData()
 			//Extract latitude and longitude
 			double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
 			double lon = convertDegreeMinutes2Degrees(splitTelegram[4]);
-			pose_ = Pose(Coordinate(lat, lon), 0);
+			old_pose_ = pose_;
+
+			//Calculate the new pose from the old, this is to get the orientation
+			pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
+
+			//pose_ = Pose(Coordinate(lat, lon), 0);
 
 			//Extract data for status
-			double fix = stof(splitTelegram[6]);
-			int satellites = stoi(splitTelegram[7]);
-			double hdop = stof(splitTelegram[8]);	
-			int fix_timestamp = stoi(splitTelegram[1]);
-			status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+			double fix = stod(splitTelegram[6]);
+			//int satellites = stoi(splitTelegram[7]);
+			double hdop = stod(splitTelegram[8]);	
+			//int fix_timestamp = stoi(splitTelegram[1]);
+			//status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+
+
 		}
 	}
 }
@@ -103,10 +111,27 @@ double Ublox_neo7m::convertDegreeMinutes2Degrees(std::string degree_minutes) con
 	const int ddd = std::stoi(degree_minutes.substr(0, delimtIndex - 2));
 	
 	//The rest is mm
-	const double mm = std::stof(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
+	const double mm = std::stod(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
 	
 	//return the convertion
 	return ddd + mm / 60;
+}
+
+Pose Ublox_neo7m::calculatePose(const Coordinate old_coordinate, const Coordinate new_coordinate)
+{
+	//Define the WGS84 constants
+	double a = GeographicLib::Constants::WGS84_a();
+	double f = GeographicLib::Constants::WGS84_f();
+
+	//Define a rhumb using the WGS84 constants
+	GeographicLib::Rhumb rhumb(a, f);
+	
+	//Take the inverse of the defined rhumb with two coordinates; result distance and bearing are put in the last two arguments
+	double dist, orientation;
+	rhumb.Inverse(old_coordinate.Latitude_, old_coordinate.Longitude_, new_coordinate.Latitude_, new_coordinate.Longitude_, dist, orientation);
+	
+	//Check orientation and return pose
+	return Pose(new_coordinate, orientation < 0 ? orientation + 360 : orientation);
 }
 
 
