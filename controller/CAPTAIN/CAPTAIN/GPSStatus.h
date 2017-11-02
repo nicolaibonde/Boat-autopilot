@@ -6,13 +6,15 @@ class GPSStatus :
 	public IStatus
 {
 public:
-	GPSStatus(const double frequency, const double delay, const Pose pose);
+	GPSStatus(const double fix, const int satellites, const double hdop, const int fix_timestamp, const Pose pose);
 	~GPSStatus();
 	std::string GetString() override;
 
 private:
-	double frequency_;
-	double delay_;
+	double fix_;
+	int satellites_;
+	double hdop_;
+	int fix_timestamp_;
 	Pose pose_;
 };
 
