@@ -9,7 +9,7 @@ class Servo :
 public:
 	Servo();
 	~Servo();
-	void SetPosition(const double position);
+	void SetPosition(const double position) override;
 	MotorStatus GetStatus() override;
 
 private:

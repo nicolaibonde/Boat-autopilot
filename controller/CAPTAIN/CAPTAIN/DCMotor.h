@@ -9,7 +9,7 @@ class DCMotor :
 public:
 	DCMotor();
 	~DCMotor();
-	void SetSpeed(double speed);
+	void SetSpeed(const double speed) override;
 	MotorStatus GetStatus() override;
 
 private:

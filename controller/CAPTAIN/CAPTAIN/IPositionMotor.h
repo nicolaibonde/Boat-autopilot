@@ -3,7 +3,7 @@
 class IPositionMotor
 {
 public:
-	virtual ~IPositionMotor() {};
-	virtual void SetPosition() {};
+	virtual ~IPositionMotor() = 0;
+	virtual void SetPosition(const double position) = 0;
 };
 
