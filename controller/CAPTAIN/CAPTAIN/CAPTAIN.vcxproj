@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Autopilot.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="CoverageRectangle.h" />
     <ClInclude Include="DCMotor.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JSONReceiver.h" />
     <ClInclude Include="JSONTransmitter.h" />
+    <ClInclude Include="MiniPID.h" />
     <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="NavigationData.h" />
@@ -180,12 +182,14 @@
     <ClInclude Include="Ublox_neo7m.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Autopilot.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="CoverageRectangle.cpp" />
     <ClCompile Include="DCMotor.cpp" />
     <ClCompile Include="GPSStatus.cpp" />
     <ClCompile Include="JSONReceiver.cpp" />
     <ClCompile Include="JSONTransmitter.cpp" />
+    <ClCompile Include="MiniPID.cpp" />
     <ClCompile Include="MotorStatus.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
