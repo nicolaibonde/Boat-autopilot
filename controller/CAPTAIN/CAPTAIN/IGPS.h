@@ -9,6 +9,7 @@ public:
 	virtual ~IGPS(){};
 	virtual std::thread Setup() = 0;
 	virtual Pose GetPose() = 0;
+	virtual double GetSpeed() = 0;
 	virtual GPSStatus GetStatus() = 0;
 };
 

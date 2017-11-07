@@ -15,6 +15,7 @@ Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
 	old_pose_(Coordinate(0, 0), 0),
 	status_(-1, -1, -1, -1, pose_)
 {
+	speed_ = 0;
 }
 
 Ublox_neo7m::~Ublox_neo7m()
@@ -40,28 +41,35 @@ void Ublox_neo7m::getGPSData()
 		//Splitting the telegram on "," delimiter
 		split(splitTelegram, telegram, boost::is_any_of(","));
 
-		//Look if its the right telegram ie. GPGGA and the checksum checksout
-		if (splitTelegram[0] == "$GPGGA" && checksum(telegram))
-		{
-			//Extract latitude and longitude
-			double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
-			double lon = convertDegreeMinutes2Degrees(splitTelegram[4]);
-			old_pose_ = pose_;
+		//Check if the checksum checks out
+		if (checksum(telegram)) {
 
-			//Calculate the new pose from the old, this is to get the orientation
-			pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
+			//check if it is a GPGGA telgram
+			if (splitTelegram[0] == "$GPGGA")
+			{
+				//Extract latitude and longitude
+				double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
+				double lon = convertDegreeMinutes2Degrees(splitTelegram[4]);
+				old_pose_ = pose_;
 
-			//pose_ = Pose(Coordinate(lat, lon), 0);
+				//Calculate the new pose from the old, this is to get the orientation
+				pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
 
-			//Extract data for status
-			double fix = stod(splitTelegram[6]);
-			//int satellites = stoi(splitTelegram[7]);
-			double hdop = stod(splitTelegram[8]);	
-			//int fix_timestamp = stoi(splitTelegram[1]);
-			//status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+				//pose_ = Pose(Coordinate(lat, lon), 0);
 
-
+				//Extract data for status
+				double fix = stod(splitTelegram[6]);
+				//int satellites = stoi(splitTelegram[7]);
+				double hdop = stod(splitTelegram[8]);
+				//int fix_timestamp = stoi(splitTelegram[1]);
+				//status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+			}else if(splitTelegram[0] == "$GPVTG")
+			{
+				//Extract the speed in km/h from the telegram
+				speed_ = stod(splitTelegram[7]);
+			}
 		}
+
 	}
 }
 
@@ -95,6 +103,11 @@ bool Ublox_neo7m::checksum(std::string telegram)
 Pose Ublox_neo7m::GetPose()
 {
 	return pose_;
+}
+
+double Ublox_neo7m::GetSpeed()
+{
+	return speed_;
 }
 
 GPSStatus Ublox_neo7m::GetStatus()

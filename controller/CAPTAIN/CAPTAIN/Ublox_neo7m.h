@@ -10,6 +10,7 @@ public:
 	Ublox_neo7m(ISerial &serial);
 	~Ublox_neo7m();
 	Pose GetPose() override;
+	double GetSpeed() override;
 	GPSStatus GetStatus() override;
 	std::thread Setup() override;
 
@@ -24,5 +25,6 @@ private:
 	ISerial &serial_;	
 	Pose pose_;
 	Pose old_pose_;
+	double speed_;
 	GPSStatus status_;
 };
