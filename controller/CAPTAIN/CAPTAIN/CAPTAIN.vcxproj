@@ -158,6 +158,7 @@
     <ClInclude Include="DCMotor.h" />
     <ClInclude Include="GPSStatus.h" />
     <ClInclude Include="IAutopilot.h" />
+    <ClInclude Include="IGPIO.h" />
     <ClInclude Include="IGPS.h" />
     <ClInclude Include="IMotorStatusGetter.h" />
     <ClInclude Include="INavigation.h" />
@@ -167,7 +168,6 @@
     <ClInclude Include="ISpeedMotor.h" />
     <ClInclude Include="IStatus.h" />
     <ClInclude Include="ITransmitter.h" />
-    <ClInclude Include="IWiringPi.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JSONReceiver.h" />
     <ClInclude Include="JSONTransmitter.h" />
@@ -175,16 +175,16 @@
     <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="NavigationData.h" />
+    <ClInclude Include="PiGpio.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Servo.h" />
     <ClInclude Include="SimpleSerial.h" />
     <ClInclude Include="TargetPosition.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="Ublox_neo7m.h" />
-    <ClInclude Include="WiringPi.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Autopilot.cpp" />
@@ -197,14 +197,14 @@
     <ClCompile Include="MiniPID.cpp" />
     <ClCompile Include="MotorStatus.cpp" />
     <ClCompile Include="NavigationData.cpp" />
+    <ClCompile Include="PiGpio.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Servo.cpp" />
     <ClCompile Include="TargetPosition.cpp" />
     <ClCompile Include="Ublox_neo7m.cpp" />
-    <ClCompile Include="WiringPi.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

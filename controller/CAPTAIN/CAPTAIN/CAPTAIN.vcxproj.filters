@@ -43,7 +43,7 @@
     <ClCompile Include="MiniPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WiringPi.cpp">
+    <ClCompile Include="PiGpio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,10 +132,10 @@
     <ClInclude Include="MiniPID.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
-    <ClInclude Include="IWiringPi.h">
+    <ClInclude Include="IGPIO.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
-    <ClInclude Include="WiringPi.h">
+    <ClInclude Include="PiGpio.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
