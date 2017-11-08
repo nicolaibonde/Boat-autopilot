@@ -55,18 +55,63 @@ void Ublox_neo7m::getGPSData()
 				//Calculate the new pose from the old, this is to get the orientation
 				pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
 
-				//pose_ = Pose(Coordinate(lat, lon), 0);
-
+				
 				//Extract data for status
-				double fix = stod(splitTelegram[6]);
-				//int satellites = stoi(splitTelegram[7]);
-				double hdop = stod(splitTelegram[8]);
-				//int fix_timestamp = stoi(splitTelegram[1]);
-				//status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+				//Try catche
+				double fix;
+				try
+				{
+					fix = stod(splitTelegram[6]);
+				}
+				catch (...)
+				{
+					fix = 0;
+				}
+
+				int satellites;
+				try
+				{
+					satellites = stoi(splitTelegram[7]);
+				}
+				catch (...)
+				{
+					satellites = 0;
+				}
+
+				double hdop;
+				try
+				{
+					hdop = stod(splitTelegram[8]);
+				}
+				catch (...)
+				{
+					hdop = 0;
+				}
+
+				int fix_timestamp;
+				try
+				{
+					fix_timestamp = stoi(splitTelegram[1]);
+				}
+				catch (...)
+				{
+					fix_timestamp = 0;
+				}
+
+
+				status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
 			}else if(splitTelegram[0] == "$GPVTG")
 			{
 				//Extract the speed in km/h from the telegram
-				speed_ = stod(splitTelegram[7]);
+				try
+				{
+					speed_ = stod(splitTelegram[7]);
+				}
+				catch (...)
+				{
+					speed_ = 0;
+				}
+				
 			}
 		}
 
@@ -74,7 +119,7 @@ void Ublox_neo7m::getGPSData()
 }
 
 bool Ublox_neo7m::checksum(std::string telegram)
-{
+{ 
 	//Check if it is a complete telegram
 	if(telegram[0] == '$' && telegram[telegram.size()-3] == '*')
 	{
@@ -121,10 +166,26 @@ double Ublox_neo7m::convertDegreeMinutes2Degrees(std::string degree_minutes) con
 	const int delimtIndex = degree_minutes.find(".");
 	
 	//Extract ddd from start of string on til 2 before the .
-	const int ddd = std::stoi(degree_minutes.substr(0, delimtIndex - 2));
+	int ddd;
+	try
+	{
+		ddd = std::stoi(degree_minutes.substr(0, delimtIndex - 2));
+	}
+	catch (...)
+	{
+		ddd = 0;
+	}
 	
 	//The rest is mm
-	const double mm = std::stod(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
+	double mm;
+	try
+	{
+		mm = std::stod(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
+	}
+	catch (...)
+	{
+		mm = 0;
+	}
 	
 	//return the convertion
 	return ddd + mm / 60;
