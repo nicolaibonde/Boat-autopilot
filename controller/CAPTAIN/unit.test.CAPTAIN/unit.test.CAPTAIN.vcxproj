@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Autopilot_tests.cpp" />
     <ClCompile Include="Coordinate_tests.cpp" />
     <ClCompile Include="DCMotor_tests.cpp" />
     <ClCompile Include="GPSStatus_tests.cpp" />
