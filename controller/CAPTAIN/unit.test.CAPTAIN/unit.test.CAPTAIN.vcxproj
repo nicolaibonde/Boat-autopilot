@@ -148,7 +148,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coordinate_tests.cpp" />
+    <ClCompile Include="DCMotor_tests.cpp" />
+    <ClCompile Include="GPSStatus_tests.cpp" />
+    <ClCompile Include="JSONReciever_tests.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="NavigationData_tests.cpp" />
+    <ClCompile Include="Pose_tests.cpp" />
+    <ClCompile Include="Servo_tests.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="JSONTransmitter_tests.cpp" />
+    <ClCompile Include="TaskData_tests.cpp" />
+    <ClCompile Include="test_template.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAPTAIN\CAPTAIN.vcxproj">
