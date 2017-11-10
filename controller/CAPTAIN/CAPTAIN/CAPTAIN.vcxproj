@@ -171,6 +171,7 @@
     <ClInclude Include="JSONTransmitter.h" />
     <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
+    <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationData.h" />
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Servo.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="JSONReceiver.cpp" />
     <ClCompile Include="JSONTransmitter.cpp" />
     <ClCompile Include="MotorStatus.cpp" />
+    <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="NavigationData.cpp" />
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Servo.cpp" />

@@ -37,6 +37,9 @@
     <ClCompile Include="Ublox_neo7m.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinate.h">
@@ -115,6 +118,9 @@
       <Filter>Headers Files</Filter>
     </ClInclude>
     <ClInclude Include="ISerial.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
