@@ -152,11 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Autopilot.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="CoverageRectangle.h" />
     <ClInclude Include="DCMotor.h" />
     <ClInclude Include="GPSStatus.h" />
     <ClInclude Include="IAutopilot.h" />
+    <ClInclude Include="IGPIO.h" />
     <ClInclude Include="IGPS.h" />
     <ClInclude Include="IMotorStatusGetter.h" />
     <ClInclude Include="INavigation.h" />
@@ -169,10 +171,15 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JSONReceiver.h" />
     <ClInclude Include="JSONTransmitter.h" />
+    <ClInclude Include="MiniPID.h" />
     <ClInclude Include="MotorStatus.h" />
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationData.h" />
+    <ClInclude Include="PiGpio.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Servo.h" />
     <ClInclude Include="SimpleSerial.h" />
@@ -181,15 +188,21 @@
     <ClInclude Include="Ublox_neo7m.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Autopilot.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="CoverageRectangle.cpp" />
     <ClCompile Include="DCMotor.cpp" />
     <ClCompile Include="GPSStatus.cpp" />
     <ClCompile Include="JSONReceiver.cpp" />
     <ClCompile Include="JSONTransmitter.cpp" />
+    <ClCompile Include="MiniPID.cpp" />
     <ClCompile Include="MotorStatus.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="NavigationData.cpp" />
+    <ClCompile Include="PiGpio.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Servo.cpp" />
     <ClCompile Include="TargetPosition.cpp" />

@@ -1,10 +1,21 @@
 //#include <Python.h>
 #include "DCMotor.h"
+#include <iostream>
 
-DCMotor::DCMotor()
+DCMotor::DCMotor(IGPIO& gpio) : gpio_(gpio)
 {
-	speed_ = 0.0; //Don't start the speedmotor when object is created..!
-};
+	pin_ = 9; //Maybe choose a better one later
+	frequency_ = 30000; //Setting frequency to 30kHz for noiseless operation
+
+	//mode is 1 for output and 0 for input
+	gpio_.GpioSetMode(pin_, 1);
+
+	//setting the pwm frequency
+	frequency_ = gpio_.GpioSetPWMfrequency(pin_, frequency_);
+
+	//Setting the default speed to 0% so that the boat doesent move in the beginning
+	DCMotor::SetSpeed(0); 
+}
 
 DCMotor::~DCMotor()
 {
@@ -13,12 +24,22 @@ DCMotor::~DCMotor()
 
 void DCMotor::SetSpeed(const double speed)
 {
-	speed_ = speed;
 
-	//Py_Initialize();
-	//PyRun_SimpleString("import sys");
-	//PyRun_SimpleString('sys.path.append("path/to/my/module/")');
-	//Py_Finalize();
+	if (speed < 0)
+	{
+		speed_ = 0;
+	}
+	else if (speed > 100)
+	{
+		speed_ = 100;
+	}
+	else
+	{
+		//Save position set
+		speed_ = speed;
+	}
+
+	gpio_.GpioPWM(pin_, speed_);
 }
 
 MotorStatus DCMotor::GetStatus()

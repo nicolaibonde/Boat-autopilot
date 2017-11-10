@@ -4,6 +4,6 @@ class ISpeedMotor
 {
 public:
 	virtual ~ISpeedMotor(){};
-	virtual void SetSpeed() {};
+	virtual void SetSpeed(const double speed) {};
 };
 

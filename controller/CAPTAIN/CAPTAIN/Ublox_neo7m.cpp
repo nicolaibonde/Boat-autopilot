@@ -15,6 +15,7 @@ Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
 	old_pose_(Coordinate(0, 0), 0),
 	status_(-1, -1, -1, -1, pose_)
 {
+	speed_ = 0;
 }
 
 Ublox_neo7m::~Ublox_neo7m()
@@ -40,33 +41,85 @@ void Ublox_neo7m::getGPSData()
 		//Splitting the telegram on "," delimiter
 		split(splitTelegram, telegram, boost::is_any_of(","));
 
-		//Look if its the right telegram ie. GPGGA and the checksum checksout
-		if (splitTelegram[0] == "$GPGGA" && checksum(telegram))
-		{
-			//Extract latitude and longitude
-			double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
-			double lon = convertDegreeMinutes2Degrees(splitTelegram[4]);
-			old_pose_ = pose_;
+		//Check if the checksum checks out
+		if (checksum(telegram)) {
 
-			//Calculate the new pose from the old, this is to get the orientation
-			pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
+			//check if it is a GPGGA telgram
+			if (splitTelegram[0] == "$GPGGA")
+			{
+				//Extract latitude and longitude
+				double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
+				double lon = convertDegreeMinutes2Degrees(splitTelegram[4]);
+				old_pose_ = pose_;
 
-			//pose_ = Pose(Coordinate(lat, lon), 0);
+				//Calculate the new pose from the old, this is to get the orientation
+				pose_ = calculatePose(old_pose_.Coordinate_, Coordinate(lat, lon));
 
-			//Extract data for status
-			double fix = stod(splitTelegram[6]);
-			//int satellites = stoi(splitTelegram[7]);
-			double hdop = stod(splitTelegram[8]);	
-			//int fix_timestamp = stoi(splitTelegram[1]);
-			//status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+				
+				//Extract data for status
+				//Try catche
+				double fix;
+				try
+				{
+					fix = stod(splitTelegram[6]);
+				}
+				catch (...)
+				{
+					fix = 0;
+				}
+
+				int satellites;
+				try
+				{
+					satellites = stoi(splitTelegram[7]);
+				}
+				catch (...)
+				{
+					satellites = 0;
+				}
+
+				double hdop;
+				try
+				{
+					hdop = stod(splitTelegram[8]);
+				}
+				catch (...)
+				{
+					hdop = 0;
+				}
+
+				int fix_timestamp;
+				try
+				{
+					fix_timestamp = stoi(splitTelegram[1]);
+				}
+				catch (...)
+				{
+					fix_timestamp = 0;
+				}
 
 
+				status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
+			}else if(splitTelegram[0] == "$GPVTG")
+			{
+				//Extract the speed in km/h from the telegram
+				try
+				{
+					speed_ = stod(splitTelegram[7]);
+				}
+				catch (...)
+				{
+					speed_ = 0;
+				}
+				
+			}
 		}
+
 	}
 }
 
 bool Ublox_neo7m::checksum(std::string telegram)
-{
+{ 
 	//Check if it is a complete telegram
 	if(telegram[0] == '$' && telegram[telegram.size()-3] == '*')
 	{
@@ -97,6 +150,11 @@ Pose Ublox_neo7m::GetPose()
 	return pose_;
 }
 
+double Ublox_neo7m::GetSpeed()
+{
+	return speed_;
+}
+
 GPSStatus Ublox_neo7m::GetStatus()
 {
 	return status_;
@@ -108,10 +166,26 @@ double Ublox_neo7m::convertDegreeMinutes2Degrees(std::string degree_minutes) con
 	const int delimtIndex = degree_minutes.find(".");
 	
 	//Extract ddd from start of string on til 2 before the .
-	const int ddd = std::stoi(degree_minutes.substr(0, delimtIndex - 2));
+	int ddd;
+	try
+	{
+		ddd = std::stoi(degree_minutes.substr(0, delimtIndex - 2));
+	}
+	catch (...)
+	{
+		ddd = 0;
+	}
 	
 	//The rest is mm
-	const double mm = std::stod(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
+	double mm;
+	try
+	{
+		mm = std::stod(degree_minutes.substr(delimtIndex - 2, degree_minutes.length() - 1));
+	}
+	catch (...)
+	{
+		mm = 0;
+	}
 	
 	//return the convertion
 	return ddd + mm / 60;
