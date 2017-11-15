@@ -20,10 +20,10 @@ BOOST_AUTO_TEST_SUITE(GPSStatus_tests)
 		"title_":"GPS Connection"},
 	{"items_":[
 		{"data_":56.2,"title_":"Latitude","unit_":"deg"},
-		{"data_":10.8,"title_":"Latitude","unit_":"deg"},
+		{"data_":10.8,"title_":"Logitude","unit_":"deg"},
 		{"data_":310.0,"title_":"Orientation","unit_":"deg"}],
 		"title_":"Pose"}";
-	)"
+	)" 
 		);
 		//std::cout << compareString << std::endl;
 
