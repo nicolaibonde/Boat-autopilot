@@ -59,14 +59,14 @@ void Autopilot::Run(std::string telegram)
 		if (checksum(telegram)) {
 
 			//Check if the telegram is a GPAPB ie an autopilot telegram
-			if (split_telegram[0] == "$GPAPB")
+			if (split_telegram[0].find("APB") != std::string::npos)
 			{
 				//If so then regulate on the bearing, which is the how far we are from the desired 
 				const double bearing = stod(split_telegram[11]);
 				rudder_.SetPosition(rudder_pid_.getOutput(bearing, 0));
 			}
 			//Check if the telegram is gpvtg which is a velocity telegram
-			if (split_telegram[0] == "$GPVTG")
+			if (split_telegram[0].find("VTG") != std::string::npos)
 			{
 				//regulate on the speed toward the max speed 
 				const double speed = stod(split_telegram[7]);

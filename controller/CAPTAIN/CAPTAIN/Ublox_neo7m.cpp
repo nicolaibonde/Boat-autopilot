@@ -47,8 +47,8 @@ void Ublox_neo7m::getGPSData()
 
 		//Check if the checksum checks out
 		if (checksum(telegram)) {
-			//check if it is a GPGGA telgram
-			if (splitTelegram[0] == "$GPGGA")
+			//check if it is a GGA telgram and ignoring talker
+			if (splitTelegram[0].find("GGA") != std::string::npos )
 			{
 				//Extract latitude and longitude
 				double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
@@ -103,7 +103,9 @@ void Ublox_neo7m::getGPSData()
 
 
 				status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
-			}else if(splitTelegram[0] == "$GPVTG")
+			
+			//Check if the telegram is VTG and ignore the talker 
+			}else if(splitTelegram[0].find("VTG") != std::string::npos)
 			{
 				//Extract the speed in km/h from the telegram
 				try
