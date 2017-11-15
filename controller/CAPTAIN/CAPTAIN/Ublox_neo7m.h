@@ -13,6 +13,7 @@ public:
 	double GetSpeed() override;
 	GPSStatus GetStatus() override;
 	std::thread Setup() override;
+	void StopThread() override;
 
 private:
 	void getGPSData();
@@ -27,4 +28,5 @@ private:
 	Pose old_pose_;
 	double speed_;
 	GPSStatus status_;
+	bool thread_run_;
 };

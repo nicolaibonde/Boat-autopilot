@@ -11,5 +11,6 @@ public:
 	virtual Pose GetPose() = 0;
 	virtual double GetSpeed() = 0;
 	virtual GPSStatus GetStatus() = 0;
+	virtual void StopThread() = 0;
 };
 
