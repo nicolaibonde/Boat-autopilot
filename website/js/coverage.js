@@ -63,7 +63,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                     latitude_: start_coord.lat,
                     longitude_: start_coord.lng
                 },
-                end_coord: {
+                end_coord_: {
                     latitude_: end_coord.lat,
                     longitude_: end_coord.lng
                 }
