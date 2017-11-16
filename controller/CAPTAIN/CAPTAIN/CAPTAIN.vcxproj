@@ -176,10 +176,6 @@
     <ClInclude Include="MotorType.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="NavigationData.h" />
-    <ClInclude Include="PiGpio.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Pose.h" />
     <ClInclude Include="Servo.h" />
     <ClInclude Include="SimpleSerial.h" />
@@ -199,10 +195,6 @@
     <ClCompile Include="MotorStatus.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="NavigationData.cpp" />
-    <ClCompile Include="PiGpio.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Pose.cpp" />
     <ClCompile Include="Servo.cpp" />
     <ClCompile Include="TargetPosition.cpp" />

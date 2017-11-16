@@ -12,6 +12,6 @@ public:
 	virtual void PerformTask(const Task task, const TargetPosition target_position) = 0;
 	virtual void PerformTask(const Task task, const CoverageRectangle coverage_rectangle) = 0;
 	virtual NavigationData GetNavData() = 0;
-	virtual void SetParameters(const float tool_width) = 0;
+	virtual void SetParameters(const double tool_width) = 0;
 };
 

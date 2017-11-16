@@ -37,16 +37,13 @@
     <ClCompile Include="Ublox_neo7m.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Navigation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Autopilot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MiniPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PiGpio.cpp">
+    <ClCompile Include="Navigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,9 +126,6 @@
     <ClInclude Include="ISerial.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
-    <ClInclude Include="Navigation.h">
-      <Filter>Headers Files</Filter>
-    </ClInclude>
     <ClInclude Include="Autopilot.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
@@ -141,7 +135,7 @@
     <ClInclude Include="IGPIO.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
-    <ClInclude Include="PiGpio.h">
+    <ClInclude Include="Navigation.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
