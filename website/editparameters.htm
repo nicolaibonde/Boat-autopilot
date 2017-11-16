@@ -61,7 +61,7 @@
           <div ng-repeat="(key,val) in Profile_.parameters_ track by $index" ng-mouseover="HoverIn()" ng-mouseleave="HoverOut()">
             <div class="input-group">
               <span class="input-group-addon">{{Profile_.parameter_names_[key]}}</span>
-              <input type="number" step="0.01" class="form-control" ng-model="Profile_.parameters_[key]">
+              <input type="number" step="any" class="form-control" ng-model="Profile_.parameters_[key]">
               <div class="input-group-btn">
                 <button class="btn btn-danger" type="submit" ng--click="RemoveParameter($index)" ng-show="hover_edit">
 					<i class="fa fa-minus"></i>

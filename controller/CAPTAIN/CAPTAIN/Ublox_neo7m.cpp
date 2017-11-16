@@ -1,13 +1,9 @@
 #include "Ublox_neo7m.h"
-#include <boost/predef/os/windows.h>
-#include <boost/predef/os/linux.h>
-#include <iostream>
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/serial_port.hpp>
 #include <boost/algorithm/string.hpp>
 #include <GeographicLib/Rhumb.hpp>
 #include "SimpleSerial.h"
 #include <thread>
+#include <iostream>
 
 Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
 	serial_(serial),
@@ -16,6 +12,7 @@ Ublox_neo7m::Ublox_neo7m(ISerial &serial) :
 	status_(-1, -1, -1, -1, pose_)
 {
 	speed_ = 0;
+	thread_run_ = false;
 }
 
 Ublox_neo7m::~Ublox_neo7m()
@@ -24,16 +21,23 @@ Ublox_neo7m::~Ublox_neo7m()
 
 std::thread Ublox_neo7m::Setup()
 {
+	thread_run_ = true;
 	//Returns the thread that should be join'ed in the main thread, so it can get the gps date without blocking
 	return std::thread(&Ublox_neo7m::getGPSData, this);
 }
 
+void Ublox_neo7m::StopThread()
+{
+	thread_run_ = false;
+}
+
 void Ublox_neo7m::getGPSData()
 {
-	while(1)
+	while(thread_run_)
 	{
 		//Getting the telegram
 		std::string telegram = serial_.ReadLine();
+
 
 		//Hold a list of strings split by "," delimiter
 		std::vector<std::string> splitTelegram;
@@ -43,9 +47,8 @@ void Ublox_neo7m::getGPSData()
 
 		//Check if the checksum checks out
 		if (checksum(telegram)) {
-
-			//check if it is a GPGGA telgram
-			if (splitTelegram[0] == "$GPGGA")
+			//check if it is a GGA telgram and ignoring talker
+			if (splitTelegram[0].find("GGA") != std::string::npos )
 			{
 				//Extract latitude and longitude
 				double lat = convertDegreeMinutes2Degrees(splitTelegram[2]);
@@ -100,7 +103,9 @@ void Ublox_neo7m::getGPSData()
 
 
 				status_ = GPSStatus(fix, satellites, hdop, fix_timestamp, pose_);
-			}else if(splitTelegram[0] == "$GPVTG")
+			
+			//Check if the telegram is VTG and ignore the talker 
+			}else if(splitTelegram[0].find("VTG") != std::string::npos)
 			{
 				//Extract the speed in km/h from the telegram
 				try
@@ -138,8 +143,9 @@ bool Ublox_neo7m::checksum(std::string telegram)
 		//Convert the int checksum to a hex string 
 		std::stringstream checksum_stream;
 		checksum_stream << std::uppercase <<std::hex << result_checksum;
-		const std::string result_checksum_string(checksum_stream.str());
+		std::string result_checksum_string(checksum_stream.str());
 
+		//std::cout << result_checksum_string << std::endl;
 		//Return if the expected checksum is the same as the calculated
 		return result_checksum_string == expected_checksum_string;
 	}

@@ -56,7 +56,7 @@ std::string GPSStatus::GetString()
 			},
 			{
 				{ "data_",pose_.Coordinate_.Longitude_ },
-				{ "title_","Latitude" },
+				{ "title_","Logitude" },
 				{ "unit_","deg" }
 			},
 			{

@@ -162,6 +162,7 @@
     <ClCompile Include="JSONTransmitter_tests.cpp" />
     <ClCompile Include="TaskData_tests.cpp" />
     <ClCompile Include="test_template.cpp" />
+    <ClCompile Include="Ublox_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAPTAIN\CAPTAIN.vcxproj">
