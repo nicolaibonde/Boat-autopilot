@@ -2,10 +2,11 @@
 #include "INavigation.h"
 #include "IGPS.h"
 #include "IAutopilot.h"
-#include "ITransmitter.h"
 #include "TargetPosition.h"
 #include "CoverageRectangle.h"
 #include "NavigationData.h"
+
+class ITransmitter; //Forward declaration
 
 class Navigation :
 	public INavigation
@@ -26,7 +27,7 @@ private:
 	std::vector<Coordinate> completed_path_;
 	std::vector<Coordinate> path_;
 	int path_start_time_;
-	int timestamp_;
+	unsigned long long timestamp_;
 	double equitorial_radius_;
 	double ellipsoid_flattening_;
 

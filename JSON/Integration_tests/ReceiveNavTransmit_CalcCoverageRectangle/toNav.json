@@ -1,0 +1,13 @@
+{
+	"func_": "calcCoverage",
+	"coverage_rectangle_": {
+		"start_coord_": {
+			"latitude_": 56.001,
+			"longitude_": 10.001
+		},
+		"end_coord_": {
+			"latitude_": 56.002,
+			"longitude_": 10.002
+		}
+	}
+}

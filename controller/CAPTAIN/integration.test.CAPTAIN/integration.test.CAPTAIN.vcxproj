@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="..\unit.test.CAPTAIN\test_template.cpp" />
     <ClCompile Include="Autopilot_Servo_DCMotor_integration_test.cpp" />
+    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

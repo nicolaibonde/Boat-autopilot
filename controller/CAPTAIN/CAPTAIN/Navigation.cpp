@@ -2,11 +2,12 @@
 #include <chrono>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <cmath>
 #include <boost/filesystem/operations.hpp>
 #include <GeographicLib/Rhumb.hpp>
 #include "Navigation.h"
+#include "ITransmitter.h"
+#include <iostream>
 
 Navigation::Navigation(IGPS& gps, ITransmitter& transmitter, IAutopilot& auto_pilot) :
 	gps_(gps), transmitter_(transmitter), auto_pilot_(auto_pilot),
@@ -14,6 +15,9 @@ Navigation::Navigation(IGPS& gps, ITransmitter& transmitter, IAutopilot& auto_pi
 	path_({Coordinate(-1, -1), Coordinate(-1, -1)}),
 	path_start_time_(1), timestamp_(1)
 {
+	//Add pointer to this object in Transmitter
+	transmitter_.NavAcquisition(this);
+
 	//Get the equitorial radius and ellipsoid flattening constants from the WGS84 standard from GeographicLib
 	equitorial_radius_ = static_cast<double>(GeographicLib::Constants::WGS84_a());
 	ellipsoid_flattening_ = static_cast<double>(GeographicLib::Constants::WGS84_f());
@@ -77,11 +81,8 @@ void Navigation::PerformTask(const Task task)
 		break;
 	}
 
-	//Path to fromNav file
-	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().
-	                                                                     append("JSON\\fromNav\\");
 	//Call JSONTransmitter to update fromNav file
-	transmitter_.TransmitFromNav(filepath.string(), std::to_string(timestamp_));
+	transmitter_.TransmitFromNav(std::to_string(timestamp_));
 }
 
 //Called by JSONReceiver.ReceiveToNav if func_ = CalcP2P
@@ -91,16 +92,12 @@ void Navigation::PerformTask(const Task task, const TargetPosition target_positi
 	{
 		//Call calculateP2PPath with the received Targetposition
 		calculateP2PPath(target_position);
-
+		
 		//Update timestamp_
 		setTimestamp();
-
-		//Path to fromNav file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
-			"JSON\\fromNav\\");
-
+		
 		//Call JSONTransmitter to update fromNav file
-		transmitter_.TransmitFromNav(filepath.string(), std::to_string(timestamp_));
+		transmitter_.TransmitFromNav(std::to_string(timestamp_));
 	}
 }
 
@@ -115,12 +112,8 @@ void Navigation::PerformTask(const Task task, const CoverageRectangle coverage_r
 		//Update timestamp_
 		setTimestamp();
 
-		//Path to fromNav file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
-			"JSON\\fromNav\\");
-
 		//Call JSONTransmitter to update fromNav file
-		transmitter_.TransmitFromNav(filepath.string(), std::to_string(timestamp_));
+		transmitter_.TransmitFromNav(std::to_string(timestamp_));
 		double timestamp = timestamp_;
 	}
 }
@@ -763,7 +756,7 @@ void Navigation::setTimestamp()
 	//and cast to milliseconds. Then update timestamp_ with this new value
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 		std::chrono::system_clock::now().time_since_epoch());
-	timestamp_ = int(ms.count());
+	timestamp_ = static_cast<unsigned long long>(ms.count());
 }
 
 //Called by PerformTask

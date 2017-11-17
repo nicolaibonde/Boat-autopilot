@@ -1,8 +1,11 @@
 #pragma once
 
+class INavigation;
+
 class ITransmitter
 {
 public:
 	virtual ~ITransmitter() {};
-	virtual void TransmitFromNav(std::string const, std::string const) = 0;
+	virtual void NavAcquisition(INavigation*) = 0;;
+	virtual void TransmitFromNav(std::string const) = 0;
 };

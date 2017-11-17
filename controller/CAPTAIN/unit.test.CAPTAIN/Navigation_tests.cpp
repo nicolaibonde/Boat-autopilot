@@ -41,6 +41,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -100,6 +101,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -160,6 +162,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -220,6 +223,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -280,6 +284,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -341,6 +346,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -404,6 +410,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -467,6 +474,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -528,6 +536,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -589,6 +598,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -651,6 +661,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -712,6 +723,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -773,6 +785,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -835,6 +848,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -896,6 +910,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -957,6 +972,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1019,6 +1035,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1080,6 +1097,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1141,6 +1159,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1203,6 +1222,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1264,6 +1284,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1325,6 +1346,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1387,6 +1409,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1448,6 +1471,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1509,6 +1533,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1571,6 +1596,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1632,6 +1658,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1693,6 +1720,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1755,6 +1783,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1816,6 +1845,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1876,6 +1906,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1936,6 +1967,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -1996,6 +2028,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2056,6 +2089,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2124,6 +2158,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_destination)
 	(pose_start, pose_start, pose_start, pose_2, pose_2, pose_3, pose_3, pose_4, pose_4, pose_5, pose_5, pose_6, pose_6);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).AlwaysReturn();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2194,6 +2229,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2257,6 +2293,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2318,6 +2355,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2379,6 +2417,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2441,6 +2480,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2502,6 +2542,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2563,6 +2604,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2625,6 +2667,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2686,6 +2729,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2747,6 +2791,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2809,6 +2854,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2870,6 +2916,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2931,6 +2978,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -2993,6 +3041,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3054,6 +3103,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3115,6 +3165,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3177,6 +3228,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3238,6 +3290,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3299,6 +3352,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3361,6 +3415,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_2)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3422,6 +3477,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_3)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3483,6 +3539,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_4)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3545,6 +3602,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_5)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3606,6 +3664,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_6)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3666,6 +3725,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Heading_current_to_destination_case_1)
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3726,6 +3786,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3786,6 +3847,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3846,6 +3908,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3900,6 +3963,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Stop)
 	fakeit::When(Method(gpsMock, GetPose)).Return(Pose(Coordinate(56.0, 10.0), 7.45));
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Stop)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3941,6 +4005,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Calculate_Point_to_Point)
 	const Pose pose = Pose(Coordinate(56.0, 10.0), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose);
 	fakeit::When(Method(autopilotMock, Stop)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -3984,6 +4049,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Calculate_Coverage_Rectangle)
 	const Pose pose = Pose(Coordinate(56.0, 10.0), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose);
 	fakeit::When(Method(autopilotMock, Stop)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -4024,6 +4090,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Get_Navigation_Data_path_)
 	const Pose pose = Pose(Coordinate(56.0, 10.0), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose);
 	fakeit::When(Method(autopilotMock, Stop)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -4059,6 +4126,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Get_Navigation_Data_completed_path_)
 	const Pose pose = Pose(Coordinate(56.0, 10.0), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose);
 	fakeit::When(Method(autopilotMock, Stop)).Return();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
@@ -4116,6 +4184,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Get_Navigation_Data_Progress_)
 		pose_7, pose_7, pose_8, pose_8, pose_9, pose_9, pose_10, pose_10, pose_11, pose_11, pose_12, pose_12, pose_13, pose_13);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
 	fakeit::When(Method(autopilotMock, Run)).AlwaysReturn();
+	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
 	//Unit under test
