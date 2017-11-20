@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_1)
 	const Pose pose_new = Pose(Coordinate(56.011, 10.015), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -56,25 +56,36 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
-		std::string expected = "0.218";
-		std::string run_result;
-
-		int j = 0;
-
-		for (int i = 0; j < 4; i++)
+		if (telegram[3] == 'A')
 		{
-			if (j == 3 && telegram[i] != ',')
+			std::string expected = "0.218";
+			std::string run_result;
+
+			int j = 0;
+
+			for (int i = 0; j < 4; i++)
 			{
-				run_result.append(1, telegram[i]);
+				if (j == 3 && telegram[i] != ',')
+				{
+					run_result.append(1, telegram[i]);
+				}
+				if (telegram[i] == ',')
+				{
+					j++;
+				}
 			}
-			if (telegram[i] == ',')
-			{
-				j++;
-			}
+			return
+				0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
 		}
-		return
-			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
-	})).Exactly(1);
+		else if (telegram[3] == 'V')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 0.544 as the xte when:
@@ -100,7 +111,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.01), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -116,26 +127,37 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
-		std::string expected = "0.544";
-		std::string run_result;
-
-		int j = 0;
-
-		for (int i = 0; j < 4; i++)
+		if (telegram[3] == 'A')
 		{
-			if (j == 3 && telegram[i] != ',')
-			{
-				run_result.append(1, telegram[i]);
-			}
-			if (telegram[i] == ',')
-			{
-				j++;
-			}
-		}
+			std::string expected = "0.544";
+			std::string run_result;
 
-		return
-			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
-	})).Exactly(1);
+			int j = 0;
+
+			for (int i = 0; j < 4; i++)
+			{
+				if (j == 3 && telegram[i] != ',')
+				{
+					run_result.append(1, telegram[i]);
+				}
+				if (telegram[i] == ',')
+				{
+					j++;
+				}
+			}
+
+			return
+				0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+		}
+		else if (telegram[3] == 'V')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 0.120 as the xte when:
@@ -161,7 +183,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_3)
 	const Pose pose_new = Pose(Coordinate(55.9989, 10.0011), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -177,6 +199,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "0.120";
 		std::string run_result;
 
@@ -196,7 +220,16 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
-	})).Exactly(1);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 0.087 as the xte when:
@@ -222,7 +255,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_4)
 	const Pose pose_new = Pose(Coordinate(55.9994, 9.9978), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -238,6 +271,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "0.087";
 		std::string run_result;
 
@@ -257,7 +292,16 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
-	})).Exactly(1);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 0.544 as the xte when:
@@ -283,7 +327,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_5)
 	const Pose pose_new = Pose(Coordinate(56.01, 10.0), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -299,6 +343,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "0.544";
 		std::string run_result;
 
@@ -318,8 +364,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_5)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 0.163 as the xte when:
@@ -345,7 +400,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_6)
 	const Pose pose_new = Pose(Coordinate(56.012, 10.009), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -361,6 +416,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "0.163";
 		std::string run_result;
 
@@ -380,8 +437,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_xte_case_6)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -409,7 +475,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_1)
 	boost::filesystem::path filepath = boost::filesystem::current_path();
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -425,6 +491,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -444,8 +512,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_1)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 
@@ -473,7 +550,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 135);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -489,6 +566,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -508,8 +587,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_2)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -535,7 +623,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_3)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 200);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -551,6 +639,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -570,8 +660,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_3)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -597,7 +696,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_4)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 210);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -613,6 +712,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -632,8 +733,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_4)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -660,7 +770,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_5)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 315);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -676,6 +786,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -695,8 +807,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_5)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -722,7 +843,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_6)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 20);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -738,6 +859,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -757,8 +880,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_1_case_6)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -784,7 +916,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_1)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 340);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -800,6 +932,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -819,8 +953,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_1)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -847,7 +990,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_2)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 45);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -863,6 +1006,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -882,8 +1027,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_2)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -909,7 +1063,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_3)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 140);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -925,6 +1079,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -944,8 +1100,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_3)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -971,7 +1136,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_4)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 160);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -987,6 +1152,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1006,8 +1173,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_4)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1034,7 +1210,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_5)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 225);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1050,6 +1226,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1069,8 +1247,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_5)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1096,7 +1283,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_6)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 320);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1112,6 +1299,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1131,8 +1320,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_2_case_6)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1158,7 +1356,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_1)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 210);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1174,6 +1372,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1193,8 +1393,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_1)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1221,7 +1430,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 315);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1237,6 +1446,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1256,8 +1467,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_2)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1283,7 +1503,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_3)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 20);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1299,6 +1519,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1318,8 +1540,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_3)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1345,7 +1576,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_4)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1361,6 +1592,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1380,8 +1613,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_4)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1408,7 +1650,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_5)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 135);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1424,6 +1666,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1443,8 +1687,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_5)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1470,7 +1723,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_6)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 200);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1486,6 +1739,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1505,8 +1760,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_3_case_6)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1532,7 +1796,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_1)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 150);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1548,6 +1812,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1567,8 +1833,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_1)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1595,7 +1870,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_2)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 225);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1611,6 +1886,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1630,8 +1907,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_2)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "L" as the direction when:
@@ -1657,7 +1943,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_3)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 320);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1673,6 +1959,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "L";
 		std::string run_result = " ";
 
@@ -1692,8 +1980,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_3)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1719,7 +2016,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_4)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 330);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1735,6 +2032,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1754,8 +2053,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_4)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1782,7 +2090,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_5)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 45);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1798,6 +2106,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1817,8 +2127,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_5)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with "R" as the direction when:
@@ -1844,7 +2163,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_6)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 140);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1860,6 +2179,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "R";
 		std::string run_result = " ";
 
@@ -1879,8 +2200,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_direction_to_steer_quadrant_4_case_6)
 
 		return
 			run_result._Equal(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 29.3 as orig_to_dest_bearing when:
@@ -1905,7 +2235,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_1)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1921,6 +2251,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "29.3";
 		std::string run_result;
 
@@ -1940,8 +2272,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 150.7 as orig_to_dest_bearing when:
@@ -1966,7 +2307,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -1982,6 +2323,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "150.7";
 		std::string run_result;
 
@@ -2001,8 +2344,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_2)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 209.3 as orig_to_dest_bearing when:
@@ -2027,7 +2379,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_3)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2043,6 +2395,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "209.3";
 		std::string run_result;
 
@@ -2062,8 +2416,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 330.7 as orig_to_dest_bearing when:
@@ -2088,7 +2451,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_4)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2104,6 +2467,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "330.7";
 		std::string run_result;
 
@@ -2123,8 +2488,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Bearing_origin_to_destination_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 7 as dest when:
@@ -2157,7 +2531,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_destination)
 	fakeit::When(Method(gpsMock, GetPose)).Return
 	(pose_start, pose_start, pose_start, pose_2, pose_2, pose_3, pose_3, pose_4, pose_4, pose_5, pose_5, pose_6, pose_6);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).AlwaysReturn();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2180,6 +2554,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_destination)
 	//the current position is faked incrementally.
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "7";
 		std::string run_result;
 
@@ -2199,8 +2575,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_destination)
 
 		return
 			stod(expected) == stod(run_result);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	}));
+})).Exactly(7);
 }
 
 //This test will verify that autopilot_.Run() will be called with 4 as the curr_to_dest_relative_bearing when:
@@ -2228,7 +2613,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_1)
 	boost::filesystem::path filepath = boost::filesystem::current_path();
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2244,6 +2629,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "4";
 		std::string run_result;
 
@@ -2263,8 +2650,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 
@@ -2292,7 +2688,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 135);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2308,6 +2704,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "109";
 		std::string run_result;
 
@@ -2327,8 +2725,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_2)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 174 as the curr_to_dest_relative_bearing when:
@@ -2354,7 +2761,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_3)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 200);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2370,6 +2777,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "174";
 		std::string run_result;
 
@@ -2389,8 +2798,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 176 as the curr_to_dest_relative_bearing when:
@@ -2416,7 +2834,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_4)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 210);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2432,6 +2850,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "176";
 		std::string run_result;
 
@@ -2451,8 +2871,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 71 as the curr_to_dest_relative_bearing when:
@@ -2479,7 +2908,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_5)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 315);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2495,6 +2924,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "71";
 		std::string run_result;
 
@@ -2514,8 +2945,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_5)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 6 as the curr_to_dest_relative_bearing when:
@@ -2541,7 +2981,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_6)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 20);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2557,6 +2997,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "6";
 		std::string run_result;
 
@@ -2576,8 +3018,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_1_case_6)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 13 as the curr_to_dest_relative_bearing when:
@@ -2603,7 +3054,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_1)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 340);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2619,6 +3070,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "13";
 		std::string run_result;
 
@@ -2638,8 +3091,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 78 as the curr_to_dest_relative_bearing when:
@@ -2666,7 +3128,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_2)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 45);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2682,6 +3144,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "78";
 		std::string run_result;
 
@@ -2701,8 +3165,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_2)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 173 as the curr_to_dest_relative_bearing when:
@@ -2728,7 +3201,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_3)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 140);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2744,6 +3217,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "173";
 		std::string run_result;
 
@@ -2763,8 +3238,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 167 as the curr_to_dest_relative_bearing when:
@@ -2790,7 +3274,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_4)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 160);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2806,6 +3290,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "167";
 		std::string run_result;
 
@@ -2825,8 +3311,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 102 as the curr_to_dest_relative_bearing when:
@@ -2853,7 +3348,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_5)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 225);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2869,6 +3364,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "102";
 		std::string run_result;
 
@@ -2888,8 +3385,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_5)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 7 as the curr_to_dest_relative_bearing when:
@@ -2915,7 +3421,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_6)
 	const Pose pose_new = Pose(Coordinate(56.00001, 10.0), 320);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2931,6 +3437,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "7";
 		std::string run_result;
 
@@ -2950,8 +3458,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_2_case_6)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 4 as the curr_to_dest_relative_bearing when:
@@ -2977,7 +3494,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_1)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 210);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -2993,6 +3510,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "4";
 		std::string run_result;
 
@@ -3012,8 +3531,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 109 as the curr_to_dest_relative_bearing when:
@@ -3040,7 +3568,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_2)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 315);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3056,6 +3584,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "109";
 		std::string run_result;
 
@@ -3075,8 +3605,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_2)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 174 as the curr_to_dest_relative_bearing when:
@@ -3102,7 +3641,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_3)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 20);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3118,6 +3657,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "174";
 		std::string run_result;
 
@@ -3137,8 +3678,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 176 as the curr_to_dest_relative_bearing when:
@@ -3164,7 +3714,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_4)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3180,6 +3730,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "176";
 		std::string run_result;
 
@@ -3199,8 +3751,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 71 as the curr_to_dest_relative_bearing when:
@@ -3227,7 +3788,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_5)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 135);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3243,6 +3804,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "71";
 		std::string run_result;
 
@@ -3262,8 +3825,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_5)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 6 as the curr_to_dest_relative_bearing when:
@@ -3289,7 +3861,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_6)
 	const Pose pose_new = Pose(Coordinate(56.0, 9.99999), 200);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3305,6 +3877,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "6";
 		std::string run_result;
 
@@ -3324,8 +3898,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_3_case_6)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 2.7 as the curr_to_dest_relative_bearing when:
@@ -3351,7 +3934,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_1)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 150);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3367,6 +3950,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "2.7";
 		std::string run_result;
 
@@ -3386,8 +3971,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 78 as the curr_to_dest_relative_bearing when:
@@ -3414,7 +4008,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_2)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 225);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3430,6 +4024,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_2)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "78";
 		std::string run_result;
 
@@ -3449,8 +4045,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_2)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 173 as the curr_to_dest_relative_bearing when:
@@ -3476,7 +4081,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_3)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 320);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3492,6 +4097,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_3)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "173";
 		std::string run_result;
 
@@ -3511,8 +4118,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_3)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 177 as the curr_to_dest_relative_bearing when:
@@ -3538,7 +4154,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_4)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 330);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3554,6 +4170,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_4)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "177";
 		std::string run_result;
 
@@ -3573,8 +4191,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_4)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 102 as the curr_to_dest_relative_bearing when:
@@ -3601,7 +4228,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_5)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 45);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3617,6 +4244,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_5)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "102";
 		std::string run_result;
 
@@ -3636,8 +4265,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_5)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 7 as the curr_to_dest_relative_bearing when:
@@ -3663,7 +4301,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_6)
 	const Pose pose_new = Pose(Coordinate(55.99999, 10.0), 140);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3679,6 +4317,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_6)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "7";
 		std::string run_result;
 
@@ -3698,8 +4338,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_steer_heading_quadrant_4_case_6)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 26.0 as orig_to_dest_bearing when:
@@ -3724,7 +4373,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Heading_current_to_destination_case_1)
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3740,6 +4389,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Heading_current_to_destination_case_1)
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "26.0";
 		std::string run_result;
 
@@ -3759,8 +4410,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Heading_current_to_destination_case_1)
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 154.0 as orig_to_dest_bearing when:
@@ -3785,7 +4445,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3801,6 +4461,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "154.0";
 		std::string run_result;
 
@@ -3820,8 +4482,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 212.3 as orig_to_dest_bearing when:
@@ -3846,7 +4517,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3862,6 +4533,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "212.3";
 		std::string run_result;
 
@@ -3881,8 +4554,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 //This test will verify that autopilot_.Run() will be called with 327.7 as orig_to_dest_bearing when:
@@ -3907,7 +4589,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	const Pose pose_new = Pose(Coordinate(56.0, 10.00001), 30);
 	fakeit::When(Method(gpsMock, GetPose)).Return(pose_start, pose_new, pose_new);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).Return();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 
@@ -3923,6 +4605,8 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 	//Check what Run() was called with, and whether the telegram direction matches the expected direction
 	fakeit::Verify(Method(autopilotMock, Run).Matching([](std::string telegram)
 	{
+		if (telegram[3] == 'A')
+		{
 		std::string expected = "327.7";
 		std::string run_result;
 
@@ -3942,8 +4626,17 @@ BOOST_AUTO_TEST_CASE(Navigation_Start_Relative_Bearing_current_to_destination_ca
 
 		return
 			0.95*stod(expected) < stod(run_result) && stod(run_result) < 1.05*stod(expected);
+	}
+		else if (telegram[3] == 'V')
+	{
+		return true;
+	}
+		else
+		{
+			return false;
+		}
 
-	})).Exactly(1);
+})).Exactly(2);
 }
 
 BOOST_AUTO_TEST_CASE(Navigation_Stop)
@@ -4183,7 +4876,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Get_Navigation_Data_Progress_)
 	(pose_start, pose_start, pose_start, pose_2, pose_2, pose_3, pose_3, pose_4, pose_4, pose_5, pose_5, pose_6, pose_6,
 		pose_7, pose_7, pose_8, pose_8, pose_9, pose_9, pose_10, pose_10, pose_11, pose_11, pose_12, pose_12, pose_13, pose_13);
 	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(0);
-	fakeit::When(Method(autopilotMock, Run)).AlwaysReturn();
+	fakeit::Fake(Method(autopilotMock, Run));
 	fakeit::Fake(Method(transmitterMock, NavAcquisition));
 	fakeit::Fake(Method(transmitterMock, TransmitFromNav));
 

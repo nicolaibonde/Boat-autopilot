@@ -817,11 +817,13 @@ void Navigation::start()
 	//Complete the telegram and checksum
 	const std::string vtg_telegram_with_checksum = appendChecksumToTelegram(vtg_telegram_no_chksum);
 
+
+	auto_pilot_.Run(vtg_telegram_with_checksum);
 	//Send APB telegram and checksum to autopilot
 	auto_pilot_.Run(apb_telegram_with_checksum);
 
 	//Send VTG telegram and checksum to autopilot
-	//auto_pilot_.RunVTG(vtg_telegram_with_checksum);
+	
 
 	//THIS MUST BE DEALT WITH. If one pipeline for autopilot telegrams is used, ~2200 lines of code must be debugged for
 	//Navigation...If this change is made, this function must be mocked in every existing test, but can then also be tested
