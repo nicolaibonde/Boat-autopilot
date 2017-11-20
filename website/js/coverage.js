@@ -86,10 +86,31 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                     $interval.cancel($scope.waitForPathPromise);
                     $scope.Cached_data_.action_state_ = 1;
 
+                    setPath(response.data.Path_.line_)
+
                     $scope.Action();
                 }
             });
         }, wait_for_path_interval_); //Update frequency for the boat data
+    }
+
+    setPath = function(path) {
+        //Run through all elements in the path and overwrite what is in the paths_ object
+        for (let i in path) {
+            $scope.Cached_data_.paths_.p2.latlngs[i] = {
+                lat: path[i].latitude_,
+                lng: path[i].longitude_
+            }
+        }
+    }
+
+    setCompletedPath = function(path) {
+        for (let i in path) {
+            $scope.Cached_data_.paths_.p3.latlngs[i] = {
+                lat: path[i].latitude_,
+                lng: path[i].longitude_
+            }
+        }
     }
 
     start = function() {
@@ -98,7 +119,6 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         });
         waitForCompletion();
     }
-
 
     waitForCompletion = function() {
         //Wait untill progress is 100%
@@ -113,12 +133,14 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
             } else {
                 getDataFromNav("../savedData/fromNav.json");
                 $http.get("../savedData/fromNav.json").then(function(response) {
-                    $scope.Cached_data_.ETE_.progress_ = response.data.Progress_
+                    $scope.Cached_data_.ETE_.progress_ = response.data.Progress_.percentage_;
+                    $scope.Cached_data_.ETE_.time_ = response.data.Progress_.ete_;
+                    setCompletedPath(response.data.Completed_path_.line_);
+
                 });
             }
         }, wait_for_completion_interval_)
     }
-
 
     $scope.Stop = function() {
         if ($scope.waitForPathPromise) {
@@ -143,7 +165,6 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         $scope.Cached_data_.ETE_.time_ = "Canceled";
         $scope.Cached_data_.ETE_.class_ = "progress-bar-danger"
     }
-
 
     //Makes sure that the cursors are updated/added when you change the variables in the input fields
     $scope.UpdateMapData = function() {
@@ -172,6 +193,10 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
 
     //Sets up variables thate does not need the boat pose
     setup = function() {
+
+        $scope.defaults = {
+            maxZoom: 30
+        }
 
         $scope.layers_ = {
             baselayers: {
@@ -276,8 +301,6 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
             }
         }
 
-
-
         if ($scope.Cached_data_.paths_ == undefined) {
             $scope.Cached_data_.paths_ = {
                 p1: {
@@ -296,6 +319,21 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                     fillOpacity: 0,
                     type: 'rectangle'
 
+                },
+                p2: {
+                    color: 'blue',
+                    latlngs: [],
+                    opacity: 0.5,
+                    weight: 2,
+                    clickable: false,
+                    type: "polyline"
+                },
+                p3: {
+                    color: 'green',
+                    latlngs: [],
+                    weight: 2,
+                    clickable: false,
+                    type: "polyline"
                 }
             }
         }
