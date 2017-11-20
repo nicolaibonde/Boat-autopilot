@@ -295,3 +295,4 @@ website/savedData/*
 # JSON fromNav file
 controller/CAPTAIN/unit.test.CAPTAIN/JSON/fromNav/fromNav.json
 JSON/fromNav/fromNav.json
+JSON/Unit_tests/fromNav.json
