@@ -54,6 +54,9 @@
     <ClCompile Include="Autopilot_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Navigation_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Ublox_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

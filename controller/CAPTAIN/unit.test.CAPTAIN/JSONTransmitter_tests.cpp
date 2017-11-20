@@ -13,20 +13,22 @@
 #include "CAPTAIN/JSONTransmitter.h"
 #include <boost/filesystem.hpp>
 #include "CAPTAIN/json.hpp"
+
 BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 
 	//This test will verify that the first completed_path latitude input produces the expected output
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_latitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -36,6 +38,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -47,16 +52,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -67,19 +70,20 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Assert
 		BOOST_REQUIRE(from_nav_result == expected);
 	}
-
+	
 	//This test will verify that the first completed_path longitude input produces the expected output
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_longitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -89,6 +93,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -100,16 +107,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -126,14 +131,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_latitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -143,6 +149,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -154,16 +163,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -180,14 +187,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_completed_path_next_longitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -197,6 +205,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -208,16 +219,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -233,14 +242,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_latitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -250,6 +260,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -261,16 +274,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -286,14 +297,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_longitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -303,6 +315,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -314,16 +329,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -341,14 +354,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_latitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -358,6 +372,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -369,16 +386,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -395,14 +410,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_path_next_longitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -412,6 +428,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -423,16 +442,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -448,14 +465,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_ete_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -465,6 +483,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -476,16 +497,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -501,14 +520,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Progress_percentage_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -518,6 +538,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -529,16 +552,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -554,14 +575,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_DCMotorPercentage_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -571,6 +593,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -582,16 +607,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -623,14 +646,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Motor_ServoPercentage_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -640,6 +664,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -651,16 +678,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -692,14 +717,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_latitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -709,6 +735,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -720,16 +749,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -745,14 +772,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_longitude_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -762,6 +790,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -773,16 +804,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -798,14 +827,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_Telemetry_and_pose_orientation_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -815,6 +845,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -826,16 +859,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -851,14 +882,15 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 	BOOST_AUTO_TEST_CASE(JSONTransmitter_TransmitFromNav_timestamp_test)
 	{
 		//Arrange
-		//Link mocks to interfaces
+		//Link mocks to interfaces, must stub Dtor of navMock to get an INavigation* later
 		fakeit::Mock<INavigation> navMock;
+		fakeit::Fake(Dtor(navMock));
 		fakeit::Mock<IMotorStatusGetter> dcMock;
 		fakeit::Mock<IMotorStatusGetter> servoMock;
 		fakeit::Mock<IGPS> gpsMock;
 
 		//Instantiate mocks
-		INavigation& navigation = navMock.get();
+		INavigation* nav_ptr = &navMock.get();
 		IMotorStatusGetter& dcMotor = dcMock.get();
 		IMotorStatusGetter& servo = servoMock.get();
 		IGPS& gps = gpsMock.get();
@@ -868,6 +900,9 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::vector<Coordinate> path_vector = {
 			Coordinate(56.1, 10.1), Coordinate(56.2, 10.2), Coordinate(56.3, 10.3), Coordinate(56.4, 10.4)
 		};
+		//Path to save file
+		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
+			"JSON\\Unit_tests\\");
 		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
@@ -879,16 +914,14 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		const std::string timestamp = std::to_string(ms.count());
 
 		//Unit under test
-		JSONTransmitter uut(navigation, dcMotor, servo, gps);
-
-		//Path to save file
-		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append("JSON\\fromNav\\");
+		JSONTransmitter uut(dcMotor, servo, gps, filepath.string());
 
 		//Act - Save the file to the specified folder
-		uut.TransmitFromNav(filepath.string(), timestamp);
+		uut.NavAcquisition(nav_ptr);
+		uut.TransmitFromNav(timestamp);
 
 		//Read from file to build string for Assert step
-		std::ifstream fromNav(filepath.string() + "\\fromNav.json");
+		std::ifstream fromNav(filepath.string() + "fromNav.json");
 		nlohmann::json from_nav_json;
 		fromNav >> from_nav_json;
 
@@ -899,5 +932,5 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Assert
 		BOOST_REQUIRE(from_nav_result == expected);
 	}
-
+	
 BOOST_AUTO_TEST_SUITE_END()

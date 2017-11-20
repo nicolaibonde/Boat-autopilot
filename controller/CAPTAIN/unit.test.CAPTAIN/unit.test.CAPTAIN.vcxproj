@@ -155,6 +155,7 @@
     <ClCompile Include="JSONReciever_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NavigationData_tests.cpp" />
+    <ClCompile Include="Navigation_tests.cpp" />
     <ClCompile Include="Pose_tests.cpp" />
     <ClCompile Include="Servo_tests.cpp" />
     <ClCompile Include="Source.cpp" />

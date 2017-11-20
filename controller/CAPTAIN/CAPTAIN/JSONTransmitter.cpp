@@ -5,10 +5,11 @@
 #include "JSONTransmitter.h"
 #include "INavigation.h"
 
-JSONTransmitter::JSONTransmitter(INavigation& navigation, IMotorStatusGetter& dc_motor, IMotorStatusGetter& servo,
-	IGPS& gps) : navigation_(navigation), dc_motor_(dc_motor), servo_(servo), gps_(gps)
+JSONTransmitter::JSONTransmitter(IMotorStatusGetter& dc_motor, IMotorStatusGetter& servo,
+	IGPS& gps, const std::string filepath) : dc_motor_(dc_motor), servo_(servo), gps_(gps)
 {
 	//Object references must be initialized in the initializer list above
+	filepath_ = filepath;
 }
 
 JSONTransmitter::~JSONTransmitter()
@@ -16,11 +17,17 @@ JSONTransmitter::~JSONTransmitter()
 	//Object is persistent - only destroyed at program termination
 }
 
-void JSONTransmitter::TransmitFromNav(std::string const filepath, std::string const timestamp_in)
+void JSONTransmitter::NavAcquisition(INavigation* navigation)
+{
+	//Acquires a pointer to an INavigation object
+	navigation_ = navigation;
+}
+
+void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 {	
 	//Construction of nav_data object by invoking GetNavaData on &INavigation reference object
-	NavigationData nav_data = navigation_.GetNavData();
-
+	NavigationData nav_data = navigation_->GetNavData();
+	
 	//Extraction of completed path and path vectors
 	const std::vector<Coordinate> completed_path_coordinates_vector = nav_data.Completed_path_;
 	const std::vector<Coordinate> path_coordinates_vector = nav_data.Path_;
@@ -46,23 +53,41 @@ void JSONTransmitter::TransmitFromNav(std::string const filepath, std::string co
 	//Construction of timestamp
 	const std::string timestamp = timestamp_in;
 
-	//Construction of completed path JS object
-	std::string iterator_completed_path_string = formatPathString(completed_path_coordinates_vector);
+	std::string iterator_completed_path_string;
 
-	//Fix completed path JS object ending
-	iterator_completed_path_string = iterator_completed_path_string.substr(0,
-		iterator_completed_path_string.length() - 1);
-	iterator_completed_path_string.append("]}");
+	if (completed_path_coordinates_vector.size() != 0)
+	{
+		//Construction of completed path JS object
+		iterator_completed_path_string = formatPathString(completed_path_coordinates_vector);
 
-	//Construction of completed path JS object
-	std::string iterator_path_string = formatPathString(path_coordinates_vector);
+		//Fix completed path JS object ending
+		iterator_completed_path_string = iterator_completed_path_string.substr(0,
+			iterator_completed_path_string.length() - 1);
+		iterator_completed_path_string.append("]}");
+	}
+	else
+	{
+		iterator_completed_path_string = R"({"line_":[]})";
+	}
 
-	//Fix path JS object ending
-	iterator_path_string = iterator_path_string.substr(0,
-		iterator_path_string.length() - 1);
-	iterator_path_string.append(R"(],"timestamp_": )");
-	iterator_path_string.append(timestamp);
-	iterator_path_string.append("}");
+	std::string iterator_path_string;
+
+	if (path_coordinates_vector.size() != 0)
+	{
+		//Construction of completed path JS object
+		iterator_path_string = formatPathString(path_coordinates_vector);
+
+		//Fix path JS object ending
+		iterator_path_string = iterator_path_string.substr(0,
+			iterator_path_string.length() - 1);
+		iterator_path_string.append(R"(],"timestamp_": )");
+		iterator_path_string.append(timestamp);
+		iterator_path_string.append("}");
+	}
+	else
+	{
+		iterator_path_string = R"({"line_":[]})";
+	}
 
 	//Construction of telemetry JS object
 	const nlohmann::json telemetry = {
@@ -82,15 +107,16 @@ void JSONTransmitter::TransmitFromNav(std::string const filepath, std::string co
 
 	//Construction of fromNav JS object
 	nlohmann::json fromNav;
+	
 	fromNav["Completed_path_"] = nlohmann::json::parse(iterator_completed_path_string);
 	fromNav["Path_"] = nlohmann::json::parse(iterator_path_string);
 	fromNav["Status_"] = nlohmann::json::parse(status_str);
 	fromNav["Telemetry_"] = telemetry;
 	fromNav["Progress_"] = progress;
 	fromNav["Timestamp_"] = nlohmann::json::parse(timestamp);
-
+	
 	//Dump of fromNav JS object to local file at the specified path
-	std::ofstream file(filepath + "fromNav.json");
+	std::ofstream file(filepath_ + "fromNav.json");
 	file << fromNav.dump();
 }
 

@@ -27,5 +27,8 @@
     <ClCompile Include="..\unit.test.CAPTAIN\test_template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
