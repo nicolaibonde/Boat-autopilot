@@ -95,6 +95,26 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
             iconAngle: 0,
             opacity: 1,
         }
+
+		if ($scope.Cached_data_.paths_p2p_ == undefined) {
+            $scope.Cached_data_.paths_p2p_ = {
+                p2: {
+                    color: 'blue',
+                    latlngs: [],
+                    opacity: 0.5,
+                    weight: 2,
+                    clickable: false,
+                    type: "polyline"
+                },
+                p3: {
+                    color: 'green',
+                    latlngs: [],
+                    weight: 2,
+                    clickable: false,
+                    type: "polyline"
+                }
+            }
+        }
     }
 
     setupMap = function() {
@@ -223,11 +243,32 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
                     $interval.cancel($scope.waitForPathPromise);
                     $scope.Cached_data_.action_state_p2p_ = 1;
 
+					setPath(response.data.Path_.line_)
+
                     $scope.Action();
                 }
             });
         }, wait_for_path_interval_); //Update frequency for the boat data
     }
+
+	setPath = function(path) {
+		//Run through all elements in the path and overwrite what is in the paths_ object
+		for (let i in path) {
+			$scope.Cached_data_.paths_p2p_.p2.latlngs[i] = {
+				lat: path[i].latitude_,
+				lng: path[i].longitude_
+			}
+		}
+	}
+
+	setCompletedPath = function(path) {
+		for (let i in path) {
+			$scope.Cached_data_.paths_p2p_.p3.latlngs[i] = {
+				lat: path[i].latitude_,
+				lng: path[i].longitude_
+			}
+		}
+	}
 
     //Send command to navigation unit
     start = function() {
@@ -251,7 +292,9 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
             } else {
                 getDataFromNav("../savedData/fromNav.json");
                 $http.get("../savedData/fromNav.json").then(function(response) {
-                    $scope.Cached_data_.ETE_.progress_p2p_ = response.data.Progress_
+					$scope.Cached_data_.ETE_.progress_p2p_ = response.data.Progress_.percentage_;
+                    $scope.Cached_data_.ETE_.time_p2p_ = response.data.Progress_.ete_;
+                    setCompletedPath(response.data.Completed_path_.line_);
                 })
             }
         }, wait_for_completion_interval_)
