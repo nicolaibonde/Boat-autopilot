@@ -18,7 +18,7 @@ Servo::~Servo()
 
 };
 
-//Starts servo pulses on the GPIO, 0 (off), 500 (most anti-clockwise) to 2500 (most clockwise). 
+//This function takes a percentage from 0-100% and set the appropriate dutycycle on the servo
 void Servo::SetPosition(const double position)
 {
 	if(position < 0)
@@ -46,8 +46,9 @@ MotorStatus Servo::GetStatus()
 //Coverts a percentage into the right value for the servo
 unsigned Servo::percentageToServo(const double percentage) const
 {
-	double x = 500 + percentage / 100 * (2000);
-	return static_cast<int>(x);
+	//Starts servo pulses on the GPIO, 0 (off), 500 (most anti-clockwise) to 2500 (most clockwise). 
+	double x = 500 + percentage / 100 * (2000); 
+	return static_cast<unsigned>(x);
 }
 
 
