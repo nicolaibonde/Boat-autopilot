@@ -731,22 +731,27 @@ std::string Navigation::appendChecksumToTelegram(std::string telegram)
 //Called by GetNavData to get the Ete_ of the NavigationData object
 int Navigation::calculateEte() const
 {
-	//timestamp_ and path_time_start_ are cast and copied
-	const double time_now = static_cast<double>(timestamp_);
-	const double path_start_time = static_cast<double>(path_start_time_);
+	if (completed_path_.size() > 0)
+	{
+		//timestamp_ and path_time_start_ are cast and copied
+		const double time_now = static_cast<double>(timestamp_);
+		const double path_start_time = static_cast<double>(path_start_time_);
 
-	//The size of path_ and completed_path_ are extracted
-	const double completed_path_size = completed_path_.size();
-	const double path_size = path_.size();
+		//The size of path_ and completed_path_ are extracted
+		const double completed_path_size = completed_path_.size();
+		const double path_size = path_.size();
 
-	//Ete is estimated from the fraction of path points that have been completed between the start time
-	//and the last time setTimestamp was called ("now" is still ok, since it's *at most* a few milliseconds ago)
+		//Ete is estimated from the fraction of path points that have been completed between the start time
+		//and the last time setTimestamp was called ("now" is still ok, since it's *at most* a few milliseconds ago)
 
-	//Timestamp should not be set here, it's more accurate to do it right after a task has been completed,
-	//which is exactly what the PerformTask functions do
+		//Timestamp should not be set here, it's more accurate to do it right after a task has been completed,
+		//which is exactly what the PerformTask functions do
 
-	//Distance is another measure that could have been used to estimate the Ete
-	return static_cast<int>(time_now / path_start_time / (completed_path_size / path_size) - time_now / path_start_time);
+		//Distance is another measure that could have been used to estimate the Ete
+		return static_cast<int>(time_now / path_start_time / (completed_path_size / path_size) - time_now / path_start_time);
+	}
+
+	return -1;
 }
 
 //Called by PerformTask as an argument to JSONTransmitter.TransmitFromNav

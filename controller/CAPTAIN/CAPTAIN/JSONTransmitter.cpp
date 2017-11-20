@@ -53,6 +53,11 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 	//Construction of timestamp
 	const std::string timestamp = timestamp_in;
 
+	//format ete to a text string, eg. an ete of (int) 185 becomes (std::string) "3 min 5 secs"
+	std::string ete = formatEte(nav_data.Ete_);
+
+	nlohmann::json progress;
+
 	std::string iterator_completed_path_string;
 
 	if (completed_path_coordinates_vector.size() != 0)
@@ -64,10 +69,22 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 		iterator_completed_path_string = iterator_completed_path_string.substr(0,
 			iterator_completed_path_string.length() - 1);
 		iterator_completed_path_string.append("]}");
+
+		//Construction of progress JS object
+		progress = {
+			{ "ete_", ete },
+			{ "percentage_", nav_data.Progress_ }
+		};
 	}
 	else
 	{
 		iterator_completed_path_string = R"({"line_":[]})";
+
+		//Construction of progress JS object
+		progress = {
+			{ "ete_", "Calculating ..." },
+			{ "percentage_", "0.0" }
+		};
 	}
 
 	std::string iterator_path_string;
@@ -94,15 +111,6 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 		{"latitude_", (gps_pose.Coordinate_.Latitude_)},
 		{"longitude_", (gps_pose.Coordinate_.Longitude_)},
 		{"orientation_", (gps_pose.Orientation_)}
-	};
-
-	//format ete to a text string, eg. an ete of (int) 185 becomes (std::string) "3 min 5 secs"
-	std::string ete = formatEte(nav_data.Ete_);
-	
-	//Construction of progress JS object
-	const nlohmann::json progress = {
-			{"ete_", ete},
-			{"percentage_", nav_data.Progress_}
 	};
 
 	//Construction of fromNav JS object
