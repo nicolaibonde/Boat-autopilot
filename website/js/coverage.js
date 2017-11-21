@@ -317,8 +317,8 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                     ],
                     opacity: 0,
                     fillOpacity: 0,
-                    type: 'rectangle'
-
+                    clickable: false,
+                    type: 'rectangle'  
                 },
                 p2: {
                     color: 'blue',
