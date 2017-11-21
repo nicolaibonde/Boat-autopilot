@@ -117,6 +117,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         saveToFile("toNav", {
             "func_": "start"
         });
+        $scope.Cached_data_.ETE_.class_ = "progress-bar"
         waitForCompletion();
     }
 
@@ -128,6 +129,9 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                 $scope.Cached_data_.ETE_.time_ = "Arrived at target";
                 $scope.Cached_data_.ETE_.class_ = "progress-bar-success"
                 $scope.Cached_data_.action_state_ = 3;
+                saveToFile("toNav", {
+                    "func_": "none"
+                });
                 $scope.Action()
                 $interval.cancel($scope.waitForCompletionPromise);
             } else {
@@ -318,7 +322,7 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
                     opacity: 0,
                     fillOpacity: 0,
                     clickable: false,
-                    type: 'rectangle'  
+                    type: 'rectangle'
                 },
                 p2: {
                     color: 'blue',

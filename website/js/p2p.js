@@ -275,6 +275,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         saveToFile("toNav", {
             "func_": "start"
         });
+        $scope.Cached_data_.ETE_.class_p2p_ = "progress-bar"
         //Wait for navigation unit to send a new path
         waitForCompletion()
         //Return when the path has been traversed
@@ -287,6 +288,9 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
                 $scope.Cached_data_.ETE_.time_p2p_ = "Arrived at target";
                 $scope.Cached_data_.ETE_.class_p2p_ = "progress-bar-success"
                 $scope.Cached_data_.action_state_p2p_ = 3;
+                saveToFile("toNav", {
+                    "func_": "none"
+                });
                 $scope.Action()
                 $interval.cancel($scope.waitForCompletionPromise);
             } else {
