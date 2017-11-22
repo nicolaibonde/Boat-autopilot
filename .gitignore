@@ -294,5 +294,7 @@ website/savedData/*
 
 # JSON fromNav file
 controller/CAPTAIN/unit.test.CAPTAIN/JSON/fromNav/fromNav.json
-JSON/fromNav/fromNav.json
-JSON/Unit_tests/fromNav.json
+JSON/*
+JSON/Integration_tests/ReceiveNavTransmit_CalcP2PPath/fromNav.json
+JSON/Integration_tests/ReceiveNavTransmit_CalcCoverageRectangle/fromNav.json
+JSON/Integration_tests/NavTransmit_Servo/fromNav.json
