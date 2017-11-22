@@ -60,7 +60,7 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 
 	std::string iterator_completed_path_string;
 
-	if (completed_path_coordinates_vector.size() != 0)
+	if (completed_path_coordinates_vector.size() > 1)
 	{
 		//Construction of completed path JS object
 		iterator_completed_path_string = formatPathString(completed_path_coordinates_vector);
@@ -89,7 +89,7 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 
 	std::string iterator_path_string;
 
-	if (path_coordinates_vector.size() != 0)
+	if (path_coordinates_vector.size() >= 2)
 	{
 		//Construction of completed path JS object
 		iterator_path_string = formatPathString(path_coordinates_vector);
@@ -132,10 +132,11 @@ void JSONTransmitter::TransmitFromNav(std::string const timestamp_in)
 std::string JSONTransmitter::formatEte(const int ete) const
 {	
 	std::string ete_formatted;
+	
 	//Standard divide and floor to get minutes, then cast to const int
-	const int ete_min = static_cast<const int>(floor(ete / 60));
+	const int ete_min = static_cast<const int>(floor(ete / (60*1000)));
 	//Modulus, then cast to const int
-	const int ete_sec = static_cast<const int>(ete % 60);
+	const int ete_sec = static_cast<const int>(round((ete/1000) % 60));
 
 	//If 1 minute or more, put the minute count in the string. Otherwise just put seconds.
 	if (ete_min >= 1)
