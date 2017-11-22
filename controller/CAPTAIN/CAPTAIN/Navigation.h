@@ -26,7 +26,7 @@ private:
 	IAutopilot& auto_pilot_;
 	std::vector<Coordinate> completed_path_;
 	std::vector<Coordinate> path_;
-	int path_start_time_;
+	unsigned long long path_start_time_;
 	unsigned long long timestamp_;
 	double equitorial_radius_;
 	double ellipsoid_flattening_;
