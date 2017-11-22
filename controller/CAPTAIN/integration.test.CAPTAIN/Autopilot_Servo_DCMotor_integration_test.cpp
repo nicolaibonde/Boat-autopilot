@@ -3,11 +3,11 @@
 #   define BOOST_TEST_MODULE Main
 #endif
 #include <boost/test/unit_test.hpp>
-#include "../CAPTAIN/Autopilot.h"
-#include "../unit.test.CAPTAIN/boost/fakeit.hpp"
-#include "../CAPTAIN/IGPIO.h"
-#include "../CAPTAIN/Servo.h"
-#include "../CAPTAIN/DCMotor.h"
+#include "unit.test.CAPTAIN/boost/fakeit.hpp"
+#include "CAPTAIN/Autopilot.h"
+#include "CAPTAIN/IGPIO.h"
+#include "CAPTAIN/Servo.h"
+#include "CAPTAIN/DCMotor.h"
 
 BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 
@@ -126,5 +126,5 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 		fakeit::Verify(Method(gpioMock, GpioServo)).Exactly(2); //It should call it once in the constructor and once again when we set it.
 		fakeit::Verify(Method(gpioMock, GpioPWM)).Exactly(2);
 	}
-
+	
 BOOST_AUTO_TEST_SUITE_END()

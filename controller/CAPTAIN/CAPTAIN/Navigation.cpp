@@ -114,7 +114,6 @@ void Navigation::PerformTask(const Task task, const CoverageRectangle coverage_r
 
 		//Call JSONTransmitter to update fromNav file
 		transmitter_.TransmitFromNav(std::to_string(timestamp_));
-		double timestamp = timestamp_;
 	}
 }
 
@@ -125,7 +124,7 @@ NavigationData Navigation::GetNavData()
 	const int ete = calculateEte();
 
 	//Calculate progress by taking the fraction of completed_path.size() and path.size()
-	const double progress = static_cast<double>(completed_path_.size()) / static_cast<double>(path_.size());
+	const double progress = 100* static_cast<double>(completed_path_.size()) / static_cast<double>(path_.size());
 
 	return NavigationData(completed_path_, path_, ete, progress);
 }
@@ -637,6 +636,12 @@ std::tuple<double, std::string, double, int, double, double> Navigation::calcula
 		orig_dest_distance_and_bearing = calculateRhumbDistanceAndBearing(path_.at(0), path_.at(1));
 		xte = calculateXte(path_.at(0), path_.at(1));
 	}
+	else if (completed_path_.size() == path_.size()) //Path has been completed
+	{
+		//Return some values that are sensible when the path has been succesfully traversed
+		return std::tuple<double, std::string, double, int, double, double>
+			(0, "L", 0, 0, 0, 0);
+	}
 		//Normal operation
 	else
 	{
@@ -734,11 +739,10 @@ int Navigation::calculateEte() const
 	if (completed_path_.size() > 0)
 	{
 		//timestamp_ and path_time_start_ are cast and copied
-		const double time_now = static_cast<double>(timestamp_);
-		const double path_start_time = static_cast<double>(path_start_time_);
+		const double delta_t = static_cast<double>(timestamp_ - path_start_time_);
 
-		//The size of path_ and completed_path_ are extracted
-		const double completed_path_size = completed_path_.size();
+		//The size of path_ and completed_path_ are extracted, set completed_path_ to at least 1
+		const double completed_path_size = completed_path_.size() > 0 ? completed_path_.size() : 1;
 		const double path_size = path_.size();
 
 		//Ete is estimated from the fraction of path points that have been completed between the start time
@@ -748,7 +752,9 @@ int Navigation::calculateEte() const
 		//which is exactly what the PerformTask functions do
 
 		//Distance is another measure that could have been used to estimate the Ete
-		return static_cast<int>(time_now / path_start_time / (completed_path_size / path_size) - time_now / path_start_time);
+		const int ete = delta_t * (path_size / completed_path_size) - delta_t;
+
+		return ete;
 	}
 
 	return -1;

@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{2BA265D6-3D8C-461F-801C-3A81BDE95F68}</ProjectGuid>
+    <ProjectGuid>{CAF13B52-824D-4708-A864-980EDC24D10F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>integrationtestCAPTAIN</RootNamespace>
+    <RootNamespace>nonautomatictestCAPTAIN</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,13 +86,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;GEOGRAPHICLIB_SHARED_LIB=0;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);C:\Program Files\Boost\boost_1_65_1;C:\pkg-vc17\GeographicLib-1.49\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Program Files\Boost\boost_1_65_1\lib32-msvc-14.1;C:\pkg-vc17\GeographicLib-1.49\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\pkg-vc17\GeographicLib-1.49\lib;C:\Program Files\Boost\boost_1_65_1\lib32-msvc-14.1;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Geographic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -100,11 +100,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +116,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -140,34 +142,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="Coverage.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="P2P.cpp" />
+    <ClCompile Include="test_template.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boost\fakeit.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAPTAIN\CAPTAIN.vcxproj">
       <Project>{8a744bdb-7123-4b10-82a2-8e4aa0f34f15}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\unit.test.CAPTAIN\test_template.cpp" />
-    <ClCompile Include="Autopilot_Servo_DCMotor_integration_test.cpp" />
-    <ClCompile Include="JSONReceiver_Navigation_Autopilot.cpp" />
-    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter.cpp" />
-    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter_Autopilot_Motors.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="boost\fakeit.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\boost.1.65.1.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.65.1.0\build\native\boost.targets')" />
-    <Import Project="..\packages\turtle.1.2.6\build\native\turtle.targets" Condition="Exists('..\packages\turtle.1.2.6\build\native\turtle.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\boost.1.65.1.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.65.1.0\build\native\boost.targets'))" />
-    <Error Condition="!Exists('..\packages\turtle.1.2.6\build\native\turtle.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\turtle.1.2.6\build\native\turtle.targets'))" />
-  </Target>
 </Project>

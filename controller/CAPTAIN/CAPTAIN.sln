@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAPTAIN", "CAPTAIN\CAPTAIN.vcxproj", "{8A744BDB-7123-4B10-82A2-8E4AA0F34F15}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unit.test.CAPTAIN", "unit.test.CAPTAIN\unit.test.CAPTAIN.vcxproj", "{C44EBBBE-FFC9-4DC3-AE58-BADA8C4FEB12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "integration.test.CAPTAIN", "integration.test.CAPTAIN\integration.test.CAPTAIN.vcxproj", "{2BA265D6-3D8C-461F-801C-3A81BDE95F68}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "non-automatic.test.CAPTAIN", "non-automatic.test.CAPTAIN\non-automatic.test.CAPTAIN.vcxproj", "{CAF13B52-824D-4708-A864-980EDC24D10F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A744BDB-7123-4B10-82A2-8E4AA0F34F15} = {8A744BDB-7123-4B10-82A2-8E4AA0F34F15}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +56,14 @@ Global
 		{2BA265D6-3D8C-461F-801C-3A81BDE95F68}.Release|x64.Build.0 = Release|x64
 		{2BA265D6-3D8C-461F-801C-3A81BDE95F68}.Release|x86.ActiveCfg = Release|Win32
 		{2BA265D6-3D8C-461F-801C-3A81BDE95F68}.Release|x86.Build.0 = Release|Win32
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Debug|x64.ActiveCfg = Debug|x64
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Debug|x64.Build.0 = Debug|x64
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Debug|x86.ActiveCfg = Debug|Win32
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Debug|x86.Build.0 = Debug|Win32
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Release|x64.ActiveCfg = Release|x64
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Release|x64.Build.0 = Release|x64
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Release|x86.ActiveCfg = Release|Win32
+		{CAF13B52-824D-4708-A864-980EDC24D10F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

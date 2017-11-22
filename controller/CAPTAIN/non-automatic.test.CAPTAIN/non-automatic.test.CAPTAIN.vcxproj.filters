@@ -15,25 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Autopilot_Servo_DCMotor_integration_test.cpp">
+    <ClCompile Include="test_template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\unit.test.CAPTAIN\test_template.cpp">
+    <ClCompile Include="P2P.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JSONReceiver_Navigation_Autopilot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JSONReceiver_Navigation_JSONTransmitter_Autopilot_Motors.cpp">
+    <ClCompile Include="Coverage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
