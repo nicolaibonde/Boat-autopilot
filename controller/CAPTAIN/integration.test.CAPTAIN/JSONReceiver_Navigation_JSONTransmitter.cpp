@@ -3,14 +3,14 @@
 #   define BOOST_TEST_MODULE Main
 #endif
 #include <boost/test/unit_test.hpp>
-#include "../CAPTAIN/Autopilot.h"
-#include "../unit.test.CAPTAIN/boost/fakeit.hpp"
-#include "../CAPTAIN/IGPS.h"
-#include "../CAPTAIN/IMotorStatusGetter.h"
-#include "../CAPTAIN/IAutopilot.h"
-#include "../CAPTAIN/Navigation.h"
-#include "../CAPTAIN/JSONTransmitter.h"
-#include "../CAPTAIN/JSONReceiver.h"
+#include "CAPTAIN/Autopilot.h"
+#include "unit.test.CAPTAIN/boost/fakeit.hpp"
+#include "CAPTAIN/IGPS.h"
+#include "CAPTAIN/IMotorStatusGetter.h"
+#include "CAPTAIN/IAutopilot.h"
+#include "CAPTAIN/Navigation.h"
+#include "CAPTAIN/JSONTransmitter.h"
+#include "CAPTAIN/JSONReceiver.h"
 
 BOOST_AUTO_TEST_SUITE(JSONReceiver_Navigation_JSONTransmitter_tests)
 
@@ -40,10 +40,11 @@ BOOST_AUTO_TEST_CASE(Navigate_Transmit_ServoPercentage)
 	//Path to save file
 	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 		"JSON\\Integration_tests\\NavTransmit_Servo\\");
-	fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
-	fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
-	fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
+	fakeit::When(Method(dcMock, GetStatus)).AlwaysReturn(MotorStatus(15.44, SPEED));
+	fakeit::When(Method(servoMock, GetStatus)).AlwaysReturn(MotorStatus(45.44, POSITION));
+	fakeit::When(Method(gpsMock, GetStatus)).AlwaysReturn(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
 	fakeit::When(Method(gpsMock, GetPose)).AlwaysReturn(Pose(Coordinate(56.0, 10.0), 7.45));
+	fakeit::When(Method(gpsMock, GetSpeed)).AlwaysReturn(5.2);
 
 	//Instantiate objects
 	JSONTransmitter transmitter = JSONTransmitter(dcMotor, servo, gps, filepath.string());
