@@ -13,7 +13,7 @@ class JSONReceiver :
 {
 public:
 	/**
-	 * \brief 
+	 * \brief Explicit constructor
 	 * \param navigation A reference to the navigation so it can be told when new data is avaliable, and to the its parameters
 	 * \param autopilot A reference to the autopilot so it can be told about it paramters
 	 * \param saved_data_path Where is the toNav.JSON and activeParam.JSON located
