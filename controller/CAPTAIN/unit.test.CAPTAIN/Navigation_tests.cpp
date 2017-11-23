@@ -4905,7 +4905,7 @@ BOOST_AUTO_TEST_CASE(Navigation_Get_Navigation_Data_Progress_)
 
 	//Assert
 	//Check if nav_data.progress
-	double expected = 0.10;
+	double expected = 10;
 
 	//Assert
 	BOOST_REQUIRE(0.95*expected < nav_data.Progress_ && nav_data.Progress_ < 1.05*expected);

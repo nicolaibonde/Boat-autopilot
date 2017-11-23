@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -208,7 +208,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -318,7 +318,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -375,7 +375,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -431,7 +431,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -486,7 +486,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -541,7 +541,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -596,7 +596,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -667,7 +667,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -738,7 +738,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -793,7 +793,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -848,7 +848,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));
@@ -903,7 +903,7 @@ BOOST_AUTO_TEST_SUITE(JSONTransmitter_tests)
 		//Path to save file
 		boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
 			"JSON\\Unit_tests\\");
-		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151, 60.9));
+		fakeit::When(Method(navMock, GetNavData)).Return(NavigationData(completed_path_vector, path_vector, 151000, 60.9));
 		fakeit::When(Method(dcMock, GetStatus)).Return(MotorStatus(15.44, SPEED));
 		fakeit::When(Method(servoMock, GetStatus)).Return(MotorStatus(45.44, POSITION));
 		fakeit::When(Method(gpsMock, GetStatus)).Return(GPSStatus(1.1, 2, 3.3, 4, Pose(Coordinate(56.0, 10.0), 7.45)));

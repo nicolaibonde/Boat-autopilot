@@ -3,6 +3,8 @@
 #include "ISpeedMotor.h"
 #include "IPositionMotor.h"
 #include "MiniPID.h"
+#include <vector>
+#include <sstream>
 #include <boost/algorithm/string.hpp>
 
 

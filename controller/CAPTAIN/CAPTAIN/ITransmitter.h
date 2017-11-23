@@ -1,5 +1,7 @@
 #pragma once
 
+class INavigation;
+
 /**
 * \brief   An interface for the Transmitter unit of the system.
 * \details This module is responsible for writing data to the fromNav.json file. \n

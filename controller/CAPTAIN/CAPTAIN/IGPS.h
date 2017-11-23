@@ -12,7 +12,7 @@ public:
 	/**
 	 * \brief destructor
 	 */
-	virtual ~IGPS();
+	virtual ~IGPS() {};
 	/**
 	 * \brief Setup the gps and create a thread that runs a function which get the GPS reciever
 	 * \return A thread running a function that gets on the GPS reciever
