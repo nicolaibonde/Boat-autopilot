@@ -5,6 +5,8 @@
 #include "NavigationData.h"
 #include "IGPS.h"
 
+class INavigation;
+
 /**
 * \brief   JSONTransmitter
 * \details This is an implementation of the ITransmitter interface. \n
@@ -15,9 +17,6 @@
 * saves this object pointer. Through this method, the two objects hold a reference and pointer to each other, respectively.\n
 * \see Navigation.h
 */
-
-class INavigation;
-
 class JSONTransmitter :
 	public ITransmitter
 {

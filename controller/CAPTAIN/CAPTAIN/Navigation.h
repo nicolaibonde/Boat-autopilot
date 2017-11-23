@@ -6,19 +6,19 @@
 #include "CoverageRectangle.h"
 #include "NavigationData.h"
 
+class ITransmitter;
+
 /**
-* \brief   Navigation
+* \brief   An implementation of the INavigation interface.
 * \details This is an implementation of the INavigation interface. \n
-* This module is responsible for writing data to the fromNav.json file.\n
+* This module is responsible for receiving data from the GPS, calculating paths, ete's, xte, bearings, setting system parameters, \n
+* calling TransmitFromNav in the Transmitter, and calling Run and Stop in the Autopilot.\n
 * Because Navigation and JSONTransmitter must call function in each other, JSONTransmitter.h has a forward declaration of INavigation,\n
 * Navigation.h has a forward declaration of ITransmitter.h, JSONTransmitter.cpp includes INavigation.h, Navigation.cpp includes\n
 * ITransmitter.h. The Navigation calls NavAcquisition in JSONTransmitter with a this-pointer parameter, and JSONTransmitter then\n
 * saves this object pointer. Through this method, the two objects hold a reference and pointer to each other, respectively.\n
 * \see JSONTransmitter.h
 */
-
-class ITransmitter;
-
 class Navigation :
 	public INavigation
 {
