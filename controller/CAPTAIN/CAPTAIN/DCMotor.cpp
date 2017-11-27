@@ -39,7 +39,7 @@ void DCMotor::SetSpeed(const double speed)
 		speed_ = speed;
 	}
 
-	gpio_.GpioPWM(pin_, speed_);
+	gpio_.GpioPWM(pin_, static_cast<unsigned>(speed_));
 }
 
 MotorStatus DCMotor::GetStatus()

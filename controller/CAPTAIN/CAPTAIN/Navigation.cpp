@@ -716,7 +716,7 @@ std::string Navigation::appendChecksumToTelegram(std::string telegram)
 	int chk = 0;
 
 	//Loop through telegram to calculate checksum
-	for (int i = 0; i < telegram.length(); i++)
+	for (unsigned int i = 0; i < telegram.length(); i++)
 	{
 		//XOR checksum with telegram index character
 		chk ^= telegram[i];
@@ -752,7 +752,7 @@ int Navigation::calculateEte() const
 		//which is exactly what the PerformTask functions do
 
 		//Distance is another measure that could have been used to estimate the Ete
-		const int ete = delta_t * (path_size / completed_path_size) - delta_t;
+		const int ete = static_cast<const int>(delta_t * (path_size / completed_path_size) - delta_t);
 
 		return ete;
 	}
