@@ -23,20 +23,6 @@
    (GEOGRAPHICLIB_PRECISION == 1 ? 4 : 8))
 #endif
 
-//TAKEN FROM TRANSVERSEMERCATOR.HPP
-//TAKEN FROM TRANSVERSEMERCATOR.HPP
-#if !defined(GEOGRAPHICLIB_TRANSVERSEMERCATOR_ORDER)
-/**
-* The order of the series approximation used in TransverseMercator.
-* GEOGRAPHICLIB_TRANSVERSEMERCATOR_ORDER can be set to any integer in [4, 8].
-**********************************************************************/
-#  define GEOGRAPHICLIB_TRANSVERSEMERCATOR_ORDER \
-  (GEOGRAPHICLIB_PRECISION == 2 ? 6 : \
-   (GEOGRAPHICLIB_PRECISION == 1 ? 4 : 8))
-#endif
-//TAKEN FROM TRANSVERSEMERCATOR.HPP
-//TAKEN FROM TRANSVERSEMERCATOR.HPP
-
 namespace GeographicLib {
 
 	class RhumbLine;
