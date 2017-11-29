@@ -1,6 +1,6 @@
 #include "Ublox_neo7m.h"
 #include <boost/algorithm/string.hpp>
-#include <GeographicLib/Rhumb.hpp>
+#include "GL_Rhumb.h"
 #include "SimpleSerial.h"
 #include <thread>
 #include <iostream>
