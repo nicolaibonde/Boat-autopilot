@@ -95,6 +95,12 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
     }
 
     setPath = function(path) {
+
+        if ($scope.Cached_data_.paths_.p2.latlngs.length > 0)
+        {
+          //Clear p2
+          $scope.Cached_data_.paths_.p2.latlngs = [];
+        }
         //Run through all elements in the path and overwrite what is in the paths_ object
         for (let i in path) {
             $scope.Cached_data_.paths_.p2.latlngs[i] = {
