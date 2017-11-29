@@ -46,6 +46,24 @@
     <ClCompile Include="Navigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GL_Rhumb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_Ellipsoid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_TransverseMercator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_AlbersEqualArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_EllipticFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinate.h">
@@ -136,6 +154,27 @@
       <Filter>Headers Files</Filter>
     </ClInclude>
     <ClInclude Include="Navigation.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Constants.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Rhumb.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Ellipsoid.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_AlbersEqualArea.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_EllipticFunction.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Math.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_TransverseMercator.h">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>

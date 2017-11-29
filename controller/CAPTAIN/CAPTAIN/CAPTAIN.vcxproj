@@ -88,17 +88,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GEOGRAPHICLIB_SHARED_LIB=0;_DEBUG;CAPTAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\pkg-vc17\GeographicLib-1.49\include;C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Boost\boost_1_65_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Geographic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\pkg-vc17\GeographicLib-1.49\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -156,6 +156,13 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="CoverageRectangle.h" />
     <ClInclude Include="DCMotor.h" />
+    <ClInclude Include="GL_AlbersEqualArea.h" />
+    <ClInclude Include="GL_Constants.h" />
+    <ClInclude Include="GL_Ellipsoid.h" />
+    <ClInclude Include="GL_EllipticFunction.h" />
+    <ClInclude Include="GL_Math.h" />
+    <ClInclude Include="GL_Rhumb.h" />
+    <ClInclude Include="GL_TransverseMercator.h" />
     <ClInclude Include="GPSStatus.h" />
     <ClInclude Include="IAutopilot.h" />
     <ClInclude Include="IGPIO.h" />
@@ -188,6 +195,12 @@
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="CoverageRectangle.cpp" />
     <ClCompile Include="DCMotor.cpp" />
+    <ClCompile Include="GL_AlbersEqualArea.cpp" />
+    <ClCompile Include="GL_Ellipsoid.cpp" />
+    <ClCompile Include="GL_EllipticFunction.cpp" />
+    <ClCompile Include="GL_Math.cpp" />
+    <ClCompile Include="GL_Rhumb.cpp" />
+    <ClCompile Include="GL_TransverseMercator.cpp" />
     <ClCompile Include="GPSStatus.cpp" />
     <ClCompile Include="JSONReceiver.cpp" />
     <ClCompile Include="JSONTransmitter.cpp" />
