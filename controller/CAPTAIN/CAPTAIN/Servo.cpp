@@ -15,7 +15,7 @@ Servo::Servo(IGPIO & gpio) : gpio_(gpio)
 
 Servo::~Servo()
 {
-
+	Servo::SetPosition(50.0);
 };
 
 //This function takes a percentage from 0-100% and set the appropriate dutycycle on the servo

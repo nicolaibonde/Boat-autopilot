@@ -16,7 +16,7 @@ DCMotor::DCMotor(IGPIO& gpio) : gpio_(gpio)
 
 DCMotor::~DCMotor()
 {
-	
+	DCMotor::SetSpeed(0);
 };
 
 void DCMotor::SetSpeed(const double speed)
