@@ -4,14 +4,11 @@
 
 DCMotor::DCMotor(IGPIO& gpio) : gpio_(gpio)
 {
-	pin_ = 9; //Maybe choose a better one later
+	pin_ = 18; //Dedicated hardware pwm pin on Raspberry pi 3b. called pwm0, and is the physical pin 12
 	frequency_ = 30000; //Setting frequency to 30kHz for noiseless operation
 
 	//mode is 1 for output and 0 for input
 	gpio_.GpioSetMode(pin_, 1);
-
-	//setting the pwm frequency
-	frequency_ = gpio_.GpioSetPWMfrequency(pin_, frequency_);
 
 	//Setting the default speed to 0% so that the boat doesent move in the beginning
 	DCMotor::SetSpeed(0); 
@@ -39,7 +36,7 @@ void DCMotor::SetSpeed(const double speed)
 		speed_ = speed;
 	}
 
-	gpio_.GpioPWM(pin_, static_cast<unsigned>(speed_));
+	gpio_.GpioHardwarePWM(pin_,frequency_, static_cast<unsigned>(speed_* 10000));
 }
 
 MotorStatus DCMotor::GetStatus()

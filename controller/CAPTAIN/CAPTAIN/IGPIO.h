@@ -42,5 +42,15 @@ public:
 	 * \return Returns 0 if OK
 	 */
 	virtual int GpioServo(unsigned user_gpio, unsigned pulsewidth) = 0;
+
+	/**
+	 * \brief Use the dedicated hardware gpios for the pwm
+	 * \param user_gpio What gpio should the hardware pwm run on
+	 * \param frequency What frequency should it run 0 25000000
+	 * \param dutycycle What dutycycle between 0 and 1000000
+	 * \return 0 if OK
+	 */
+	virtual int GpioHardwarePWM(unsigned user_gpio, unsigned frequency, unsigned dutycycle) = 0;
+
 };
 

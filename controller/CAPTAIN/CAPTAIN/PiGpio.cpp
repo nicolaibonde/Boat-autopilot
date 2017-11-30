@@ -17,15 +17,19 @@ int PiGpio::GpioSetMode(unsigned gpio, unsigned mode)
 
 int PiGpio::GpioPWM(unsigned user_gpio, unsigned dutycycle)
 {
-	gpioPWM(user_gpio, dutycycle);
+	return gpioPWM(user_gpio, dutycycle);
 }
 
 int PiGpio::GpioSetPWMfrequency(unsigned user_gpio, unsigned frequency)
 {
-	gpioSetPWMfrequency(user_gpio, frequency);
+	return gpioSetPWMfrequency(user_gpio, frequency);
 }
 
 int PiGpio::GpioServo(unsigned user_gpio, unsigned pulsewidth)
 {
-	gpioServo(user_gpio, pulsewidth);
+	return gpioServo(user_gpio, pulsewidth);
+}
+
+int PiGpio::GpioHardwarePWM(unsigned user_gpio, unsigned frequency, unsigned dutycycle){
+	return gpioHardwarePWM(user_gpio, frequency, dutycycle);
 }

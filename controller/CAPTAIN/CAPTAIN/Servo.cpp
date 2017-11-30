@@ -4,7 +4,7 @@
 Servo::Servo(IGPIO & gpio) : gpio_(gpio)
 {
 	//We can only have one servo with this setup.
-	pin_ = 10;
+	pin_ = 23; //This is a gpio pin close to the pwm0, it is physical pin 16
 	//gpio pin 10 is choosen because it is a safe gpio, and an examples uses it for a servo
 	//mode is 1 for output and 0 for input
 	gpio_.GpioSetMode(pin_, 1);
