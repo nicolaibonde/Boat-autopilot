@@ -534,7 +534,7 @@ std::string appendChecksumToTelegram(std::string telegram)
 	int chk = 0;
 
 	//Loop through telegram to calculate checksum
-	for (int i = 0; i < telegram.length(); i++)
+	for (unsigned int i = 0; i < telegram.length(); i++)
 	{
 		//XOR checksum with telegram index character
 		chk ^= telegram[i];
@@ -577,7 +577,7 @@ int main()
 	//Translate the segments to coordinates
 	std::vector<Coordinate> path_ = calculatePointsFromSegments(path_segments, 1);
 
-	for (int i = 0; i < path_.size(); ++i)
+	for (unsigned int i = 0; i < path_.size(); ++i)
 	{
 		std::cout << std::fixed << std::setprecision(8) << path_[i].Latitude_ << " " << path_[i].Longitude_ << std::endl;
 	}

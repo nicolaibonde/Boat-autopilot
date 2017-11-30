@@ -4,7 +4,7 @@
 #include <sstream>
 #include <cmath>
 #include <boost/filesystem/operations.hpp>
-#include <GeographicLib/Rhumb.hpp>
+#include "GL_Rhumb.h"
 #include "Navigation.h"
 #include "ITransmitter.h"
 #include <iostream>
@@ -23,7 +23,7 @@ Navigation::Navigation(IGPS& gps, ITransmitter& transmitter, IAutopilot& auto_pi
 	ellipsoid_flattening_ = static_cast<double>(GeographicLib::Constants::WGS84_f());
 
 	//tool_width can be changed at any time if the parameter profile has a tool_width member
-	parameters_.tool_width_ = 1;
+	parameters_.tool_width_ = 10;
 
 	//These values for distance between points, distance between xte points, and the circle arrival radius
 	//are constant for the moment, setters could be made if the parameters were added in receiver and on the website
@@ -481,7 +481,7 @@ std::vector<Coordinate> Navigation::calculatePointsFromSegments(std::vector<Coor
 
 					//Modifiers to latitude and longitude. Note that longitude_modifier can also be negative
 					const double latitude_modifier = (circle_radius - a) / circle_radius*circle_radius_by_latitude;
-					const double longitude_modifier = (1 - (circle_radius - b) / circle_radius)*circle_radius_by_longitude;
+					const double longitude_modifier = 2*(1 - (circle_radius - b) / circle_radius)*circle_radius_by_longitude;
 
 					double lat_on_circle, lon_on_circle;
 
