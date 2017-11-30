@@ -20,6 +20,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_executable(exe.CAPTAIN main.CAPTAIN/Source.cpp ${CAPTAIN_HEADERS})
 
 target_link_libraries(exe.CAPTAIN lib.CAPTAIN)
-target_link_libraries(exe.CAPTAIN ${Boost_LIBRARIES} -lpthread -lboost_filesystem -lboost_system)
+target_link_libraries(exe.CAPTAIN ${Boost_LIBRARIES} -lpthread -lboost_filesystem -lboost_system -lpigpio -lrt)
 
 install(TARGETS exe.CAPTAIN DESTINATION bin)

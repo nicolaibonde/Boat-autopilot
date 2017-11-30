@@ -22,7 +22,7 @@ int PiGpio::GpioPWM(unsigned user_gpio, unsigned dutycycle)
 
 int PiGpio::GpioSetPWMfrequency(unsigned user_gpio, unsigned frequency)
 {
-	gpioSetPWMfrequency(user_gpio, frequency)
+	gpioSetPWMfrequency(user_gpio, frequency);
 }
 
 int PiGpio::GpioServo(unsigned user_gpio, unsigned pulsewidth)
