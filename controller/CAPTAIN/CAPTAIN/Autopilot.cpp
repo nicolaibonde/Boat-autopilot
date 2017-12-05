@@ -10,7 +10,10 @@ Autopilot::Autopilot(IPositionMotor& rudder, ISpeedMotor& thruster): rudder_pid_
 	i_ = -1; //Invalid value
 	d_ = -1; //Invalid value
 	thruster_pid_.setOutputLimits(0, 20); //Hardcoding limits, maybe this should be done through the user interface
-	rudder_pid_.setOutputLimits(20, 70);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
+	rudder_pid_.setOutputLimits(48, 76);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
+
+	thruster_pid_.setPID(0.01,0,0);
+
 }
 
 Autopilot::~Autopilot()
