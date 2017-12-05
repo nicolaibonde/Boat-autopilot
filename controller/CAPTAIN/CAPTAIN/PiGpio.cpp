@@ -30,6 +30,12 @@ int PiGpio::GpioServo(unsigned user_gpio, unsigned pulsewidth)
 	return gpioServo(user_gpio, pulsewidth);
 }
 
-int PiGpio::GpioHardwarePWM(unsigned user_gpio, unsigned frequency, unsigned dutycycle){
+int PiGpio::GpioHardwarePWM(unsigned user_gpio, unsigned frequency, unsigned dutycycle) {
 	return gpioHardwarePWM(user_gpio, frequency, dutycycle);
+
+}
+
+uint32_t PiGpio::GpioTick()
+{
+	return gpioTick();
 }
