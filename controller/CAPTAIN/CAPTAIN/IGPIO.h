@@ -52,5 +52,11 @@ public:
 	 */
 	virtual int GpioHardwarePWM(unsigned user_gpio, unsigned frequency, unsigned dutycycle) = 0;
 
+	/**
+	* \brief Get the number of microseconds since system boot
+	* \return Time since boot in microseconds (uint32_t format)
+	*/
+	virtual uint32_t GpioTicks() = 0;
+
 };
 
