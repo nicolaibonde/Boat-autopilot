@@ -1,5 +1,4 @@
 #include <thread>
-#include <chrono>
 #include "CAPTAIN/SimpleSerial.h"
 #include "CAPTAIN/PiGpio.h"
 #include "CAPTAIN/Ublox_neo7m.h"
@@ -26,8 +25,10 @@ int main()
 	DCMotor thruster = DCMotor(motorGPIO);
 	Autopilot auto_pilot = Autopilot(rudder, thruster);
 
-	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().parent_path().append(
-		"website\\savedData\\");
+	gpioInitialise();
+
+	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().append(
+		"website/savedData/");
 	JSONTransmitter transmitter = JSONTransmitter(rudder, thruster, gps, filepath.string());
 	Navigation nav = Navigation(gps, transmitter, auto_pilot);
 	JSONReceiver receiver = JSONReceiver(nav, auto_pilot, filepath.string());

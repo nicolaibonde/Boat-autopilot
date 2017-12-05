@@ -1,5 +1,5 @@
 #include "Autopilot.h"
-
+#include <iostream>
 
 //Setup the Autopilot with 2 PID's and 2 references to the motors
 Autopilot::Autopilot(IPositionMotor& rudder, ISpeedMotor& thruster): rudder_pid_(0, 0, 0), thruster_pid_(1,0,0),
@@ -9,8 +9,9 @@ Autopilot::Autopilot(IPositionMotor& rudder, ISpeedMotor& thruster): rudder_pid_
 	p_ = -1; //Invalid value
 	i_ = -1; //Invalid value
 	d_ = -1; //Invalid value
-	thruster_pid_.setOutputLimits(0, 20); //Hardcoding limits, maybe this should be done through the user interface
-	rudder_pid_.setOutputLimits(20, 70);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
+	thruster_pid_.setOutputLimits(0, 30); //Hardcoding limits, maybe this should be done through the user interface
+	rudder_pid_.setOutputLimits(35, 70);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
+	thruster_pid_.setPID(10,0,0);
 }
 
 Autopilot::~Autopilot()
@@ -61,8 +62,14 @@ void Autopilot::Run(std::string telegram)
 			//Check if the telegram is a GPAPB ie an autopilot telegram
 			if (split_telegram[0].find("APB") != std::string::npos)
 			{
-				//If so then regulate on the bearing, which is the how far we are from the desired 
-				const double bearing = stod(split_telegram[11]);
+				std::cout << telegram << std::endl;
+				//If so then regulate on the bearing, which is the how far we are from the desired
+
+				 
+				double bearing = stod(split_telegram[13]);
+				if(split_telegram[4] == "R"){
+					bearing = -bearing;
+				}
 				rudder_.SetPosition(rudder_pid_.getOutput(bearing, 0));
 			}
 			//Check if the telegram is gpvtg which is a velocity telegram
@@ -82,7 +89,7 @@ void Autopilot::Stop()
 
 	//Stopping means that the thruster should stop and the rudder should go to a default position
 	thruster_.SetSpeed(0);
-	rudder_.SetPosition(50);
+	//rudder_.SetPosition(50);
 }
 
 bool Autopilot::checksum(std::string telegram)
@@ -114,6 +121,7 @@ bool Autopilot::checksum(std::string telegram)
 
 void Autopilot::SetParameters(double p, double i, double d)
 {
+	std::cout <<"p: " <<  p << std::endl;
 	//Set the parameters for the rudder pid.
 	p_ = p;
 	i_ = i;
