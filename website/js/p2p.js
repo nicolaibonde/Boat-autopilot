@@ -149,7 +149,11 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
         updateEndCoord(point);
     });
 
-    updateEndCoord = function(end_coord) {
+	$scope.UpdateMapData = function() {
+        updateEndCoord($scope.Cached_data_.markers_p2p_[1].lat, $scope.Cached_data_.markers_p2p_[1].lng);
+    }
+
+	updateEndCoord = function(end_coord) {
         if (end_coord.lat != undefined) {
             $scope.Cached_data_.markers_p2p_[1].lat = end_coord.lat;
         }
@@ -157,7 +161,7 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
             $scope.Cached_data_.markers_p2p_[1].lng = end_coord.lng;
         }
         $scope.Cached_data_.markers_p2p_[1].opacity = 1;
-    };
+    }
 
     updateBoatPose = function(pose) {
         $scope.Cached_data_.Boat_pose_ = pose;

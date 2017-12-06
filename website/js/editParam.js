@@ -38,7 +38,16 @@ app.controller('EditParameters', function($scope, $http, dataHolder) {
 
   $scope.DeleteProfile = function(index) {
     if ($scope.Editing_profile_ != true) { //Checks to make sure you are not deleting the profile that's currently being edited
-      $scope.Profiles_.splice(index, 1) //Removes one element from the list at index
+
+		if($scope.Profiles_[index] == $scope.Active_profile_ ){
+			$scope.Active_profile_ = {
+		      name_: "None",
+		      creation_timestamp_: Date.now()
+		    }
+			saveToFile("active", $scope.Active_profile_);
+		}
+
+	  $scope.Profiles_.splice(index, 1) //Removes one element from the list at index
 
       if (index < 1) {
         $scope.Selected_profile_ = $scope.Profiles_[0];
