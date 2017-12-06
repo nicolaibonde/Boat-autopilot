@@ -13,12 +13,11 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 
 	BOOST_AUTO_TEST_CASE(construction_test)
 	{
-
 		fakeit::Mock<IGPIO> gpioMock;
 		fakeit::Fake(Method(gpioMock, GpioServo));
 		fakeit::Fake(Method(gpioMock, GpioSetMode));
 		fakeit::Fake(Method(gpioMock, GpioPWM));
-		fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+		fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 		IGPIO & gpio = gpioMock.get();
 
@@ -27,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 
 		Autopilot autopilot = Autopilot(servo, thruster);
 
-		fakeit::Verify(Method(gpioMock, GpioSetPWMfrequency)).Exactly((fakeit::Once));
+		fakeit::Verify(Method(gpioMock, GpioHardwarePWM)).Exactly((fakeit::Once));
 		fakeit::Verify(Method(gpioMock, GpioSetMode)).Exactly(2);
 
 		fakeit::Verify(Method(gpioMock, GpioServo).Matching([](auto gpio, auto pulsewidth)
@@ -36,7 +35,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 			return pulsewidth == 1500;
 		})).Exactly(1); //It should call it once in the constructor and once again when we set it.
 
-		fakeit::Verify(Method(gpioMock, GpioPWM).Matching([](auto gpio, auto pulsewidth)
+		fakeit::Verify(Method(gpioMock, GpioHardwarePWM).Matching([](auto gpio_pin, auto frequency, auto pulsewidth)
 		{
 			//Ignore the gpio, since it could change and is not important
 			return pulsewidth == 0;
@@ -50,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 		fakeit::Fake(Method(gpioMock, GpioServo));
 		fakeit::Fake(Method(gpioMock, GpioSetMode));
 		fakeit::Fake(Method(gpioMock, GpioPWM));
-		fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+		fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 		IGPIO & gpio = gpioMock.get();
 
@@ -67,7 +66,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 			return pulsewidth == 1500;
 		})).Exactly(2); //It should call it once in the constructor and once again when we set it.
 
-		fakeit::Verify(Method(gpioMock, GpioPWM).Matching([](auto gpio, auto pulsewidth)
+		fakeit::Verify(Method(gpioMock, GpioHardwarePWM).Matching([](auto gpio_pin, auto frequency, auto pulsewidth)
 		{
 			//Ignore the gpio, since it could change and is not important
 			return pulsewidth == 0;
@@ -81,7 +80,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 		fakeit::Fake(Method(gpioMock, GpioServo));
 		fakeit::Fake(Method(gpioMock, GpioSetMode));
 		fakeit::Fake(Method(gpioMock, GpioPWM));
-		fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+		fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 		IGPIO & gpio = gpioMock.get();
 
@@ -107,7 +106,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 		fakeit::Fake(Method(gpioMock, GpioServo));
 		fakeit::Fake(Method(gpioMock, GpioSetMode));
 		fakeit::Fake(Method(gpioMock, GpioPWM));
-		fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+		fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 		IGPIO & gpio = gpioMock.get();
 
@@ -124,7 +123,7 @@ BOOST_AUTO_TEST_SUITE(Autopilot_Servo_DCMotor_integration_tests)
 		autopilot.Run(telegram);
 
 		fakeit::Verify(Method(gpioMock, GpioServo)).Exactly(2); //It should call it once in the constructor and once again when we set it.
-		fakeit::Verify(Method(gpioMock, GpioPWM)).Exactly(2);
+		fakeit::Verify(Method(gpioMock, GpioHardwarePWM)).Exactly(2); //It should call it once in the constructor and once again when we set it.
 	}
 	
 BOOST_AUTO_TEST_SUITE_END()
