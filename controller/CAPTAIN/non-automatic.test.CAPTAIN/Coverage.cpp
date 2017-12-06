@@ -17,7 +17,7 @@
 
 //THIS TEST TAKES A VERY LONG TIME, UNCOMMENT TO RUN THE OTHER TESTS!!
 //This test will verify that coverage_rectangle path will be plotted when Calculate is clicked. 
-BOOST_AUTO_TEST_CASE(Coverage_Path_Calculation)
+BOOST_AUTO_TEST_CASE(Coverage_Path_Calculation_from_56_10_to_56001_10_001_to_56002_10002)
 {
 	//Arrange
 	//Link mocks to interfaces
@@ -25,12 +25,11 @@ BOOST_AUTO_TEST_CASE(Coverage_Path_Calculation)
 	fakeit::Mock<IGPIO> gpioMock;
 	fakeit::Fake(Method(gpioMock, GpioServo));
 	fakeit::Fake(Method(gpioMock, GpioSetMode));
-	fakeit::Fake(Method(gpioMock, GpioPWM));
-	fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+	fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 	//Instantiate mocks
 	IGPS& gps = gpsMock.get();
-	IGPIO & gpio = gpioMock.get();
+	IGPIO& gpio = gpioMock.get();
 
 	//Set function return values
 	const TargetPosition target = TargetPosition({ 56.001, 10.001 });
