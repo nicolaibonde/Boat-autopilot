@@ -243,32 +243,37 @@ app.controller("PointToPoint", function($scope, $http, dataHolder, leafletMarker
             getDataFromNav("../savedData/fromNav.json");
             $http.get("../savedData/fromNav.json").then(function(response) {
                 $scope.Cached_data_.Path_ = response.data.Path_;
-                if (current_timestamp < $scope.Cached_data_.Path_.timestamp_) {
-                    $interval.cancel($scope.waitForPathPromise);
-                    $scope.Cached_data_.action_state_p2p_ = 1;
-
-					setPath(response.data.Path_.line_)
-
-                    $scope.Action();
+		if (current_timestamp < $scope.Cached_data_.Path_.timestamp_) {
+			$interval.cancel($scope.waitForPathPromise);
+                	$scope.Cached_data_.action_state_p2p_ = 1;
+		 	setPath(response.data.Path_.line_)
+			$scope.Action();
                 }
             });
         }, wait_for_path_interval_); //Update frequency for the boat data
     }
 
 	setPath = function(path) {
-
-    if ($scope.Cached_data_.paths_.p2.latlngs.length > 0)
-    {
+    //if ($scope.Cached_data_.paths_.p2.latlngs.length > 0)
+    //{
       //Clear p2
-      $scope.Cached_data_.paths_.p2.latlngs = [];
-    }
+	//$scope.Cached_data_.paths_.p2.latlngs.length = 1;
+      //$scope.Cached_data_.paths_.p2.latlngs = [];
+    //}
+		$scope.Cached_data_.paths_p2p_.p2.latlngs.splice(0,$scope.Cached_data_.paths_p2p_.p2.latlngs.length);
 		//Run through all elements in the path and overwrite what is in the paths_ object
-		for (let i in path) {
+		for (let i = 0; i < path.length; i++) {
 			$scope.Cached_data_.paths_p2p_.p2.latlngs[i] = {
 				lat: path[i].latitude_,
 				lng: path[i].longitude_
 			}
 		}
+		console.log("test");
+
+//		for(let i = path.length; i < $scope.Cached_data.paths_p2p_.p2.latlngs.length ; i++){
+//			console.log("hej");
+			//$scope.Cached_data_paths_p2p_.p2.latlngs.pop(i);
+//		}
 	}
 
 	setCompletedPath = function(path) {
