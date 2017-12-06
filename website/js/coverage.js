@@ -262,6 +262,16 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
             iconSize: [32, 32],
             iconAnchor: [16, 16],
         }
+		$scope.Cached_data_.start_icon_ = {
+            iconUrl: 'images/start_position.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+        }
+		$scope.Cached_data_.end_icon_ = {
+            iconUrl: 'images/end_position.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+        }
 
         //Loading the boat icon
         $scope.Cached_data_.boat_icon_ = {
@@ -277,18 +287,18 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
             $scope.Cached_data_.markers_[1] = {
                 lat: 0,
                 lng: 0,
-                icon: $scope.Cached_data_.target_icon_,
+                icon: $scope.Cached_data_.start_icon_,
                 opacity: 0,
-                message: "target",
+                message: "Start Position",
                 draggable: true
             }
 
             $scope.Cached_data_.markers_[2] = {
                 lat: 0,
                 lng: 0,
-                icon: $scope.Cached_data_.target_icon_,
+                icon: $scope.Cached_data_.end_icon_,
                 opacity: 0,
-                message: "target",
+                message: "End Position",
                 draggable: true
             }
         }
@@ -384,8 +394,6 @@ app.controller('coverageCtrl', function($scope, $http, dataHolder, leafletMapEve
         } else if ($scope.Cached_data_.markers_[2].opacity == 0) {
             updateEndCoord(leafEvent.latlng);
         }
-
-
 
     });
 
