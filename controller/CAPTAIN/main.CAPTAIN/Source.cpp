@@ -1,4 +1,5 @@
 #include <thread>
+#include <iostream>
 #include "CAPTAIN/SimpleSerial.h"
 #include "CAPTAIN/PiGpio.h"
 #include "CAPTAIN/Ublox_neo7m.h"
@@ -9,7 +10,8 @@
 #include "CAPTAIN/Navigation.h"
 #include "CAPTAIN/JSONReceiver.h"
 
-int main()
+
+int main(int argc, char* argv[])
 {
 	const std::string port = "/dev/ttyS0";
 	const unsigned int baud_rate = 9600;
@@ -27,8 +29,10 @@ int main()
 
 	gpioInitialise();
 
-	boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().append(
-		"website/savedData/");
+	//boost::filesystem::path filepath = boost::filesystem::current_path().parent_path().parent_path().append("website/savedData/");
+	boost::filesystem::path filepath = boost::filesystem::system_complete(argv[0]).parent_path().parent_path().parent_path().parent_path().append("website/savedData/");
+
+	std::cout << filepath.string() << std::endl;
 	JSONTransmitter transmitter = JSONTransmitter(rudder, thruster, gps, filepath.string());
 	Navigation nav = Navigation(gps, transmitter, auto_pilot);
 	JSONReceiver receiver = JSONReceiver(nav, auto_pilot, filepath.string());

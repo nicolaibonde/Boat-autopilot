@@ -9,10 +9,10 @@ Autopilot::Autopilot(IPositionMotor& rudder, ISpeedMotor& thruster): rudder_pid_
 	p_ = -1; //Invalid value
 	i_ = -1; //Invalid value
 	d_ = -1; //Invalid value
-	thruster_pid_.setOutputLimits(0, 20); //Hardcoding limits, maybe this should be done through the user interface
-	rudder_pid_.setOutputLimits(48, 76);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
+	thruster_pid_.setOutputLimits(0, 40); //Hardcoding limits, maybe this should be done through the user interface
+	rudder_pid_.setOutputLimits(35, 70);  //A servo has diffuculties at the edges ei. 0 and 90 so it is limited
 
-	thruster_pid_.setPID(0.01,0,0);
+	thruster_pid_.setPID(1,0,0);
 
 }
 
@@ -123,7 +123,6 @@ bool Autopilot::checksum(std::string telegram)
 
 void Autopilot::SetParameters(double p, double i, double d)
 {
-	std::cout <<"p: " <<  p << std::endl;
 	//Set the parameters for the rudder pid.
 	p_ = p;
 	i_ = i;

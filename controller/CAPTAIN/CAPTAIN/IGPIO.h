@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 /**
  * \brief An interface towards hardware general purpose I/O
@@ -56,7 +57,7 @@ public:
 	* \brief Get the number of microseconds since system boot
 	* \return Time since boot in microseconds (uint32_t format)
 	*/
-	virtual uint32_t GpioTicks() = 0;
+	virtual uint32_t GpioTick() = 0;
 
 };
 
