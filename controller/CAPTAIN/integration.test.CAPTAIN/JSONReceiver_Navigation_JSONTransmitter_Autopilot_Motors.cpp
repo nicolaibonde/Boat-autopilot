@@ -25,8 +25,7 @@ BOOST_AUTO_TEST_CASE(Navigate_Transmit_GPIO_called)
 	fakeit::Mock<IGPIO> gpioMock;
 	fakeit::Fake(Method(gpioMock, GpioServo));
 	fakeit::Fake(Method(gpioMock, GpioSetMode));
-	fakeit::Fake(Method(gpioMock, GpioPWM));
-	fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+	fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 	//Instantiate mocks
 	IGPS& gps = gpsMock.get();
@@ -57,7 +56,7 @@ BOOST_AUTO_TEST_CASE(Navigate_Transmit_GPIO_called)
 	nav.PerformTask(Start);
 
 	//Assert
-	fakeit::Verify(Method(gpioMock, GpioSetPWMfrequency)).Exactly(1);
+	fakeit::Verify(Method(gpioMock, GpioHardwarePWM)).Exactly(2);
 	fakeit::Verify(Method(gpioMock, GpioSetMode)).Exactly(2);
 
 	fakeit::Verify(Method(gpioMock, GpioServo).Matching([](auto gpio, auto pulsewidth)
@@ -66,7 +65,7 @@ BOOST_AUTO_TEST_CASE(Navigate_Transmit_GPIO_called)
 		return pulsewidth == 1500;
 	})).Exactly(1); //It should call it once in the constructor and once again when we set it.
 
-	fakeit::Verify(Method(gpioMock, GpioPWM).Matching([](auto gpio, auto pulsewidth)
+	fakeit::Verify(Method(gpioMock, GpioHardwarePWM).Matching([](auto gpio_pin, auto frequency, auto pulsewidth)
 	{
 		//Ignore the gpio, since it could change and is not important
 		return pulsewidth == 0;
@@ -85,7 +84,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 	fakeit::Fake(Method(gpioMock, GpioServo));
 	fakeit::Fake(Method(gpioMock, GpioSetMode));
 	fakeit::Fake(Method(gpioMock, GpioPWM));
-	fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+	fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 
 	//Instantiate mocks
 	IGPS& gps = gpsMock.get();
@@ -124,7 +123,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 	nav.PerformTask(Start);
 
 	//Assert
-	fakeit::Verify(Method(gpioMock, GpioPWM)).Exactly(4);
+	fakeit::Verify(Method(gpioMock, GpioHardwarePWM)).Exactly(4);
 	fakeit::Verify(Method(gpioMock, GpioServo)).Exactly(4);
 
 	fakeit::Verify(Method(gpioMock, GpioServo).Matching([](auto gpio, auto pulsewidth)
@@ -133,7 +132,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 		return pulsewidth == 1500;
 	})).Exactly(1); //It should call it once in the constructor and once again when we set it.
 
-	fakeit::Verify(Method(gpioMock, GpioPWM).Matching([](auto gpio, auto pulsewidth)
+	fakeit::Verify(Method(gpioMock, GpioHardwarePWM).Matching([](auto gpio_pin, auto frequency, auto pulsewidth)
 	{
 		//Ignore the gpio, since it could change and is not important
 		return pulsewidth == 0;
@@ -145,7 +144,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 	fromNav >> from_nav_json;
 
 	//Create expected string
-	const std::string expected = "20";
+	const std::string expected = "48";
 	std::string from_nav_result;
 
 	//Extract string from nested object
@@ -163,7 +162,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 			}
 		}
 	}
-	
+
 	//Assert
 	BOOST_REQUIRE(from_nav_result == expected);
 }

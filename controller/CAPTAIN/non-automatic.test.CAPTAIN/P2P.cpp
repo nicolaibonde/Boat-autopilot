@@ -17,7 +17,7 @@
 //
 ////THIS TEST TAKES A VERY LONG TIME, UNCOMMENT TO RUN THE OTHER TESTS!!
 ////This test will verify the full functionality of the P2P calculation and traversal with the website. 
-//BOOST_AUTO_TEST_CASE(P2P_Path_Calculation_and_traversal)
+//BOOST_AUTO_TEST_CASE(P2P_Path_Calculation_and_traversal_from_56_10_to_56001_10001)
 //{
 //	//Arrange
 //	//Link mocks to interfaces
@@ -25,12 +25,11 @@
 //	fakeit::Mock<IGPIO> gpioMock;
 //	fakeit::Fake(Method(gpioMock, GpioServo));
 //	fakeit::Fake(Method(gpioMock, GpioSetMode));
-//	fakeit::Fake(Method(gpioMock, GpioPWM));
-//	fakeit::Fake(Method(gpioMock, GpioSetPWMfrequency));
+//	fakeit::Fake(Method(gpioMock, GpioHardwarePWM));
 //
 //	//Instantiate mocks
 //	IGPS& gps = gpsMock.get();
-//	IGPIO & gpio = gpioMock.get();
+//	IGPIO& gpio = gpioMock.get();
 //
 //	//Set function return values
 //	const TargetPosition target = TargetPosition({ 56.001, 10.001 });

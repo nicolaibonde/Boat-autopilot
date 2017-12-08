@@ -1,5 +1,4 @@
 #include "Autopilot.h"
-#include <iostream>
 
 //Setup the Autopilot with 2 PID's and 2 references to the motors
 Autopilot::Autopilot(IPositionMotor& rudder, ISpeedMotor& thruster): rudder_pid_(0, 0, 0), thruster_pid_(1,0,0),
@@ -64,9 +63,7 @@ void Autopilot::Run(std::string telegram)
 			//Check if the telegram is a GPAPB ie an autopilot telegram
 			if (split_telegram[0].find("APB") != std::string::npos)
 			{
-				std::cout << telegram << std::endl;
 				//If so then regulate on the bearing, which is the how far we are from the desired
-
 				 
 				double bearing = stod(split_telegram[13]);
 				if(split_telegram[4] == "R"){
@@ -91,7 +88,7 @@ void Autopilot::Stop()
 
 	//Stopping means that the thruster should stop and the rudder should go to a default position
 	thruster_.SetSpeed(0);
-	//rudder_.SetPosition(50);
+	rudder_.SetPosition(50);
 }
 
 bool Autopilot::checksum(std::string telegram)

@@ -1,6 +1,4 @@
-//#include <Python.h>
 #include "DCMotor.h"
-#include <iostream>
 
 DCMotor::DCMotor(IGPIO& gpio) : gpio_(gpio)
 {
