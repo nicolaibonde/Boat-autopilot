@@ -32,9 +32,7 @@ BOOST_AUTO_TEST_CASE(Coverage_Path_Calculation_from_56_10_to_56001_10_001_to_560
 	IGPIO& gpio = gpioMock.get();
 
 	//Set function return values
-	const TargetPosition target = TargetPosition({ 56.001, 10.001 });
-
-	const Pose pose_start = Pose(Coordinate(56.0, 10.0), 30);
+	const Pose pose_start = Pose(Coordinate(56.150, 10.254), 30);
 	const GPSStatus gps_status_start = GPSStatus(1.1, 2, 3.3, 4, pose_start);
 
 	//Path to save file

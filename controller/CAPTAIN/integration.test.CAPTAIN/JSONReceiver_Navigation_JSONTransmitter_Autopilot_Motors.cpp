@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE(Receive_Navigate_Transmit_Autopilot_Motors_GPIO_called_Tran
 	fromNav >> from_nav_json;
 
 	//Create expected string
-	const std::string expected = "48";
+	const std::string expected = "35";
 	std::string from_nav_result;
 
 	//Extract string from nested object

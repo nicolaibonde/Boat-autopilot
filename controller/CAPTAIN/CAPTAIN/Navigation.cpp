@@ -380,7 +380,10 @@ std::vector<Coordinate> Navigation::calculatePointsFromSegments(std::vector<Coor
 	case 1: //Coverage Rectangle
 	{
 		//We need to use pi in this case
-		double pi = GeographicLib::Math::pi();
+		const double pi = GeographicLib::Math::pi();
+
+		bool firstpass = true;
+		bool latitude_connector_case = false;
 
 		for (std::vector<Coordinate>::iterator it = path_segments.begin(); it != prev(path_segments.end()); ++it)
 		{
@@ -407,8 +410,10 @@ std::vector<Coordinate> Navigation::calculatePointsFromSegments(std::vector<Coor
 
 			//Check if latitudes are the same, if true this will be a horizontal line across the rectangle
 			//The function will also enter this loop at the very start when the boat isn't in the rectangle yet 
-			if (lat2 == lat1 || path.size() < 2)
+			if (lat2 == lat1 || path.size() < 2 || latitude_connector_case)
 			{
+				latitude_connector_case = false;
+
 				for (int i = 1; i <= num; ++i)
 				{
 					double lat, lon;
@@ -417,6 +422,13 @@ std::vector<Coordinate> Navigation::calculatePointsFromSegments(std::vector<Coor
 					{
 						path.push_back(Coordinate(lat, lon));
 					}
+				}
+				//Check for a special case where the boat must travel along a constant longitude before making the first longitudinal
+				//"pass" across the rectangle. Only happens when tool_width and the delta_latitude of the rectangle don't get along
+				if(path.back().Longitude_ == lon2 && firstpass)
+				{
+					firstpass = false;
+					latitude_connector_case = true;
 				}
 			}
 			else //This is a vertical line; we need to wrap around the outside of the rectangle to adjust our position
