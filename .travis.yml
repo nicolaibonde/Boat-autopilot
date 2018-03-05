@@ -29,14 +29,16 @@ matrix:
       #  - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
 before_install:
-  - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
-  - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
-
-  - sudo apt-get purge cmake
+  - sudo apt-get remove -y cmake
+  
   - pwd
   - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
   - sudo sh cmake-3.9.1-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
   - cmake --version
+
+  - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
+  - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
+
 
 
 install:
