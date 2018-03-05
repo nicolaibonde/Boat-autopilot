@@ -51,7 +51,5 @@ install:
 
 script:
   - cd controller/CAPTAIN
-  - mkdir -p build
-  - cd build
   - cmake CMakeLists.txt
   - make
