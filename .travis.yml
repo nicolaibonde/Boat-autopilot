@@ -44,6 +44,7 @@ install:
   - echo ${CXX}
   - ${CXX} --version
   - ${CXX} -v
+  - cmake --version
 
   - |
     if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
