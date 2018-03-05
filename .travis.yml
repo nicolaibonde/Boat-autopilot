@@ -37,7 +37,7 @@ before_install:
 install:
   - echo ${PATH}
   - echo ${CXX}
-  - ${CXX} -- version
+  - ${CXX} --version
   - ${CXX} -v
 
   - |
