@@ -40,7 +40,6 @@ before_install:
 
 
 install:
-  - cd build/neobonde/Boat-autopilot
   - echo ${PATH}
   - echo ${CXX}
   - ${CXX} --version
