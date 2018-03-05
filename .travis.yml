@@ -53,5 +53,5 @@ script:
   - cd controller/CAPTAIN
   - mkdir -p build
   - cd build
-  - cmake
+  - cmake CMakeLists.txt
   - make
