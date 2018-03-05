@@ -13,7 +13,6 @@ env:
 
 matrix:
   include:
-    # works on Precise and Trusty
     - os: linux
       dist: trusty
       sudo: true
@@ -32,6 +31,11 @@ matrix:
 before_install:
   - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
   - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
+  - apt-get purge cmake
+  - cd $HOME
+  - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
+  - sudo sh cmake-3.9.1-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir
+
 
 
 install:
