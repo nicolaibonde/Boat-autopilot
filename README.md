@@ -1,5 +1,7 @@
 ![logo]
 
+[![Build Status](https://travis-ci.org/neobonde/Boat-autopilot.svg?branch=development)](https://travis-ci.org/neobonde/Boat-autopilot)
+
 This is the source code for CAPTAIN a boat autopilot and navigation system.
 
 The documentation for this project can be found in an [Boat-autopilot-documentation](https://github.com/neobonde/Boat-autopilot-documentation)
