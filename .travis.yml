@@ -46,6 +46,15 @@ install:
     sudo ./b2 install -d0
     cd ..
 
+  #Installing PiGPIO
+  - |
+    wget abyz.me.uk/rpi/pigpio/pigpio.tar
+    tar xf pigpio.tar
+    cd PIGPIO
+    make
+    sudo make install
+    cd ..
+
   #Installing cmake 3.9.6
   - CMAKE_VERSION=3.9.6
   - |
