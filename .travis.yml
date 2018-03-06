@@ -41,7 +41,7 @@ install:
     sudo wget -O boost_1_65_0.tar.gz http://sourceforge.net/projects/boost/files/boost/1.65.0/boost_1_65_0.tar.gz/download
     sudo tar xzf boost_1_65_0.tar.gz
     cd boost_1_65_0/
-    sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system
+    sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system,test
     sudo ./b2 link=shared threading=multi variant=release -d0
     sudo ./b2 install -d0
     cd ..
@@ -64,6 +64,11 @@ install:
 
 
 script:
+  #Setting up the correct gcc version
+  - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
+  - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
+  - gcc -v && g++ -v && cmake --version
+
   - cd controller/CAPTAIN
   - cmake CMakeLists.txt
   - make
