@@ -16,4 +16,4 @@ This repository is part of a Bachelors project in electrical engineering at Aarh
 
 
 
-[logo]: https://github.com/neobonde/Boat-autopilot-documentation/blob/master/logo%20-%20side.png "Logo Title Text 2"
+[logo]: https://github.com/neobonde/Boat-autopilot/blob/master/logos/logo%20-%20side.png?raw=true ""
