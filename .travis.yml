@@ -92,7 +92,7 @@ script:
   - cmake CMakeLists.txt
   - make
 
-  - cd docs
+  - cd $TRAVIS_BUILD_DIR/docs
   - doxygen Doxyfile 2>&1 | tee doxygen.log
 
 deploy:
