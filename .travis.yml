@@ -28,6 +28,8 @@ addons:
 
 # Generate and deploy documentation
 script:
+  - ls
   - cd $TRAVIS_BUILD_DIR
+  - ls
   - chmod +x generateDocumentationAndDeploy.sh
   - ./generateDocumentationAndDeploy.sh
