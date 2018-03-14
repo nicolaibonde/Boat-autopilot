@@ -10,6 +10,10 @@ env:
     # Misc
     - RUN_TESTS=true
     - COVERAGE=false
+    #Documentation
+    - GH_REPO_NAME: Boat-autopilot
+    - DOXYFILE: $TRAVIS_BUILD_DIR/Docs/Doxyfile
+    - GH_REPO_REF: github.com/neobonde/Boat-autopilot.git
 
 matrix:
   include:
@@ -22,6 +26,12 @@ matrix:
           packages: &precise_latest_boost_packages
             - gcc-6
             - g++-6
+            #Documentation
+            - doxygen
+            - doxygen-doc
+            - doxygen-latex
+            - doxygen-gui
+            - graphviz
           sources: &precise_latest_boost_sources
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
@@ -81,3 +91,14 @@ script:
   - cd controller/CAPTAIN
   - cmake CMakeLists.txt
   - make
+
+  - cd docs
+  - doxygen Doxyfile 2>&1 | tee doxygen.log
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: $TRAVIS_BUILD_DIR/docs/html
+  github_token: $GITHUB_API_KEY
+  on:
+    branch: master
