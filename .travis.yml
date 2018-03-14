@@ -25,6 +25,7 @@ addons:
 
 # Build your code e.g. by calling make
 script:
+  doxygen Doxyfile 2>&1 | tee doxygen.log
 
 # Generate and deploy documentation
 script:
