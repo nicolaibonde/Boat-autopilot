@@ -39,7 +39,6 @@ install:
   - BOOST_VERSION=1.65.1
   - sudo wget -O boost_1_65_1.tar.gz https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.gz
   - sudo tar -xzf boost_1_65_1.tar.gz
-  - ls -a 
   - cd boost_1_65_1/
   - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system,test
   - sudo ./b2 link=shared threading=multi variant=release -d0
@@ -77,7 +76,7 @@ script:
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
   - gcc -v && g++ -v && cmake --version
 
-  - ls -a
-  - cd neobonde/Boat-autopilot/controller/CAPTAIN
+
+  - cd controller/CAPTAIN
   - cmake CMakeLists.txt
   - make
