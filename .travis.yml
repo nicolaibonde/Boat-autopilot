@@ -37,23 +37,21 @@ before_install:
 install:
   #Installing Boost 1.65
   - BOOST_VERSION=1.65.0
-  - |
-    sudo wget -O boost_1_65_0.tar.gz http://sourceforge.net/projects/boost/files/boost/1.65.0/boost_1_65_0.tar.gz/download
-    sudo tar xzf boost_1_65_0.tar.gz
-    cd boost_1_65_0/
-    sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system,test
-    sudo ./b2 link=shared threading=multi variant=release -d0
-    sudo ./b2 install -d0
-    cd ..
+  - sudo wget -O boost_1_65_0.tar.gz http://sourceforge.net/projects/boost/files/boost/1.65.0/boost_1_65_0.tar.gz/download
+  - sudo tar xzf boost_1_65_0.tar.gz
+  - cd boost_1_65_0/
+  - sudo ./bootstrap.sh --prefix=/usr/local --with-libraries=filesystem,system,test
+  - sudo ./b2 link=shared threading=multi variant=release -d0
+  - sudo ./b2 install -d0
+  - cd ..
 
   #Installing PiGPIO
-  - |
-    wget abyz.me.uk/rpi/pigpio/pigpio.tar
-    tar xf pigpio.tar
-    cd PIGPIO
-    make
-    sudo make install
-    cd ..
+  - wget abyz.me.uk/rpi/pigpio/pigpio.tar
+  - tar xf pigpio.tar
+  - cd PIGPIO
+  - make
+  - sudo make install
+  - cd ..
 
   #Installing cmake 3.9.6
   - CMAKE_VERSION=3.9.6
@@ -78,6 +76,7 @@ script:
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
   - gcc -v && g++ -v && cmake --version
 
-  - cd controller/CAPTAIN
+  - ls -a
+  - cd neobonde/Boat-autopilot/controller/CAPTAIN
   - cmake CMakeLists.txt
   - make
